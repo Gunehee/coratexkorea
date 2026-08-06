@@ -1,0 +1,32 @@
+{
+  "name": "coratex-webd",
+  "version": "1.0.0",
+  "description": "코라텍스(CORATEX) 웹사이트 — 지평상사",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && vite build --ssr src/entry-server.jsx --outDir dist-ssr && node scripts/prerender.js",
+    "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gunehee/CORATEX_WebD.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/Gunehee/CORATEX_WebD/issues"
+  },
+  "homepage": "https://github.com/Gunehee/CORATEX_WebD#readme",
+  "devDependencies": {
+    "@vitejs/plugin-react": "^6.0.5",
+    "vite": "^8.2.0"
+  },
+  "dependencies": {
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "react-router-dom": "^7.18.2"
+  },
+  "private": true
+}

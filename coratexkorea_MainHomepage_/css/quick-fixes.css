@@ -1,0 +1,77 @@
+/* Quick fixes (non-invasive)
+   - Floating quick actions: Call / Email / Top
+   - Kept isolated to avoid interfering with existing styles
+*/
+
+.quick-actions{
+  position:fixed;
+  /* Give a bit more breathing room from the screen edge (and respect safe areas) */
+  right:calc(34px + env(safe-area-inset-right));
+  bottom:calc(16px + env(safe-area-inset-bottom));
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  z-index:9999;
+}
+
+.quick-actions .qa-btn{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  min-width:56px;
+  height:56px;
+  padding:0 14px;
+  border-radius:999px;
+  border:1px solid rgba(0,0,0,.18);
+  background:#111;
+  color:#fff;
+  font-weight:700;
+  font-size:14px;
+  line-height:1;
+  text-decoration:none;
+  box-shadow:0 10px 22px rgba(0,0,0,.18);
+  transition:transform .15s ease, opacity .15s ease;
+}
+
+.quick-actions .qa-btn:hover{
+  transform:translateY(-2px);
+}
+
+.quick-actions .qa-ic{
+  font-size:18px;
+  line-height:1;
+}
+
+.quick-actions .qa-txt{
+  display:none;
+}
+
+/* Show labels on wider screens */
+@media (min-width: 992px){
+  .quick-actions .qa-btn{
+    min-width:110px;
+    justify-content:flex-start;
+  }
+  .quick-actions .qa-txt{
+    display:inline;
+  }
+}
+
+/* Slightly smaller on very small screens */
+@media (max-width: 360px){
+  .quick-actions{
+    right:calc(26px + env(safe-area-inset-right));
+    bottom:calc(12px + env(safe-area-inset-bottom));
+  }
+  .quick-actions .qa-btn{
+    height:52px;
+    min-width:52px;
+  }
+}
+
+/* Accessibility focus */
+.quick-actions .qa-btn:focus{
+  outline:3px solid rgba(255,255,255,.65);
+  outline-offset:2px;
+}

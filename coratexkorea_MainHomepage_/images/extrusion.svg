@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="압출 공정 아이콘">
+  <rect width="640" height="360" fill="#f3f4f6"/>
+  <g fill="none" stroke="#111" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="70" y="120" width="230" height="120" rx="18"/>
+    <path d="M140 120v-35h90v35"/>
+    <path d="M300 180h140"/>
+    <path d="M440 150h70v60h-70z"/>
+    <path d="M510 180h60"/>
+    <path d="M570 180c25 0 25 0 25 0"/>
+    <path d="M585 165v30"/>
+    <path d="M310 160h70"/>
+    <path d="M310 200h70"/>
+  </g>
+  <text x="320" y="330" text-anchor="middle" font-family="Noto Sans KR, Arial, sans-serif" font-size="22" fill="#111">압출 (Extrusion)</text>
+</svg>

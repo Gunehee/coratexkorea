@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="ctg" x1="30" y1="0" x2="98" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0b5ed7"/>
+      <stop offset="1" stop-color="#ff8a00"/>
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="28" fill="#0b0b0b"/>
+  <text x="64" y="80" font-family="Arial, Helvetica, sans-serif" font-size="64" text-anchor="middle" font-weight="800" letter-spacing="2">
+    <tspan fill="#0b5ed7">C</tspan><tspan fill="#ff8a00">T</tspan>
+  </text>
+  <rect x="30" y="92" width="68" height="8" rx="4" fill="url(#ctg)" opacity="0.92"/>
+</svg>

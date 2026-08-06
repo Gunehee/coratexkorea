@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="사출 공정 아이콘">
+  <rect width="640" height="360" fill="#f3f4f6"/>
+  <g fill="none" stroke="#111" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="70" y="90" width="210" height="160" rx="18"/>
+    <path d="M280 130h95l40-30h70v160h-70l-40-30h-95z"/>
+    <path d="M110 250v40h460v-40"/>
+    <path d="M130 150h90"/>
+    <path d="M140 180h70"/>
+    <path d="M360 150h60"/>
+  </g>
+  <text x="320" y="330" text-anchor="middle" font-family="Noto Sans KR, Arial, sans-serif" font-size="22" fill="#111">사출 (Injection)</text>
+</svg>

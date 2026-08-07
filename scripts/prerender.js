@@ -16,7 +16,7 @@ import { fileURLToPath } from 'node:url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 const DIST = path.join(ROOT, 'dist');
-const BASE = '/CORATEX_WebD/';
+const BASE = process.env.BASE_PATH || '/coratexkorea/';
 const ORIGIN = 'https://gunehee.github.io';
 
 const { render, routes } = await import(path.join(ROOT, 'dist-ssr/entry-server.js'));

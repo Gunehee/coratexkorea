@@ -104,8 +104,29 @@ fs.writeFileSync(path.join(DIST, '.nojekyll'), '');
 // 템플릿 원본은 배포본에 불필요
 fs.rmSync(path.join(DIST, 'index.source.html'), { force: true });
 
-// SPA 새로고침 대비 — 알 수 없는 경로는 index 로
-fs.copyFileSync(path.join(DIST, 'index.html'), path.join(DIST, '404.html'));
+/* 404.html — 원본 404 문구를 그대로 렌더합니다.
+   GitHub Pages 는 없는 경로에 이 파일을 돌려주므로, 라우터가 클라이언트에서
+   다시 매칭하여 실제 페이지(새로고침·북마크)도 정상 동작합니다. */
+{
+  const notFoundHtml = (() => {
+    let appHtml = render('/__not_found__');
+    const hoisted = [];
+    appHtml = appHtml.replace(/<link\b[^>]*\/?>/g, (tag) => {
+      hoisted.push(tag);
+      return '';
+    });
+    return template
+      .replace('<!--app-html-->', appHtml)
+      .replace('</head>', `${hoisted.join('')}\n</head>`)
+      .replace(/<title>.*?<\/title>/, '<title>페이지를 찾을 수 없습니다 (404) | 코라텍스 (CORATEX)</title>')
+      .replace(
+        /<meta name="description" content=".*?">/,
+        '<meta name="description" content="요청하신 페이지를 찾을 수 없습니다.">'
+      )
+      .replace('</head>', '<meta name="robots" content="noindex">\n</head>');
+  })();
+  fs.writeFileSync(path.join(DIST, '404.html'), notFoundHtml);
+}
 console.log('  ✓ .nojekyll, 404.html');
 
 console.log(`\n완료 — ${routes.length}개 페이지`);

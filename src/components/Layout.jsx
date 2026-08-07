@@ -1,9 +1,29 @@
 import { NavLink, Link } from 'react-router-dom';
-import { nav, company, telHref, telHrefLine, href } from '../data/site';
+import { nav, company, telHref, telHrefLine, href, globalCopy } from '../data/site';
+import { LanguageProvider, LanguageSwitch } from '../i18n/LanguageContext';
 
-/** 국문 아래 영문을 병기하는 공통 표기 */
+/** 국문 아래 영문을 병기하는 공통 표기.
+ *  body[data-lang="kr"] 이면 숨겨지고, "en" 이면 본문 크기로 표시됩니다. */
 export function En({ children }) {
   return <span className="en">{children}</span>;
+}
+
+/** 국문 전용 표기 — EN 선택 시 숨겨집니다.
+ *  CSS 는 텍스트 노드를 숨길 수 없으므로, En 과 짝을 이루는 국문은
+ *  이 컴포넌트로 감싸야 언어 전환이 정확히 동작합니다. */
+export function Kr({ children }) {
+  return <span className="kr-only">{children}</span>;
+}
+
+/** 국/영문을 한 번에 표기 — <T ko="…" en="…" />
+ *  프리렌더 HTML 에는 두 언어가 모두 남으므로 SEO/무자바스크립트에도 안전합니다. */
+export function T({ ko, en }) {
+  return (
+    <>
+      <Kr>{ko}</Kr>
+      <En>{en}</En>
+    </>
+  );
 }
 
 /** data/site.js 의 <b> 태그를 안전하게 렌더링 */
@@ -17,20 +37,26 @@ function Header() {
       <div className="container nav-wrap">
         <Link className="brand" to={href('/')}>
           코라텍스 CORATEX
-          <span className="brand-tag">✮ Honest is our policy</span>
+          <span className="brand-tag">
+            <Kr>{globalCopy.taglineKo}</Kr>
+            <En>{globalCopy.taglineEn}</En>
+          </span>
         </Link>
         <nav aria-label="주 메뉴">
           <ul className="nav-menu">
             {nav.map((n) => (
               <li key={n.path}>
                 <NavLink to={href(n.path)} end>
-                  {n.ko} <En>{n.en}</En>
+                  <Kr>{n.ko}</Kr> <En>{n.en}</En>
                 </NavLink>
               </li>
             ))}
           </ul>
         </nav>
-        <a className="nav-call" href={telHref}>전화 {company.mobile}</a>
+        <div className="nav-actions">
+          <LanguageSwitch />
+          <a className="nav-call" href={telHref}>전화 {company.mobile}</a>
+        </div>
       </div>
     </header>
   );
@@ -42,52 +68,74 @@ function Footer() {
       <div className="container">
         <div className="footer-grid">
           <div className="footer-panel">
-            <h2>{company.nameKo} <En>{company.nameEn}</En></h2>
-            <span className="footer-sole">✳ 독점권자 · Sole Distributorship in Korea</span>
+            <h2>
+              <Kr>{globalCopy.companyLineLongKo}</Kr>
+              <En>{globalCopy.companyLineLongEn}</En>
+            </h2>
+            <span className="footer-distributor">
+              <Kr>{globalCopy.companyLineKo}</Kr>
+              <En>{globalCopy.companyLineEn}</En>
+            </span>
+            <span className="footer-sole">
+              <Kr>{globalCopy.soleKo}</Kr>
+              <En>{globalCopy.soleEn}</En>
+            </span>
             <ul className="contact-list">
               <li>
-                <span className="label">주소</span>
-                <span>{company.addressKo}<En>{company.addressEn}</En></span>
+                <span className="label"><Kr>주소</Kr><En>Address</En></span>
+                <span><Kr>{company.addressKo}</Kr><En>{company.addressEn}</En></span>
               </li>
-              <li><span className="label">전화</span><span><a href={telHrefLine}>{company.tel}</a></span></li>
-              <li><span className="label">팩스</span><span>{company.fax}</span></li>
-              <li><span className="label">휴대전화</span><span><a href={telHref}>{company.mobile}</a></span></li>
-              <li><span className="label">이메일</span><span><a href={`mailto:${company.email}`}>{company.email}</a></span></li>
+              <li><span className="label"><Kr>전화</Kr><En>Tel</En></span><span><a href={telHrefLine}>{company.tel}</a></span></li>
+              <li><span className="label"><Kr>팩스</Kr><En>Fax</En></span><span>{company.fax}</span></li>
+              <li><span className="label"><Kr>휴대전화</Kr><En>Mobile</En></span><span><a href={telHref}>{company.mobile}</a></span></li>
+              <li><span className="label"><Kr>이메일</Kr><En>Email</En></span><span><a href={`mailto:${company.email}`}>{company.email}</a></span></li>
             </ul>
           </div>
 
           <div className="footer-panel">
-            <h2>바로 가기 <En>Quick Links</En></h2>
+            <h2><Kr>바로 가기</Kr> <En>Quick Links</En></h2>
             <ul className="contact-list">
               <li>
-                <span className="label">공정</span>
+                <span className="label"><Kr>공정</Kr><En>Process</En></span>
                 <span>
                   <Link to={href('/injection')}>사출</Link> · <Link to={href('/extrusion')}>압출</Link> · <Link to={href('/blow_molding')}>블로우</Link>
                 </span>
               </li>
               <li>
-                <span className="label">고객사</span>
+                <span className="label"><Kr>고객사</Kr><En>Customers</En></span>
                 <span>
                   <Link to={href('/injection_companies')}>사출</Link> · <Link to={href('/extrusion_companies')}>압출</Link> · <Link to={href('/blow_molding_companies')}>블로우</Link>
                 </span>
               </li>
               <li>
-                <span className="label">안내</span>
+                <span className="label"><Kr>안내</Kr><En>Info</En></span>
                 <span>
                   <Link to={href('/about')}>소개</Link> · <Link to={href('/effectiveness')}>제품 효과</Link> · <Link to={href('/contact')}>문의</Link>
                 </span>
               </li>
             </ul>
             <p style={{ marginTop: 16 }}>
-              ※ 가격은 전화로 문의해 주십시오.
+              <Kr>※ 가격은 전화로 문의해 주십시오.</Kr>
               <En>Please call for pricing.</En>
             </p>
           </div>
         </div>
 
         <div className="footer-legal">
-          <p>Coratex HT® and productivity with marks purging® are registered trademarks of SAINT-GOBAIN Abrasives.</p>
-          <p>© 2024 All Rights Reserved by JI PYEONG Corp (지평상사)</p>
+          <p className="footer-privacy">
+            <Link to={href('/privacy-policy')}>
+              <Kr>{globalCopy.privacyKo}</Kr> <En>{globalCopy.privacyEn}</En>
+            </Link>
+            <span className="footer-privacy-lead">
+              <Kr>{globalCopy.privacyLeadKo}</Kr>
+              <En>{globalCopy.privacyLeadEn}</En>
+            </span>
+          </p>
+          <p>
+            <Kr>{globalCopy.trademarkKo}</Kr>
+            <En>{globalCopy.trademarkEn}</En>
+          </p>
+          <p>{globalCopy.copyright}</p>
         </div>
       </div>
     </footer>
@@ -96,12 +144,12 @@ function Footer() {
 
 export default function Layout({ children }) {
   return (
-    <>
+    <LanguageProvider>
       <a className="skip-link" href="#main">본문 바로가기</a>
       <Header />
       <main id="main">{children}</main>
       <Footer />
       <a className="floating-call" href={telHref}>📞 전화 문의</a>
-    </>
+    </LanguageProvider>
   );
 }

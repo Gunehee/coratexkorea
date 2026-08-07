@@ -71,13 +71,61 @@ p { margin: 0 0 1em; }
 
 a { color: var(--navy); }
 
-/* 영문 병기 — 국문보다 한 단계 작고 옅게 */
+/* 영문 병기 — 국문보다 한 단계 작고 옅게.
+   data-lang 이 없는 상태(프리렌더 HTML, JS 비활성)에서는 국/영문을 모두
+   보여줍니다. 검색엔진과 JS 미사용 방문자가 전체 내용을 읽을 수 있습니다. */
 .en {
   display: block;
   font-size: .88em;
   color: var(--muted);
   font-weight: 400;
   line-height: 1.55;
+}
+
+/* KR 선택 시 — 영문 숨김 */
+body[data-lang="kr"] .en { display: none; }
+
+/* EN 선택 시 — 영문을 본문 크기로 올리고, 국문 원문은 숨깁니다.
+   .en 을 감싼 요소의 국문 텍스트 노드는 숨길 수 없으므로
+   국문 전용 표기는 .kr-only 로 감싸 처리합니다. */
+body[data-lang="en"] .en {
+  font-size: 1em;
+  color: inherit;
+}
+body[data-lang="en"] .kr-only { display: none; }
+
+/* 언어 전환 버튼 — 50대 이상 가독성을 위해 큰 터치 영역 */
+.lang-switch {
+  display: inline-flex;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .12);
+}
+.lang-switch button {
+  min-width: 52px;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: rgba(255, 255, 255, .75);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  cursor: pointer;
+}
+.lang-switch button[aria-pressed="true"] {
+  background: var(--orange);
+  color: #fff;
+}
+.lang-switch button:hover { color: #fff; }
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 /* 키보드 접근성 */
@@ -614,14 +662,31 @@ a.stat-card:hover {
 .form-field select:focus,
 .form-field textarea:focus { border-color: var(--orange); }
 
+/* 안내 메시지는 aria-live 로 읽히도록 DOM 에 항상 두고,
+   내용이 없을 때만 시각적으로 접습니다. (display:none 이면 낭독되지 않습니다) */
 .form-msg {
-  margin-top: 16px;
-  padding: 14px 18px;
+  margin: 0;
+  padding: 0;
   border-radius: 10px;
   font-weight: 700;
-  display: none;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity .15s;
 }
-.form-msg.is-visible { display: block; }
+.form-msg.is-visible {
+  margin-top: 16px;
+  padding: 14px 18px;
+  max-height: none;
+  opacity: 1;
+}
+
+/* 필수 입력 표시 */
+.required {
+  margin-left: 4px;
+  color: var(--orange-dark);
+  font-weight: 800;
+}
 .form-msg.is-ok    { background: var(--orange-soft); border: 1px solid var(--orange); color: var(--orange-dark); }
 .form-msg.is-error { background: #FDECEC; border: 1px solid #D14343; color: #A62828; }
 
@@ -780,4 +845,145 @@ a.stat-card:hover {
   .site-header, .floating-call, .btn, .skip-link { display: none !important; }
   body { background: #fff; font-size: 12pt; }
   .card, .step, .table-wrap { box-shadow: none; border-color: #999; }
+}
+
+/* ==========================================================
+   복원된 원본 콘텐츠용 스타일
+   ========================================================== */
+
+/* 섹션 눈썹 문구 (ABOUT / EFFECTIVENESS 등) */
+.section-eyebrow {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--orange-dark);
+  font-size: var(--fs-sm);
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+/* 공정 카드 — 주요 적용 목록 */
+.card-apps { margin-top: 14px; }
+.card-apps h4 {
+  margin: 0 0 6px;
+  color: var(--muted);
+  font-size: var(--fs-sm);
+  font-weight: 700;
+}
+.card-apps ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.card-apps li {
+  padding: 6px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--orange-soft);
+  color: var(--navy-deep);
+  font-size: var(--fs-sm);
+}
+.card-hint {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: var(--fs-sm);
+}
+
+/* 소개 — 수치 산정 기준 */
+.assumptions dl { margin: 14px 0 0; }
+.assumptions dl > div {
+  padding: 12px 0;
+  border-top: 1px solid var(--line);
+}
+.assumptions dt {
+  color: var(--navy-deep);
+  font-weight: 700;
+}
+.assumptions dd { margin: 4px 0 0; }
+
+/* 개인정보처리방침 */
+.page--doc { padding: 42px 0 64px; }
+.page--doc .lead { font-size: var(--fs-lg); }
+.doc-section { margin-top: 30px; }
+.doc-list { margin: 0; padding-left: 1.3em; }
+.doc-list li { margin-bottom: 10px; }
+.doc-trademark {
+  margin-top: 34px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: var(--fs-sm);
+}
+
+/* 푸터 — 독점권자 / 개인정보처리방침 */
+.footer-distributor,
+.footer-sole {
+  display: block;
+  color: rgba(255, 255, 255, .72);
+  font-size: var(--fs-sm);
+}
+.footer-privacy { margin-bottom: 10px; }
+.footer-privacy a { color: #fff; font-weight: 700; }
+.footer-privacy-lead {
+  display: block;
+  color: rgba(255, 255, 255, .68);
+  font-size: var(--fs-sm);
+}
+
+/* 404 */
+.section--notfound { padding: 70px 0 90px; text-align: center; }
+.section--notfound .btn-row { justify-content: center; }
+
+/* 애니메이션 최소화 선호 존중 */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+/* ==========================================================
+   복원된 태그라인 / 접근성 보정
+   ========================================================== */
+
+/* 태그라인은 길어서 모바일에서 줄바꿈되어야 합니다 (가로 스크롤 방지) */
+.brand .brand-tag {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 720px) {
+  .brand { font-size: 19px; }
+  .brand .brand-tag { font-size: 12px; line-height: 1.4; }
+}
+
+/* 연락처 링크 — 최소 44px 터치 타깃 확보 */
+.contact-list a,
+.footer-privacy a,
+.doc-list a {
+  display: inline-block;
+  min-height: 44px;
+  line-height: 44px;
+}
+
+/* 문의 폼 — 라벨과 필수 표시가 한 줄에 붙도록 */
+.form-field label {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.form-field label .en { display: inline; }
+body[data-lang="kr"] .form-field label .en { display: none; }
+.required { margin-left: 0; }
+
+/* 푸터 바로가기 라벨이 잘리지 않도록 */
+.contact-list .label {
+  white-space: nowrap;
+  overflow-wrap: normal;
 }

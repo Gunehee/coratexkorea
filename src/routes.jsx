@@ -4,6 +4,7 @@ import Use from './pages/Use';
 import Effectiveness from './pages/Effectiveness';
 import Contact from './pages/Contact';
 import Edit from './pages/Edit';
+import PrivacyPolicy from './pages/PrivacyPolicy';
 import ProcessPage from './pages/ProcessPage';
 import CompaniesPage from './pages/CompaniesPage';
 import { processes, companyLists } from './data/site';
@@ -48,6 +49,11 @@ const routes = [
   { path: '/contact', file: 'contact.html', title: '문의 | 코라텍스 (CORATEX)',
     desc: '코라텍스 구매 및 사용 문의 — 전화 010-8596-5562.',
     element: <Contact /> },
+
+  { path: '/privacy-policy', file: 'privacy-policy.html',
+    title: '개인정보처리방침 | 코라텍스 (CORATEX)',
+    desc: '지평상사(코라텍스) 개인정보처리방침 안내입니다.',
+    element: <PrivacyPolicy /> },
 
   { path: '/edit', file: 'edit.html', title: '리뷰 관리 (내부) | 코라텍스 (CORATEX)',
     desc: '내부 전용 리뷰 관리 페이지입니다.',

@@ -1,4 +1,4 @@
-import { En } from '../components/Layout';
+import { En, Kr } from '../components/Layout';
 import { effects, withBase } from '../data/site';
 
 export default function Effectiveness() {
@@ -7,7 +7,8 @@ export default function Effectiveness() {
       <section className="section">
         <div className="container">
           <div className="section-head">
-            <h2>제품 효과 <En>Product effectiveness</En></h2>
+            <span className="section-eyebrow"><En>EFFECTIVENESS</En></span>
+            <h2><Kr>제품 효과</Kr> <En>Product effectiveness</En></h2>
             <p>제품 효과는 아래 4가지로 정리됩니다.<En>Four key effects proven in the field.</En></p>
           </div>
           <div className="grid grid-2">
@@ -25,9 +26,9 @@ export default function Effectiveness() {
       <section className="section section-alt">
         <div className="container">
           <div className="section-head">
-            <h2>퍼징 순서 예시 <En>Purge order (example)</En></h2>
+            <h2><Kr>퍼지 순서 예시</Kr> <En>Purge order (Example)</En></h2>
             <p>
-              최초 코라텍스 세정 시 노란색에서 흰색으로 변경되는 과정입니다.
+              <Kr>최초 코라텍스 세정 시 노란색에서 흰색으로 변경되는 과정입니다.</Kr>
               <En>The progression from yellow to white during the first Coratex cleaning.</En>
             </p>
           </div>

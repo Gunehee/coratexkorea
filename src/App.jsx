@@ -2,6 +2,7 @@ import { Routes, Route, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import Layout from './components/Layout';
 import routes from './routes';
+import NotFound from './pages/NotFound';
 
 /** 페이지 전환 시 스크롤 위로 + document.title 갱신 */
 function PageMeta({ title }) {
@@ -27,6 +28,12 @@ export default function App() {
 
           return paths.map((p) => <Route key={p} path={p} element={el} />);
         })}
+
+        {/* 알 수 없는 경로 — 원본 404.html 문구를 그대로 보여줍니다. */}
+        <Route
+          path="*"
+          element={<><PageMeta title="페이지를 찾을 수 없습니다 (404) | 코라텍스 (CORATEX)" /><NotFound /></>}
+        />
       </Routes>
     </Layout>
   );

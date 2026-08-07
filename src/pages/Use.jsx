@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { En } from '../components/Layout';
+import { En, Kr } from '../components/Layout';
 import { ProcessCard } from './Home';
 import { processes, href } from '../data/site';
 
@@ -10,8 +10,12 @@ export default function Use() {
       <section className="section">
         <div className="container">
           <div className="section-head">
-            <h2>사용 방법 <En>How to use</En></h2>
-            <p>코라텍스의 특성과 간단 사용법입니다. 아래 공정 중 해당하는 항목을 선택해 주십시오.</p>
+            <h2><Kr>사용 방법</Kr> <En>(HOW TO USE?)</En></h2>
+            <p>
+              <Kr>코라텍스 특성과 간단 사용법</Kr>
+              <En>(Characteristics of Coratex and Simple Usage)</En>
+            </p>
+            <p>* 아래 공정 카드를 선택하면 상세 사용방법으로 이동합니다.</p>
           </div>
           <div className="grid grid-3">
             {list.map((p) => <ProcessCard key={p.slug} p={p} cta="사용량·절차 보기" />)}
@@ -22,10 +26,10 @@ export default function Use() {
       <section className="section section-alt">
         <div className="container">
           <div className="section-head">
-            <h2>고객사 <En>Companies</En></h2>
+            <h2><Kr>고객사</Kr> <En>Companies</En></h2>
             <p>
-              ※ 일부 표기는 고객사 보호를 위해 마스킹되어 있습니다.
-              <En>※ Some names are partially masked to protect our customers.</En>
+              <Kr>※ 일부 표기는 고객사 보호를 위해 일부 마스킹되어 있습니다.</Kr>
+              <En>※ Some names are partially masked to protect customers.</En>
             </p>
           </div>
           <div className="btn-row">

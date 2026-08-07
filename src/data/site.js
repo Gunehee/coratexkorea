@@ -54,9 +54,16 @@ export const processes = {
     ko: '사출',
     en: 'Injection',
     title: '사출 (Injection)',
-    image: withBase('images/injection.jpg'),
-    imageAlt: '사출 공정 설비',
+    image: withBase('images/injection.svg'),
+    imageAlt: '사출 공정 아이콘',
     summary: '원료 변경 / 색상 교체 / 흑점 관리',
+    summaryKo: '원료변경 / 색상교체 / 흑점관리 (2%)',
+    summaryEn: 'Material change / Color change / Black speck control (2%)',
+    applications: [
+      { ko: '원료 변경', en: 'Material change' },
+      { ko: '색상 교체', en: 'Color change' },
+      { ko: '흑점 관리', en: 'Black speck control' },
+    ],
     subtitle:
       '원료 변경 (Material Change) / 색상 교체 (Color Change) / 흑점 관리 (Black Spot Management) — 실린더·스크류',
     types: '일반 사출 (General Injection) / 이중 사출 (Double Injection) / 다이렉트 사출 (Direct Injection)',
@@ -131,9 +138,16 @@ export const processes = {
     ko: '압출',
     en: 'Extrusion',
     title: '압출 (Extrusion)',
-    image: withBase('images/extrusion.jpg'),
-    imageAlt: '압출 공정 설비',
+    image: withBase('images/extrusion.svg'),
+    imageAlt: '압출 공정 아이콘',
     summary: 'T-DIES / 이형 압출 / 재생 압출',
+    summaryKo: 'T-DIES / 이형 압출 / 재생 압출 (2%)',
+    summaryEn: 'T-DIES / Profile extrusion / Recycled extrusion (2%)',
+    applications: [
+      { ko: 'T-DIES', en: 'T-DIES' },
+      { ko: '이형 압출', en: 'Profile extrusion' },
+      { ko: '재생 압출', en: 'Recycled extrusion' },
+    ],
     subtitle:
       '원료 변경 (Material Change) / 색상 교체 (Color Change) / 흑점 관리 (Black Spot Management) — 실린더·스크류',
     types:
@@ -199,9 +213,16 @@ export const processes = {
     ko: '블로우',
     en: 'Blow-Molding',
     title: '블로우 (Blow-Molding)',
-    image: withBase('images/blow-molding.jpg'),
-    imageAlt: '블로우 성형 공정 설비',
+    image: withBase('images/blow_molding.svg'),
+    imageAlt: '블로우 성형 공정 아이콘',
     summary: '탄산칼슘 제거 / 색상 교체 / 흑점 관리',
+    summaryKo: '탄산칼슘 제거 / 색상교체 / 흑점관리 (2%)',
+    summaryEn: 'Calcium carbonate removal / Color change / Black speck control (2%)',
+    applications: [
+      { ko: '탄산칼슘 제거', en: 'Calcium carbonate removal' },
+      { ko: '색상 교체', en: 'Color change' },
+      { ko: '흑점 관리', en: 'Black speck control' },
+    ],
     subtitle:
       '원료 변경 (Material Change) / 색상 교체 (Color Change) / 흑점 관리 (Black Spot Management) — 실린더·스크류',
     types: '탄산칼슘 제거 (Calcium Carbonate Removal)',
@@ -308,11 +329,14 @@ export const companyLists = {
   injection: {
     slug: 'injection',
     ko: '사출 회사',
-    en: 'Injection companies',
+    en: 'Injection Companies',
     backTo: '/injection',
     backLabel: '사출',
     total: '2500+',
-    plus: '외 2000개사',
+    plus: '외 2500개사',
+    plusEn: 'Plus ~2,500 companies',
+    maskNoteKo: '※ 일부 표기는 고객사 보호를 위해 일부 마스킹되어 있습니다.',
+    maskNoteEn: '※ Some names are partially masked to protect customers.',
     names: [
       '한국단자✱업', '플✱텔', '네오✱라테크', '우남✱업', '동보✱업', '피터✱라스',
       '무등스✱린', '유림✱업', '창신✱밀', '금용✱크', '일영', '금능✱밀', '명일',
@@ -323,11 +347,14 @@ export const companyLists = {
   extrusion: {
     slug: 'extrusion',
     ko: '압출 회사',
-    en: 'Extrusion companies',
+    en: 'Extrusion Companies',
     backTo: '/extrusion',
     backLabel: '압출',
     total: '1000+',
-    plus: '외 800개사',
+    plus: '외 1000개사',
+    plusEn: 'Plus ~1,000 companies',
+    maskNoteKo: '※ 일부 표기는 고객사 보호를 위해 일부 마스킹되어 있습니다.',
+    maskNoteEn: '※ Some names are partially masked to protect customers.',
     names: [
       '불이✱성', '일신하이✱리', '유명✱학', 'KC', '보성포리✱크', '삼진P✱S', 'GDR',
       '진현✱학', '성심케✱탈', 'AL테크', '인포✱크', '동성✱학공업', '부국TN✱',
@@ -337,11 +364,14 @@ export const companyLists = {
   blow_molding: {
     slug: 'blow_molding',
     ko: '블로우 회사',
-    en: 'Blow-molding companies',
+    en: 'Blow-molding Companies',
     backTo: '/blow_molding',
     backLabel: '블로우',
     total: '500+',
-    plus: '외 200개사',
+    plus: '외 500개사',
+    plusEn: 'Plus ~500 companies',
+    maskNoteKo: '※ 일부 표기는 고객사 보호를 위해 일부 마스킹되어 있습니다.',
+    maskNoteEn: '※ Some names are partially masked to protect customers.',
     names: [
       '일양✱학', '동창프라✱틱', '경일✱학', '미림화✱', '대한✱성', 'TJ✱미칼', '강진✱라스틱',
     ],
@@ -385,8 +415,8 @@ export const sisterProducts = [
     en: 'Ambassador-Auto',
     image: withBase('images/ambassador-auto.jpg'),
     alt: '암바사-오토 (Ambassador-Auto) 세정 페이스트',
-    useKo: 'T다이스, 스크류, 실린더 내벽 도금면 탄화물 제거, 스케일·녹 제거',
-    useEn: 'T-dies, screw, carbide removal from plated cylinder walls, scale and rust removal',
+    useKo: 'T다이스, 스크류, 실린더 내벽 도금면 탄화물 제거, 스케일, 녹 제거',
+    useEn: 'T-dies, screw, remove carbides from plated inner cylinder surface, scale & corrosion removal',
     fieldKo: '압출',
     fieldEn: 'Extrusion',
   },
@@ -405,16 +435,145 @@ export const sisterProducts = [
     en: 'Trio Tube',
     image: withBase('images/trio-tube.jpg'),
     alt: '트리오 튜브 (Trio Tube) 금형광택제',
-    useKo: '금형광택제 (피✱ 대용)',
+    useKo: '금형 광택제',
     useEn: 'Mold polisher',
     fieldKo: '사출, 금형',
-    fieldEn: 'Injection, Mold',
+    fieldEn: 'Injection, mold',
   },
 ];
 
 export const stats = [
   { num: '4000+', ko: '국내 고객 사용 중', en: 'In use by domestic customers', to: null },
-  { num: '2500+', ko: '사출 회사', en: 'Injection companies', to: '/injection_companies' },
-  { num: '1000+', ko: '압출 회사', en: 'Extrusion companies', to: '/extrusion_companies' },
-  { num: '500+',  ko: '블로우 회사', en: 'Blow-molding companies', to: '/blow_molding_companies' },
+  { num: '2500+', ko: '2500+ 개사', en: '2500+ Companies',
+    linkKo: '사출 회사 보기', linkEn: 'Injection Companies', to: '/injection_companies' },
+  { num: '1000+', ko: '1000+ 개사', en: '1000+ Companies',
+    linkKo: '압출 회사 보기', linkEn: 'Extrusion Companies', to: '/extrusion_companies' },
+  { num: '500+',  ko: '500+ 개사', en: '500+ Companies',
+    linkKo: '블로우 회사 보기', linkEn: 'Blow-Molding Companies', to: '/blow_molding_companies' },
 ];
+
+/* ----------------------------------------------------------
+   전역 공통 문구 — 원본(coratexkorea) 문구를 그대로 보존합니다.
+   ⚠ 원문 그대로이므로 임의로 수정하지 마세요.
+   ---------------------------------------------------------- */
+export const globalCopy = {
+  taglineKo: 'CORATEX KOREA | 지평상사(地平商社) ✮ 정직이 원칙입니다',
+  taglineEn: 'CORATEX KOREA | JI PYEONG Corp ✮ Honest is our policy',
+  soleKo: '✳ 국내 독점 유통',
+  soleEn: '✳ Sole Distributorship in Korea',
+  companyLineKo: '지 평 상 사 |',
+  companyLineEn: 'JI PYEONG Corp(Sole distributor)',
+  /* 공정 상세 페이지(injection/extrusion/blow_molding)의 원본 표기 */
+  companyLineLongKo: '지 평 상 사 | JI PYEONG Corp (독점권자)',
+  companyLineLongEn: 'JI PYEONG Corp (Sole Distributor in Korea)',
+  privacyKo: '개인정보처리방침',
+  privacyEn: 'Privacy Policy',
+  privacyLeadKo: '아래에서 개인정보처리방침을 확인하실 수 있습니다.',
+  privacyLeadEn: 'You can read our Privacy Policy here.',
+  trademarkKo: '※ Coratex HT® 및 productivity with marks purging®는 SAINT-GOBAIN Abrasives의 등록 상표입니다.',
+  trademarkEn: '※ Coratex HT® and productivity with marks purging® are registered trade of SAINT-GOBAIN Abrasives.',
+  copyright: '© 2024 All Rights Reserved By JI PYEONG Corp',
+};
+
+/* 개인정보처리방침 본문 — 원본 privacy-policy.html 그대로 */
+export const privacyPolicy = {
+  titleKo: '개인정보처리방침',
+  titleEn: 'Privacy Policy',
+  leadKo: '본 사이트는 회원가입/로그인 기능 없이 운영됩니다. 아래 내용은 문의 대응을 위해 필요한 범위에서 개인정보를 처리하는 방식에 대한 안내입니다.',
+  leadEn: 'This website operates without membership/login. The following explains how we handle personal data only to the extent necessary for inquiries.',
+  sections: [
+    {
+      ko: '1. 수집 항목',
+      en: '1. Data We Collect',
+      itemsKo: [
+        '문의 시 제공되는 정보(회사명, 담당자명, 연락처, 이메일, 문의 내용 등)',
+        '사이트 운영 과정에서 자동 생성될 수 있는 정보(접속 로그 등)',
+      ],
+      itemsEn: [
+        'Information you provide when contacting us (company, name, phone, email, message, etc.)',
+        'Information that may be automatically generated during operation (access logs, etc.)',
+      ],
+    },
+    {
+      ko: '2. 이용 목적',
+      en: '2. Purpose of Use',
+      itemsKo: ['문의 답변, 견적/샘플 상담, 주문/납품 관련 연락', '서비스 품질 및 운영 안정성 확인'],
+      itemsEn: [
+        'Responding to inquiries, quotations/samples, order & delivery communication',
+        'Service quality and operational stability',
+      ],
+    },
+    {
+      ko: '3. 보관 및 파기',
+      en: '3. Retention & Deletion',
+      itemsKo: ['문의 처리 목적이 달성되면 관련 정보는 내부 기준에 따라 보관 후 파기할 수 있습니다. 삭제 요청이 있을 경우 아래 연락처로 문의해 주세요.'],
+      itemsEn: ['After the inquiry purpose is fulfilled, information may be retained for a reasonable period and then deleted according to internal standards. You may request deletion via the contact below.'],
+    },
+    {
+      ko: '4. 문의처',
+      en: '4. Contact',
+      itemsKo: ['이메일: 0822gblessy@naver.com / 전화: 010-8596-5562'],
+      itemsEn: ['Email: 0822gblessy@naver.com / Phone: 010-8596-5562'],
+    },
+  ],
+};
+
+/* 인덱스 구매/문의 안내 — 원본 index.html 그대로 */
+export const orderMethods = [
+  {
+    ko: '계좌 이체', en: 'Bank Transfer',
+    bodyKo: company.bankKo, bodyEn: 'Shinhan Bank 110-013-196656 (JI Pyeong Corp., Cho Kyung Bae)',
+  },
+  {
+    ko: '팩스 주문', en: 'Fax Order',
+    bodyKo: `주문서 작성 후 사업자등록증 사본과 함께 팩스 또는 이메일로 보내주세요. FAX: ${company.fax} 이메일: ${company.email}`,
+    bodyEn: `Fill out the order form and send it with your business registration certificate via fax or email. FAX: ${company.fax} Email: ${company.email}`,
+  },
+  {
+    ko: '전화 / 이메일', en: 'Phone / Email',
+    bodyKo: `전화 주문 (사업자등록증 사본 사진 전송) 전화번호: ${company.mobile} 이메일: ${company.email}`,
+    bodyEn: `Order by phone (send a photo of your business registration certificate) Phone: ${company.mobile} Email: ${company.email}`,
+  },
+];
+
+export const priceNoteKo = '※ 가격은 문의 요청 드립니다 ( 010-8596-5562 )';
+export const priceNoteEn = '※ For pricing, please contact us ( 010-8596-5562 )';
+export const statsTotalKo = '총 4000개사 내외';
+export const statsTotalEn = 'Approx. 4,000 companies';
+export const welcomeKo = '환영합니다';
+export const sisterTitleKo = '자매 제품';
+export const sisterTitleEn = 'Sister Products';
+
+/* 소개 페이지 — 수치 산정 기준 (원본 about.html 그대로) */
+export const aboutAssumptions = {
+  titleKo: '수치 산정 기준(예시)',
+  titleEn: 'Assumptions & measurement (example)',
+  leadKo: '아래 수치는 라인 조건에 따라 달라질 수 있습니다. 상담 시 “조건(전제)–대표 케이스–측정 방식”으로 함께 확인하는 것을 권장합니다.',
+  leadEn: 'Results can vary by line. For B2B clarity, we recommend confirming the assumptions, a representative case, and a simple measurement method together.',
+  items: [
+    {
+      labelKo: '전제(예시):',
+      labelEn: 'Assumptions (example):',
+      ko: '주 2~4회 색상/원료 교체, 퍼징 농도 2%, 공정별 체류 5~15분',
+      en: '2–4 color/material changeovers per week, 2% dosing, 5–15 min dwell (process-dependent)',
+    },
+    {
+      labelKo: '대표 케이스(예시):',
+      labelEn: 'Representative case (example):',
+      ko: '기존 퍼징/분해 청소 대비, 교체 작업(퍼징·대기) 시간과 스크랩(버림 원료) 감소가 관측되는 라인',
+      en: 'Compared to conventional purging/disassembly cleaning, changeover time and purge scrap decrease on the same line',
+    },
+    {
+      labelKo: '측정 방식(간단):',
+      labelEn: 'How we measure (simple):',
+      ko: '4주 단위로 ‘교체 1회당 스크랩 중량(kg)’ 및 ‘교체 단계 kWh’를 전/후 비교',
+      en: 'Over 4 weeks, compare “scrap weight per changeover (kg)” and “kWh during purge/idle” before vs. after',
+    },
+    {
+      labelKo: '변수:',
+      labelEn: 'Key variables:',
+      ko: '수지 종류, 작업 온도, 스크류/실린더 상태, 오염 정도, 작업자 숙련도에 따라 결과 차이 발생',
+      en: 'resin type, temperatures, screw/cylinder condition, contamination level, and operator practice',
+    },
+  ],
+};

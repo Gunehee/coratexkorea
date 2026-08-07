@@ -1,0 +1,35 @@
+name: Build check
+
+# 배포는 Vercel 이 담당합니다.
+# 이 워크플로는 푸시·PR 시 빌드가 깨지지 않는지만 확인합니다.
+on:
+  push:
+    branches: [main, react-migration]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: 의존성 설치
+        run: npm ci
+
+      - name: 빌드 (프리렌더 + sitemap)
+        run: npm run build
+
+      - name: 산출물 확인
+        run: |
+          test -f dist/index.html
+          test -f dist/privacy-policy.html
+          test -f dist/contact.html
+          test -f dist/404.html
+          test -f dist/sitemap.xml
+          echo "생성된 페이지: $(ls dist/*.html | wc -l)개"

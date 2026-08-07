@@ -1,9 +1,10 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-// GitHub Pages: https://gunehee.github.io/coratexkorea/
-// 저장소 이름이 바뀌면 BASE_PATH 환경변수만 바꾸면 됩니다.
-const BASE = process.env.BASE_PATH || '/coratexkorea/';
+/* 배포 경로.
+   · Vercel 등 루트 도메인 배포: 기본값 '/'
+   · GitHub Pages 서브경로 배포: BASE_PATH=/저장소이름/ 으로 빌드 */
+const BASE = process.env.BASE_PATH || '/';
 
 export default defineConfig({
   base: BASE,

@@ -9,14 +9,13 @@ export default function Effectiveness() {
           <div className="section-head">
             <span className="section-eyebrow"><En>EFFECTIVENESS</En></span>
             <h2><Kr>제품 효과</Kr> <En>Product effectiveness</En></h2>
-            <p>제품 효과는 아래 4가지로 정리됩니다.<En>Four key effects proven in the field.</En></p>
+            <p><Kr>제품 효과는 아래 4가지로 정리됩니다.</Kr><En>Four key effects proven in the field.</En></p>
           </div>
           <div className="grid grid-2">
             {effects.map((e) => (
               <div className="card effect-card" key={e.n}>
-                <span className="effect-tag">효과 {e.n} · Effect {e.n}</span>
-                <p>{e.ko}</p>
-                <En>{e.en}</En>
+                <span className="effect-tag"><Kr>효과 {e.n}</Kr><En>Effect {e.n}</En></span>
+                <p><Kr>{e.ko}</Kr><En>{e.en}</En></p>
               </div>
             ))}
           </div>
@@ -36,7 +35,7 @@ export default function Effectiveness() {
             <img src={withBase("images/purge-order.jpg")} alt="퍼징 순서 예시 — 최초 발포 상태(노란색)에서 최종 흰색 결과물까지의 단계별 사진" width="1600" height="400" />
           </div>
           <div className="note" style={{ marginTop: 22 }}>
-            <p>※ 귀사 조건에 따라 달라집니다.<En>※ Results vary depending on your facility's conditions.</En></p>
+            <p><Kr>※ 귀사 조건에 따라 달라집니다.</Kr><En>※ Results vary depending on your facility's conditions.</En></p>
           </div>
         </div>
       </section>

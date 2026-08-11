@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { En, Kr } from '../components/Layout';
+import { useLanguage } from '../i18n/LanguageContext';
 import {
   processes, stats, sisterProducts, company, telHref, withBase, href,
   statsTotalKo, statsTotalEn,
@@ -42,6 +43,8 @@ function ProcessCard({ p, cta }) {
 export { ProcessCard };
 
 export default function Home() {
+  const { lang } = useLanguage();
+  const t = (ko, en) => (lang === 'en' ? en : ko);
   const list = [processes.injection, processes.extrusion, processes.blow_molding];
 
   return (
@@ -53,8 +56,8 @@ export default function Home() {
               <Kr>환영합니다</Kr>
               <En>Welcome to</En>
             </span>
-            <h1>코라텍스 CORATEX</h1>
-            <p className="hero-tag">사출 · 압출 · 블로우</p>
+            <h1><Kr>코라텍스 CORATEX</Kr><En>CORATEX</En></h1>
+            <p className="hero-tag"><Kr>사출 · 압출 · 블로우</Kr><En>Injection · Extrusion · Blow-Molding</En></p>
             <p className="hero-lead">
               <Kr>시장에서 검증된 No.1 독일 실린더 스크류 코팅 세정제</Kr>
               <En>Market-proven No. 1 German cylinder/screw coating cleaner</En>
@@ -63,7 +66,7 @@ export default function Home() {
               <Link className="btn btn-primary" to={href('/use')}>
                 <Kr>사용 방법 보기</Kr><En>View How to Use</En>
               </Link>
-              <a className="btn btn-ghost-light" href={telHref}>전화 문의 {company.mobile}</a>
+              <a className="btn btn-ghost-light" href={telHref}><Kr>전화 문의</Kr><En>Call</En> {company.mobile}</a>
             </div>
             <p className="hero-note">
               <Kr>※ 본 웹사이트 내용은 고객 의견에 맞게 업데이트됩니다.</Kr>
@@ -97,7 +100,7 @@ export default function Home() {
             </span>
           </div>
           <div className="grid grid-3">
-            {list.map((p) => <ProcessCard key={p.slug} p={p} cta="상세 보기" />)}
+            {list.map((p) => <ProcessCard key={p.slug} p={p} cta={t('상세 보기', 'View details')} />)}
           </div>
         </div>
       </section>
@@ -138,8 +141,7 @@ export default function Home() {
           <div className="section-head">
             <h2><Kr>구매 방법 및 문의</Kr> <En>How to Buy &amp; Inquiries</En></h2>
             <p>
-              ※ 가격은 문의 요청 드립니다 ( <a href={telHref}><strong>{company.mobile}</strong></a> )
-              <En>※ For pricing, please contact us ( {company.mobile} )</En>
+              <Kr>※ 가격은 문의 요청 드립니다</Kr><En>※ For pricing, please contact us</En> ( <a href={telHref}><strong>{company.mobile}</strong></a> )
             </p>
           </div>
           <div className="grid grid-3">
@@ -155,13 +157,10 @@ export default function Home() {
               <dl>
                 <dt><Kr>주문 방법</Kr><En>How to order</En></dt>
                 <dd>
-                  주문서 작성 후 사업자등록증 사본과 함께 팩스 또는 이메일로 보내주세요.<br />
+                  <Kr>주문서 작성 후 사업자등록증 사본과 함께 팩스 또는 이메일로 보내주세요.</Kr>
+                  <En>Fill out the order form and send it with your business registration certificate via fax or email.</En>
                   FAX: <strong>{company.fax}</strong><br />
-                  이메일: <a href={`mailto:${company.email}`}>{company.email}</a>
-                  <En>
-                    Fill out the order form and send it with your business registration
-                    certificate via fax or email. FAX: {company.fax} Email: {company.email}
-                  </En>
+                  <Kr>이메일:</Kr><En>Email:</En> <a href={`mailto:${company.email}`}>{company.email}</a>
                 </dd>
               </dl>
             </div>
@@ -170,13 +169,10 @@ export default function Home() {
               <dl>
                 <dt><Kr>전화 주문</Kr><En>Phone order</En></dt>
                 <dd>
-                  전화 주문 (사업자등록증 사본 사진 전송)<br />
-                  전화번호: <a href={telHref}>{company.mobile}</a><br />
-                  이메일: <a href={`mailto:${company.email}`}>{company.email}</a>
-                  <En>
-                    Order by phone (send a photo of your business registration certificate)
-                    Phone: {company.mobile} Email: {company.email}
-                  </En>
+                  <Kr>전화 주문 (사업자등록증 사본 사진 전송)</Kr>
+                  <En>Order by phone (send a photo of your business registration certificate)</En>
+                  <Kr>전화번호:</Kr><En>Phone:</En> <a href={telHref}>{company.mobile}</a><br />
+                  <Kr>이메일:</Kr><En>Email:</En> <a href={`mailto:${company.email}`}>{company.email}</a>
                 </dd>
               </dl>
             </div>

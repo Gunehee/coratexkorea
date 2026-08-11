@@ -26,7 +26,7 @@ export default function About() {
 
         <div className="note">
           <p>
-            <strong>사용할수록 세정 원리를 터득하는 코팅 세정제입니다.</strong>
+            <strong><Kr>사용할수록 세정 원리를 터득하는 코팅 세정제입니다.</Kr></strong>
             <En>-Coating cleaner that helps you grasp the cleaning principles more as you use it-</En>
           </p>
         </div>
@@ -44,20 +44,20 @@ export default function About() {
 
         <div className="card assumptions" style={{ marginTop: 34, padding: 20 }}>
           <h3>
-            {aboutAssumptions.titleKo} <En>{aboutAssumptions.titleEn}</En>
+            <Kr>{aboutAssumptions.titleKo}</Kr> <En>{aboutAssumptions.titleEn}</En>
           </h3>
           <p>
-            {aboutAssumptions.leadKo}
+            <Kr>{aboutAssumptions.leadKo}</Kr>
             <En>{aboutAssumptions.leadEn}</En>
           </p>
           <dl>
             {aboutAssumptions.items.map((it) => (
               <div key={it.labelKo}>
                 <dt>
-                  {it.labelKo} <En>{it.labelEn}</En>
+                  <Kr>{it.labelKo}</Kr> <En>{it.labelEn}</En>
                 </dt>
                 <dd>
-                  {it.ko}
+                  <Kr>{it.ko}</Kr>
                   <En>{it.en}</En>
                 </dd>
               </div>

@@ -42,14 +42,38 @@ npm run dev     # 개발 서버 → http://localhost:5173/
 npm run build   # dist/ 에 14개 HTML + 자산 생성
 ```
 
-**자동 배포** — `main` 브랜치에 push 하면 Vercel 이 자동으로 빌드·배포합니다.
-별도 작업이 필요 없습니다. (`dist/` 는 커밋하지 않습니다 — CI 에서 빌드됩니다)
+**자동 배포** — `main` 브랜치에 push 하면 아래가 순서대로 자동 반영됩니다.
+
+```
+git push  →  GitHub(main)  →  Vercel 자동 빌드  →  www.coratex-korea.com
+```
+
+별도 명령이 필요 없습니다. (`dist/` 는 커밋하지 않고 CI 에서 빌드합니다)
+
+배포 상태: https://vercel.com/gunehees-projects/coratexkorea-react
+빌드가 실패하면 이전 배포가 그대로 유지되므로 사이트가 깨지지 않습니다.
 
 수동 배포가 필요하면:
 
 ```bash
 vercel deploy --prod
 ```
+
+## 다국어(KR/EN)
+
+모든 사용자 노출 문구는 `<Kr>` / `<En>` 로 감싸야 합니다.
+
+```jsx
+<Kr>사용 방법</Kr> <En>How to Use</En>
+```
+
+- `<Kr>` 없이 한국어를 직접 쓰면 **영문 모드에서도 한국어가 그대로 노출**됩니다.
+- 데이터(`src/data/site.js`)는 `ko`/`en` 쌍으로 관리합니다.
+- 고객사 상호명은 한국 기업의 고유명사이므로 번역하지 않고 원문을 유지합니다.
+
+영문 모드에 한국어가 남아 있는지 확인하는 방법:
+브라우저에서 EN 으로 전환한 뒤 각 페이지를 훑어보거나,
+`localStorage.setItem('coratex_lang','en')` 후 새로고침해 확인합니다.
 
 ---
 

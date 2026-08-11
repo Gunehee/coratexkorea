@@ -67,14 +67,19 @@ export const processes = {
     ],
     subtitle:
       '원료 변경 (Material Change) / 색상 교체 (Color Change) / 흑점 관리 (Black Spot Management) — 실린더·스크류',
+    subtitleKo: '원료 변경 / 색상 교체 / 흑점 관리 — 실린더·스크류',
+    subtitleEn: 'Material change / Color change / Black spot management — cylinder & screw',
     types: '일반 사출 (General Injection) / 이중 사출 (Double Injection) / 다이렉트 사출 (Direct Injection)',
+    typesKo: '일반 사출 / 이중 사출 / 다이렉트 사출',
+    typesEn: 'General / Double / Direct injection',
     ratio: '2%',
     unit: 'Ton',
+    unitEn: 'Tonnage',
     columns: [
       { ko: '150 톤 미만', en: 'Less than 150 tons' },
-      { ko: '170 - 250톤', en: 'tons' },
-      { ko: '270 - 850톤', en: 'tons' },
-      { ko: '1000 - 1300톤', en: 'tons' },
+      { ko: '170 - 250톤', en: '170–250 tons' },
+      { ko: '270 - 850톤', en: '270–850 tons' },
+      { ko: '1000 - 1300톤', en: '1000–1300 tons' },
     ],
     rows: [
       {
@@ -82,6 +87,7 @@ export const processes = {
         ko: '원료 양',
         en: 'Material amount',
         cells: ['원료 1kg', '원료 2kg', '원료 5kg', '원료 10kg'],
+        cellsEn: ['Material 1 kg', 'Material 2 kg', 'Material 5 kg', 'Material 10 kg'],
       },
       {
         key: 'coratex',
@@ -94,12 +100,14 @@ export const processes = {
           { strong: '80-100g', rest: ' / 2 뚜껑' },
           { strong: '150-200g', rest: ' / 5 뚜껑' },
         ],
+        cellsEn: ['15–20 g / 1⁄2 cap', '30–40 g / 1 cap', '80–100 g / 2 caps', '150–200 g / 5 caps'],
       },
       {
         key: 'maxUsage',
         ko: '최대 사용 횟수',
         en: 'Maximum usage',
         cells: ['100 - 120 회', '30 - 50 회', '12 - 17 회', '6 - 12 회'],
+        cellsEn: ['100–120 times', '30–50 times', '12–17 times', '6–12 times'],
       },
     ],
     input: [
@@ -151,10 +159,15 @@ export const processes = {
     ],
     subtitle:
       '원료 변경 (Material Change) / 색상 교체 (Color Change) / 흑점 관리 (Black Spot Management) — 실린더·스크류',
+    subtitleKo: '원료 변경 / 색상 교체 / 흑점 관리 — 실린더·스크류',
+    subtitleEn: 'Material change / Color change / Black spot management — cylinder & screw',
     types:
       'T-DIES / 브론 다이스 (Bron Dies) / 이형 압출 (Heterogeneous Extrusion) / 원료 및 재생 압출 (Raw Material and Recycled Extrusion)',
+    typesKo: 'T-DIES / 브론 다이스 / 이형 압출 / 원료 및 재생 압출',
+    typesEn: 'T-DIES / Bron dies / Profile extrusion / Raw & recycled extrusion',
     ratio: '2%',
     unit: '토출량 (Output) / HR',
+    unitEn: 'Output / hr',
     columns: [
       { ko: '100 KG 미만', en: 'Less than 100 KG' },
       { ko: '300 KG 내외', en: 'Around 300 KG' },
@@ -167,6 +180,7 @@ export const processes = {
         ko: '세정 원료 양',
         en: 'Cleaning material amount',
         cells: ['원료 50 kg', '원료 150 kg', '원료 250 kg', '원료 500 kg'],
+        cellsEn: ['Material 50 kg', 'Material 150 kg', 'Material 250 kg', 'Material 500 kg'],
       },
       {
         key: 'coratex',
@@ -179,6 +193,7 @@ export const processes = {
           { strong: '5 통', rest: '' },
           { strong: '10 통', rest: '' },
         ],
+        cellsEn: ['1 container', '3 containers', '5 containers', '10 containers'],
       },
     ],
     input: [
@@ -226,9 +241,14 @@ export const processes = {
     ],
     subtitle:
       '원료 변경 (Material Change) / 색상 교체 (Color Change) / 흑점 관리 (Black Spot Management) — 실린더·스크류',
+    subtitleKo: '원료 변경 / 색상 교체 / 흑점 관리 — 실린더·스크류',
+    subtitleEn: 'Material change / Color change / Black spot management — cylinder & screw',
     types: '탄산칼슘 제거 (Calcium Carbonate Removal)',
+    typesKo: '탄산칼슘 제거',
+    typesEn: 'Calcium carbonate removal',
     ratio: '2%',
     unit: '토출량 (Output) / HR',
+    unitEn: 'Output / hr',
     columns: [
       { ko: '30 KG 미만', en: 'Less than 30 KG' },
       { ko: '50 KG 내외', en: 'Around 50 KG' },
@@ -241,6 +261,7 @@ export const processes = {
         ko: '세정 원료 양',
         en: 'Cleaning material amount',
         cells: ['원료 10 kg', '원료 25 kg', '원료 50 kg', '원료 100 kg'],
+        cellsEn: ['Material 10 kg', 'Material 25 kg', 'Material 50 kg', 'Material 100 kg'],
       },
       {
         key: 'coratex',
@@ -253,6 +274,7 @@ export const processes = {
           { strong: '1 통', rest: '' },
           { strong: '2 통', rest: '' },
         ],
+        cellsEn: ['200 g / 5 caps', '500 g / 10 caps', '1 container', '2 containers'],
       },
     ],
     input: [
@@ -306,6 +328,7 @@ export const commonSteps = {
 
 export const blackSpotNote = {
   titleKo: '✳✳ 흑점 제거를 위해 처음 코라텍스를 사용하는 경우',
+  titleEn: '✳✳ Using Coratex for the first time to remove black spots',
   bodyKo:
     '(실린더/스크류의 사용 연한) ÷ 2 = 최초 흑점 제거를 위한 사용 횟수<br>예) 기계가 10년 된 경우 = (10년 ÷ 2) = <b>5회 청소 권장</b>',
   bodyEn:

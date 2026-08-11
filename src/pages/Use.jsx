@@ -2,8 +2,11 @@ import { Link } from 'react-router-dom';
 import { En, Kr } from '../components/Layout';
 import { ProcessCard } from './Home';
 import { processes, href } from '../data/site';
+import { useLanguage } from '../i18n/LanguageContext';
 
 export default function Use() {
+  const { lang } = useLanguage();
+  const t = (ko, en) => (lang === 'en' ? en : ko);
   const list = [processes.injection, processes.extrusion, processes.blow_molding];
   return (
     <>
@@ -15,10 +18,10 @@ export default function Use() {
               <Kr>코라텍스 특성과 간단 사용법</Kr>
               <En>(Characteristics of Coratex and Simple Usage)</En>
             </p>
-            <p>* 아래 공정 카드를 선택하면 상세 사용방법으로 이동합니다.</p>
+            <p><Kr>* 아래 공정 카드를 선택하면 상세 사용방법으로 이동합니다.</Kr><En>* Select a process card below to see detailed instructions.</En></p>
           </div>
           <div className="grid grid-3">
-            {list.map((p) => <ProcessCard key={p.slug} p={p} cta="사용량·절차 보기" />)}
+            {list.map((p) => <ProcessCard key={p.slug} p={p} cta={t('사용량·절차 보기', 'View dosage & steps')} />)}
           </div>
         </div>
       </section>
@@ -33,9 +36,9 @@ export default function Use() {
             </p>
           </div>
           <div className="btn-row">
-            <Link className="btn btn-navy" to={href('/injection_companies')}>사출 고객사 보기</Link>
-            <Link className="btn btn-navy" to={href('/extrusion_companies')}>압출 고객사 보기</Link>
-            <Link className="btn btn-navy" to={href('/blow_molding_companies')}>블로우 고객사 보기</Link>
+            <Link className="btn btn-navy" to={href('/injection_companies')}><Kr>사출 고객사 보기</Kr><En>Injection customers</En></Link>
+            <Link className="btn btn-navy" to={href('/extrusion_companies')}><Kr>압출 고객사 보기</Kr><En>Extrusion customers</En></Link>
+            <Link className="btn btn-navy" to={href('/blow_molding_companies')}><Kr>블로우 고객사 보기</Kr><En>Blow-molding customers</En></Link>
           </div>
         </div>
       </section>

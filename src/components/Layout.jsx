@@ -38,7 +38,8 @@ function Header() {
         <Link className="brand" to={href('/')} aria-label="코라텍스 CORATEX 홈으로">
           {/* 워드마크 — 한글은 부제, 영문 CORATEX 가 주가 되도록 분리했습니다. */}
           <span className="brand-name">
-            <span className="brand-ko">코라텍스</span>
+            {/* 아래 CORATEX 와 중복되므로 EN 에서는 부제를 숨깁니다. */}
+            <span className="brand-ko"><Kr>코라텍스</Kr></span>
             <span className="brand-en">CORATEX</span>
           </span>
           {/* 원본 태그라인 그대로 — 한자(地平商社) 포함.
@@ -101,19 +102,19 @@ function Footer() {
               <li>
                 <span className="label"><Kr>공정</Kr><En>Process</En></span>
                 <span>
-                  <Link to={href('/injection')}>사출</Link> · <Link to={href('/extrusion')}>압출</Link> · <Link to={href('/blow_molding')}>블로우</Link>
+                  <Link to={href('/injection')}><Kr>사출</Kr><En>Injection</En></Link> · <Link to={href('/extrusion')}><Kr>압출</Kr><En>Extrusion</En></Link> · <Link to={href('/blow_molding')}><Kr>블로우</Kr><En>Blow-Molding</En></Link>
                 </span>
               </li>
               <li>
                 <span className="label"><Kr>고객사</Kr><En>Customers</En></span>
                 <span>
-                  <Link to={href('/injection_companies')}>사출</Link> · <Link to={href('/extrusion_companies')}>압출</Link> · <Link to={href('/blow_molding_companies')}>블로우</Link>
+                  <Link to={href('/injection_companies')}><Kr>사출</Kr><En>Injection</En></Link> · <Link to={href('/extrusion_companies')}><Kr>압출</Kr><En>Extrusion</En></Link> · <Link to={href('/blow_molding_companies')}><Kr>블로우</Kr><En>Blow-Molding</En></Link>
                 </span>
               </li>
               <li>
                 <span className="label"><Kr>안내</Kr><En>Info</En></span>
                 <span>
-                  <Link to={href('/about')}>소개</Link> · <Link to={href('/effectiveness')}>제품 효과</Link> · <Link to={href('/order')}>발주</Link> · <Link to={href('/contact')}>문의</Link>
+                  <Link to={href('/about')}><Kr>소개</Kr><En>About</En></Link> · <Link to={href('/effectiveness')}><Kr>제품 효과</Kr><En>Effectiveness</En></Link> · <Link to={href('/order')}><Kr>발주</Kr><En>Order</En></Link> · <Link to={href('/contact')}><Kr>문의</Kr><En>Contact</En></Link>
                 </span>
               </li>
             </ul>
@@ -148,11 +149,11 @@ function Footer() {
 export default function Layout({ children }) {
   return (
     <LanguageProvider>
-      <a className="skip-link" href="#main">본문 바로가기</a>
+      <a className="skip-link" href="#main"><Kr>본문 바로가기</Kr><En>Skip to content</En></a>
       <Header />
       <main id="main">{children}</main>
       <Footer />
-      <a className="floating-call" href={telHref}>📞 전화 문의</a>
+      <a className="floating-call" href={telHref}>📞 <Kr>전화 문의</Kr><En>Call us</En></a>
     </LanguageProvider>
   );
 }

@@ -1167,3 +1167,10 @@ body[data-lang="kr"] .form-field label .en { display: none; }
   font-size: var(--fs-sm);
   line-height: 1.5;
 }
+
+/* 고객사 목록 — 영문 모드 안내 */
+.company-note {
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: var(--fs-sm);
+}

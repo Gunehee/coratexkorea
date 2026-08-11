@@ -1,5 +1,5 @@
 import { privacyPolicy, globalCopy } from '../data/site';
-import { En } from '../components/Layout';
+import { En, Kr } from '../components/Layout';
 
 /**
  * 개인정보처리방침 — 원본 privacy-policy.html 의 문구를 그대로 옮겼습니다.
@@ -12,23 +12,23 @@ export default function PrivacyPolicy() {
     <article className="page page--doc">
       <div className="container">
         <h1>
-          {p.titleKo} <En>{p.titleEn}</En>
+          <Kr>{p.titleKo}</Kr> <En>{p.titleEn}</En>
         </h1>
 
         <p className="lead">
-          {p.leadKo}
+          <Kr>{p.leadKo}</Kr>
           <En>{p.leadEn}</En>
         </p>
 
         {p.sections.map((s) => (
           <section className="doc-section" key={s.ko}>
             <h2>
-              {s.ko} <En>{s.en}</En>
+              <Kr>{s.ko}</Kr> <En>{s.en}</En>
             </h2>
             <ul className="doc-list">
               {s.itemsKo.map((item, i) => (
                 <li key={item}>
-                  {item}
+                  <Kr>{item}</Kr>
                   <En>{s.itemsEn[i]}</En>
                 </li>
               ))}
@@ -37,7 +37,7 @@ export default function PrivacyPolicy() {
         ))}
 
         <p className="doc-trademark">
-          {globalCopy.trademarkKo}
+          <Kr>{globalCopy.trademarkKo}</Kr>
           <En>{globalCopy.trademarkEn}</En>
         </p>
       </div>

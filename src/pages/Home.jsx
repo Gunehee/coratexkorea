@@ -87,10 +87,10 @@ export default function Home() {
             {/* 원본의 <*이미지를 클릭하세요> 안내를 별도 배지로 분리 —
                 본문 설명과 조작 힌트를 시각적으로 구분해 고급스럽게 표현합니다. */}
             <span className="click-hint">
+              {/* 아래에 있는 공정 카드를 가리키는 하향 화살표 */}
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d="M9 3v11.5M9 3 5.5 6.5M9 3l3.5 3.5" stroke="currentColor"
-                  strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-                <rect x="3.5" y="14" width="17" height="7" rx="3.5" stroke="currentColor" strokeWidth="1.8" />
+                <path d="M12 4v13M12 17l-4.5-4.5M12 17l4.5-4.5" stroke="currentColor"
+                  strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
               <Kr>이미지를 클릭하세요</Kr>
               <En>Click an image</En>

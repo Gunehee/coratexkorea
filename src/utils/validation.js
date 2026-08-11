@@ -162,15 +162,20 @@ export function validateQty(v, t) {
   return null;
 }
 
-/** 문의 내용 (선택 항목) */
-export function validateMessage(v, t) {
+/** 문의 내용 */
+export function validateMessage(v, t, { required = false } = {}) {
   const s = v.trim();
-  if (!s) return null; // 선택 항목
+  if (!s) return required ? t('문의 내용을 입력해 주세요.', 'Please enter your message.') : null;
   if (s.length > 1000) {
     return t('문의 내용이 너무 깁니다. (1000자 이내)', 'Message is too long (max 1000 characters).');
   }
-  if (s.length < 5) {
-    return t('문의 내용을 조금 더 자세히 입력해 주세요.', 'Please provide a bit more detail.');
+  /* "견적요청" 같은 짧고 정상적인 문의를 막지 않도록 4자까지 허용합니다. */
+  if (s.length < 4) {
+    return t('문의 내용을 4자 이상 입력해 주세요.', 'Message must be at least 4 characters.');
+  }
+  /* 자음/모음만 나열한 미완성 입력 (ㅁㄴㅇㄹ 등) */
+  if (RE.hangulJamo.test(s) && s.replace(/[ㄱ-ㅎㅏ-ㅣ\s]/g, '').length === 0) {
+    return t('문의 내용을 올바르게 입력해 주세요.', 'Please enter a valid message.');
   }
   if (RE.repeated.test(s) && s.length < 20) {
     return t('문의 내용을 올바르게 입력해 주세요.', 'Please enter a valid message.');

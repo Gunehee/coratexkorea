@@ -44,8 +44,8 @@ export default function Contact() {
   const validators = {
     name: (v) => validateName(v, t),
     phone: (v) => validatePhone(v, t),
-    company: (v) => validateCompany(v, t),
-    message: (v) => validateMessage(v, t),
+    company: (v) => validateCompany(v, t, { required: true }),
+    message: (v) => validateMessage(v, t, { required: true }),
   };
 
   async function onSubmit(e) {
@@ -69,14 +69,14 @@ export default function Contact() {
     }
 
     const sent = await submit({
-      subject: `[홈페이지 문의] ${form.name}${form.company ? ` / ${form.company}` : ''}`,
+      subject: `[홈페이지 문의] ${form.name} / ${form.company}`,
       bodyLines: [
         `성함: ${form.name}`,
         `연락처: ${form.phone}`,
-        `회사: ${form.company || '-'}`,
+        `회사명: ${form.company}`,
         '',
         '문의 내용:',
-        form.message || '-',
+        form.message,
       ],
     });
 
@@ -87,10 +87,9 @@ export default function Contact() {
     }
   }
 
-  /* 필수 항목(성함·연락처)이 채워지고, 선택 항목도 형식이 맞아야 활성화 */
-  const isComplete =
-    ['name', 'phone'].every((k) => form[k].trim() && !validators[k](form[k])) &&
-    ['company', 'message'].every((k) => !validators[k](form[k]));
+  /* 4개 항목이 모두 채워지고 형식도 맞아야 보내기가 활성화됩니다. */
+  const isComplete = ['name', 'phone', 'company', 'message']
+    .every((k) => form[k].trim() && !validators[k](form[k]));
 
   /** 입력칸 + 오류 메시지 묶음 */
   const field = (k, { label, labelEn, type = 'text', required, autoComplete, hint, hintEn, textarea }) => (
@@ -164,14 +163,14 @@ export default function Contact() {
                 hintEn: 'Type digits only — hyphens are added automatically.',
               })}
               {field('company', {
-                label: '회사', labelEn: 'Company', autoComplete: 'organization',
-                hint: '선택 항목입니다.',
-                hintEn: 'Optional.',
+                label: '회사명', labelEn: 'Company', required: true, autoComplete: 'organization',
+                hint: '사업자등록증상의 상호를 입력해 주세요.',
+                hintEn: 'As shown on your business registration.',
               })}
               {field('message', {
-                label: '문의 내용', labelEn: 'Message', textarea: true,
-                hint: '선택 항목입니다. 궁금하신 점을 자유롭게 적어 주세요.',
-                hintEn: 'Optional. Tell us what you need.',
+                label: '문의 내용', labelEn: 'Message', required: true, textarea: true,
+                hint: '궁금하신 점을 자유롭게 적어 주세요.',
+                hintEn: 'Tell us what you need.',
               })}
 
               <button type="submit" className="btn btn-primary"
@@ -181,8 +180,8 @@ export default function Contact() {
               </button>
               {!isComplete && (
                 <span className="submit-hint">
-                  <Kr>성함과 연락처를 입력하시면 보내기가 활성화됩니다.</Kr>
-                  <En>Enter your name and phone number to enable sending.</En>
+                  <Kr>4개 항목을 모두 입력하시면 보내기가 활성화됩니다.</Kr>
+                  <En>Fill in all four fields to enable sending.</En>
                 </span>
               )}
               <p className={`form-msg ${msg ? 'is-visible' : ''} ${msg?.ok ? 'is-ok' : 'is-error'}`}

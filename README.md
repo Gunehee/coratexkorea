@@ -1,10 +1,10 @@
-# CORATEX_WebD
+# coratexkorea
 
 코라텍스(CORATEX) 소개 웹사이트 — **지평상사 (JI PYEONG Corp)** 국내 독점 공급.
 
 사출 · 압출 · 블로우 공정용 독일산 실린더 스크류 코팅 세정제를 안내하는 웹사이트입니다.
 
-**배포 주소:** https://gunehee.github.io/CORATEX_WebD/
+**배포 주소:** https://www.coratex-korea.com
 
 ---
 
@@ -14,7 +14,8 @@
 |---|---|
 | 프레임워크 | **React 19** + **React Router 7** |
 | 빌드 도구 | **Vite 8** |
-| 렌더링 | **SSG (정적 생성)** — 12개 페이지를 각각 실제 HTML 파일로 생성 |
+| 배포 | **Vercel** — main 에 push 하면 자동 배포 |
+| 렌더링 | **SSG (정적 생성)** — 14개 페이지를 각각 실제 HTML 파일로 생성 |
 | 스타일 | 단일 CSS (`src/styles/coratex.css`) — Bootstrap/jQuery 등 미사용 |
 | 브랜드 컬러 | 화이트 / 오렌지 `#E8722A` / 네이비 `#1B4E9B` |
 
@@ -32,17 +33,23 @@ JS 없이도 내용이 읽히게 했습니다. 접속 후에는 React가 이어�
 
 ```bash
 npm install     # 최초 1회
-npm run dev     # 개발 서버 → http://localhost:5173/CORATEX_WebD/
+npm run dev     # 개발 서버 → http://localhost:5173/
 ```
 
 ## 빌드 & 배포
 
 ```bash
-npm run build   # dist/ 에 12개 HTML + 자산 생성
+npm run build   # dist/ 에 14개 HTML + 자산 생성
 ```
 
-`dist/` 내용을 커밋해서 push하면 GitHub Pages(main / root)가 반영합니다.
-※ Pages 설정이 **main / (root)** 인 경우 `dist/` 내용을 저장소 루트로 복사해야 합니다.
+**자동 배포** — `main` 브랜치에 push 하면 Vercel 이 자동으로 빌드·배포합니다.
+별도 작업이 필요 없습니다. (`dist/` 는 커밋하지 않습니다 — CI 에서 빌드됩니다)
+
+수동 배포가 필요하면:
+
+```bash
+vercel deploy --prod
+```
 
 ---
 
@@ -50,22 +57,27 @@ npm run build   # dist/ 에 12개 HTML + 자산 생성
 
 ```
 src/
-├── base.js                 GitHub Pages 서브경로 (한 곳에서 관리)
+├── base.js                 배포 서브경로 (Vite BASE_URL 사용)
 ├── main.jsx                브라우저 진입점 (hydration)
 ├── entry-server.jsx        SSG 렌더 진입점
 ├── App.jsx                 라우팅
-├── routes.jsx              12개 라우트 + 페이지별 title/description
+├── routes.jsx              14개 라우트 + 페이지별 title/description
 ├── data/site.js            ⭐ 사이트 전체 데이터 (단일 출처)
 ├── components/
-│   ├── Layout.jsx          헤더 · 푸터 · 공통 표기
+│   ├── Layout.jsx          헤더 · 푸터 · 공통 표기 (En/Kr)
+│   ├── ContactCard.jsx     바로 연락하기 (문의·발주 공용)
 │   └── DosageTable.jsx     사용량 표 (데이터로부터 자동 생성)
-├── pages/                  Home, About, Use, Effectiveness,
-│                           ProcessPage, CompaniesPage, Contact, Edit
+├── i18n/LanguageContext.jsx  KR/EN 전환 (localStorage)
+├── pages/                  Home, About, Use, Effectiveness, ProcessPage,
+│                           CompaniesPage, Order, Contact, PrivacyPolicy,
+│                           NotFound, Edit
 └── styles/coratex.css
 
 public/
 ├── images/                 제품 · 공정 사진
-└── robots.txt
+├── favicon.svg             파비콘 · 로고
+├── og-image.png            소셜 공유 카드
+└── site.webmanifest        PWA
 
 scripts/prerender.js        SSG — 라우트를 HTML 파일로 생성 + sitemap
 ```

@@ -12,6 +12,6 @@
  *
  * 이메일 계정 소유 확인이 필요한 절차라 코드로 대신 발급할 수 없습니다.
  */
-export const WEB3FORMS_ACCESS_KEY = '';
+export const WEB3FORMS_ACCESS_KEY = 'ba52f93e-22da-4665-9a27-ee7643362f18';
 
 export const hasFormEndpoint = Boolean(WEB3FORMS_ACCESS_KEY);

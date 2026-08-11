@@ -23,15 +23,19 @@ export function useFormSubmit(t) {
 
     if (hasFormEndpoint) {
       try {
+        /* FormData 로 보냅니다.
+           JSON + Content-Type 헤더를 쓰면 브라우저가 preflight(OPTIONS)를
+           먼저 보내는데, Web3Forms 는 이를 403 으로 거부해 전송이 실패합니다.
+           FormData 는 preflight 없는 "단순 요청"이라 정상 전송됩니다. */
+        const fd = new FormData();
+        fd.append('access_key', WEB3FORMS_ACCESS_KEY);
+        fd.append('subject', subject);
+        fd.append('from_name', 'CORATEX 홈페이지');
+        fd.append('message', bodyText);
+
         const res = await fetch('https://api.web3forms.com/submit', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-          body: JSON.stringify({
-            access_key: WEB3FORMS_ACCESS_KEY,
-            subject,
-            from_name: 'CORATEX 홈페이지',
-            message: bodyText,
-          }),
+          body: fd,
         });
         const data = await res.json().catch(() => null);
         if (res.ok && data?.success) {

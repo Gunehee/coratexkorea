@@ -2,14 +2,17 @@ import { useState, useRef } from 'react';
 import { En, Kr } from '../components/Layout';
 import ContactCard, { MailFallbackHint } from '../components/ContactCard';
 import { useLanguage } from '../i18n/LanguageContext';
+import { useFormSubmit } from '../hooks/useFormSubmit';
 import { company, telHref } from '../data/site';
+import { hasFormEndpoint } from '../data/formEndpoint';
 
-/** 발주 페이지 — 문의와 동일하게 백엔드 없이 mailto: 로 메일 앱을 엽니다.
- *  입력값은 어디에도 저장되지 않습니다. */
+/** 발주 페이지 — 백엔드·데이터베이스 없이 전송됩니다.
+ *  (자동 전송 연동 시 버튼 한 번, 미연동 시 메일 앱을 통해 전송) */
 export default function Order() {
   const { lang } = useLanguage();
   const [form, setForm] = useState({ company: '', address: '', phone: '', qty: '' });
-  const [msg, setMsg] = useState(null);
+  const t = (ko, en) => (lang === 'en' ? en : ko);
+  const { submit, msg, setMsg } = useFormSubmit(t);
 
   const refs = {
     company: useRef(null),
@@ -19,9 +22,8 @@ export default function Order() {
   };
 
   const set = (k) => (e) => setForm({ ...form, [k]: e.target.value });
-  const t = (ko, en) => (lang === 'en' ? en : ko);
 
-  function onSubmit(e) {
+  async function onSubmit(e) {
     e.preventDefault();
 
     /* 4개 항목 모두 필수 — 하나라도 비면 첫 번째 빈 칸으로 포커스를 옮깁니다. */
@@ -47,23 +49,16 @@ export default function Order() {
       return;
     }
 
-    const subject = `[홈페이지 발주] ${form.company} / 코라텍스 ${qty}통`;
-    const body =
-      `회사명: ${form.company}\n` +
-      `받는 주소: ${form.address}\n` +
-      `연락처: ${form.phone}\n` +
-      `수량: ${qty}통\n\n` +
-      `※ 사업자등록증 사본을 첨부해 주시면 처리가 빠릅니다.\n`;
-
-    window.location.href =
-      `mailto:${company.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-
-    setMsg({
-      ok: true,
-      text: t(
-        `메일 프로그램이 열립니다. 열리지 않으면 ${company.mobile} 으로 전화 주십시오.`,
-        `Your email app should open. If it does not, please call ${company.mobile}.`
-      ),
+    await submit({
+      subject: `[홈페이지 발주] ${form.company} / 코라텍스 ${qty}통`,
+      bodyLines: [
+        `회사명: ${form.company}`,
+        `받는 주소: ${form.address}`,
+        `연락처: ${form.phone}`,
+        `수량: ${qty}통`,
+        '',
+        '※ 사업자등록증 사본을 첨부해 주시면 처리가 빠릅니다.',
+      ],
     });
   }
 
@@ -82,10 +77,19 @@ export default function Order() {
           <div className="card buy-card">
             <h3><Kr>발주하기</Kr> <En>Place an order</En></h3>
             <p style={{ marginBottom: 18 }}>
-              <Kr>아래 내용을 작성하시면 메일 프로그램이 열립니다. 서버에 저장되지 않습니다.</Kr>
-              <En>Filling this in opens your email app. Nothing is stored on a server.</En>
+              {hasFormEndpoint ? (
+                <>
+                  <Kr>보내기를 누르면 바로 접수됩니다. 서버에 저장되지 않습니다.</Kr>
+                  <En>Submitting sends it right away. Nothing is stored on a server.</En>
+                </>
+              ) : (
+                <>
+                  <Kr>아래 내용을 작성하시면 메일 프로그램이 열립니다. 서버에 저장되지 않습니다.</Kr>
+                  <En>Filling this in opens your email app. Nothing is stored on a server.</En>
+                </>
+              )}
             </p>
-            <MailFallbackHint />
+            {!hasFormEndpoint && <MailFallbackHint />}
 
             <form onSubmit={onSubmit} noValidate>
               <div className="form-field">

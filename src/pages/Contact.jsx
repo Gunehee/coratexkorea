@@ -2,21 +2,22 @@ import { useState, useRef } from 'react';
 import { En, Kr } from '../components/Layout';
 import ContactCard, { MailFallbackHint } from '../components/ContactCard';
 import { useLanguage } from '../i18n/LanguageContext';
-import { company } from '../data/site';
+import { useFormSubmit } from '../hooks/useFormSubmit';
+import { hasFormEndpoint } from '../data/formEndpoint';
 
-/** 문의 페이지 — 백엔드가 없으므로 mailto: 로 사용자의 메일 앱을 엽니다.
- *  입력값은 어디에도 저장되지 않습니다. */
+/** 문의 페이지 — 백엔드·데이터베이스 없이 전송됩니다.
+ *  (자동 전송 연동 시 버튼 한 번, 미연동 시 메일 앱을 통해 전송) */
 export default function Contact() {
   const { lang } = useLanguage();
   const [form, setForm] = useState({ name: '', phone: '', company: '', message: '' });
-  const [msg, setMsg] = useState(null);
   const nameRef = useRef(null);
   const phoneRef = useRef(null);
 
   const set = (k) => (e) => setForm({ ...form, [k]: e.target.value });
   const t = (ko, en) => (lang === 'en' ? en : ko);
+  const { submit, msg, setMsg } = useFormSubmit(t);
 
-  function onSubmit(e) {
+  async function onSubmit(e) {
     e.preventDefault();
 
     if (!form.name.trim() || !form.phone.trim()) {
@@ -29,22 +30,16 @@ export default function Contact() {
       return;
     }
 
-    const subject = `[홈페이지 문의] ${form.name}${form.company ? ` / ${form.company}` : ''}`;
-    const body =
-      `성함: ${form.name}\n` +
-      `연락처: ${form.phone}\n` +
-      `회사: ${form.company || '-'}\n\n` +
-      `문의 내용:\n${form.message || '-'}\n`;
-
-    window.location.href =
-      `mailto:${company.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-
-    setMsg({
-      ok: true,
-      text: t(
-        `메일 프로그램이 열립니다. 열리지 않으면 ${company.mobile} 으로 전화 주십시오.`,
-        `Your email app should open. If it does not, please call ${company.mobile}.`
-      ),
+    await submit({
+      subject: `[홈페이지 문의] ${form.name}${form.company ? ` / ${form.company}` : ''}`,
+      bodyLines: [
+        `성함: ${form.name}`,
+        `연락처: ${form.phone}`,
+        `회사: ${form.company || '-'}`,
+        '',
+        '문의 내용:',
+        form.message || '-',
+      ],
     });
   }
 
@@ -65,12 +60,19 @@ export default function Contact() {
           <div className="card buy-card">
             <h3><Kr>문의 남기기</Kr> <En>Request a call back</En></h3>
             <p style={{ marginBottom: 18 }}>
-              <Kr>아래 내용을 작성하시면 메일 프로그램이 열립니다. 서버에 저장되지 않습니다.</Kr>
-              <En>
-                Filling this in opens your email app. Nothing is stored on a server.
-              </En>
+              {hasFormEndpoint ? (
+                <>
+                  <Kr>보내기를 누르면 바로 접수됩니다. 서버에 저장되지 않습니다.</Kr>
+                  <En>Submitting sends it right away. Nothing is stored on a server.</En>
+                </>
+              ) : (
+                <>
+                  <Kr>아래 내용을 작성하시면 메일 프로그램이 열립니다. 서버에 저장되지 않습니다.</Kr>
+                  <En>Filling this in opens your email app. Nothing is stored on a server.</En>
+                </>
+              )}
             </p>
-            <MailFallbackHint />
+            {!hasFormEndpoint && <MailFallbackHint />}
 
             <form onSubmit={onSubmit} noValidate>
               <div className="form-field">

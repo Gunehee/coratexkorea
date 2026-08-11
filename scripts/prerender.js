@@ -39,6 +39,7 @@ const PRIORITY = {
   'injection.html': '0.8',
   'extrusion.html': '0.8',
   'blow_molding.html': '0.8',
+  'order.html': '0.8',
   'contact.html': '0.7',
 };
 

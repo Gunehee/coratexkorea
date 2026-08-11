@@ -42,6 +42,7 @@ export const nav = [
   { path: '/about',          ko: '소개',      en: 'About' },
   { path: '/use',            ko: '사용 방법', en: 'How to use' },
   { path: '/effectiveness',  ko: '제품 효과', en: 'Effectiveness' },
+  { path: '/order',          ko: '발주',      en: 'Order' },
   { path: '/contact',        ko: '문의',      en: 'Contact' },
 ];
 

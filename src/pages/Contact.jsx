@@ -1,7 +1,8 @@
 import { useState, useRef } from 'react';
 import { En, Kr } from '../components/Layout';
+import ContactCard, { MailFallbackHint } from '../components/ContactCard';
 import { useLanguage } from '../i18n/LanguageContext';
-import { company, telHref, telHrefLine } from '../data/site';
+import { company } from '../data/site';
 
 /** 문의 페이지 — 백엔드가 없으므로 mailto: 로 사용자의 메일 앱을 엽니다.
  *  입력값은 어디에도 저장되지 않습니다. */
@@ -59,25 +60,7 @@ export default function Contact() {
         </div>
 
         <div className="grid grid-2">
-          <div className="card buy-card">
-            <h3><Kr>바로 연락하기</Kr> <En>Reach us directly</En></h3>
-            <div className="btn-row" style={{ margin: '18px 0' }}>
-              <a className="btn btn-primary" href={telHref}>📞 {company.mobile}</a>
-              <a className="btn btn-outline" href={`mailto:${company.email}`}>✉ <Kr>이메일 보내기</Kr><En>Send email</En></a>
-            </div>
-            <dl>
-              <dt><Kr>전화</Kr> <En>Tel</En></dt>
-              <dd><a href={telHrefLine}>{company.tel}</a></dd>
-              <dt><Kr>팩스</Kr> <En>Fax</En></dt>
-              <dd>{company.fax}</dd>
-              <dt><Kr>휴대전화</Kr> <En>Mobile</En></dt>
-              <dd><a href={telHref}>{company.mobile}</a></dd>
-              <dt><Kr>이메일</Kr> <En>Email</En></dt>
-              <dd><a href={`mailto:${company.email}`}>{company.email}</a></dd>
-              <dt><Kr>주소</Kr> <En>Address</En></dt>
-              <dd><Kr>{company.addressKo}</Kr><En>{company.addressEn}</En></dd>
-            </dl>
-          </div>
+          <ContactCard />
 
           <div className="card buy-card">
             <h3><Kr>문의 남기기</Kr> <En>Request a call back</En></h3>
@@ -87,18 +70,7 @@ export default function Contact() {
                 Filling this in opens your email app. Nothing is stored on a server.
               </En>
             </p>
-            <p className="form-hint">
-              <Kr>
-                ※ 메일 앱이 열리지 않으면 <a href={telHref}>{company.mobile}</a> 로
-                전화 주시거나 <a href={`mailto:${company.email}`}>{company.email}</a> 로
-                보내 주십시오.
-              </Kr>
-              <En>
-                ※ If your email app does not open, please call{' '}
-                <a href={telHref}>{company.mobile}</a> or email{' '}
-                <a href={`mailto:${company.email}`}>{company.email}</a>.
-              </En>
-            </p>
+            <MailFallbackHint />
 
             <form onSubmit={onSubmit} noValidate>
               <div className="form-field">

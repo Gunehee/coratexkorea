@@ -1071,3 +1071,14 @@ body[data-lang="kr"] .form-field label .en { display: none; }
   white-space: nowrap;
   border: 0;
 }
+
+/* 발주 폼 하단 안내 */
+.form-note {
+  margin: 18px 0 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: var(--fs-sm);
+  line-height: 1.6;
+}
+.form-note a { font-weight: 700; }

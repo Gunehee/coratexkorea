@@ -3,6 +3,7 @@ import About from './pages/About';
 import Use from './pages/Use';
 import Effectiveness from './pages/Effectiveness';
 import Contact from './pages/Contact';
+import Order from './pages/Order';
 import Edit from './pages/Edit';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import ProcessPage from './pages/ProcessPage';
@@ -45,6 +46,10 @@ const routes = [
     desc: `코라텍스를 사용 중인 ${c.ko} 목록입니다. ${c.plus}.`,
     element: <CompaniesPage list={c} />,
   })),
+
+  { path: '/order', file: 'order.html', title: '발주 | 코라텍스 (CORATEX)',
+    desc: '코라텍스 발주 — 회사명·주소·연락처·수량을 남겨 주시면 확인 후 연락드립니다.',
+    element: <Order /> },
 
   { path: '/contact', file: 'contact.html', title: '문의 | 코라텍스 (CORATEX)',
     desc: '코라텍스 구매 및 사용 문의 — 전화 010-8596-5562.',

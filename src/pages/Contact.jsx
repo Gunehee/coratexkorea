@@ -68,7 +68,7 @@ export default function Contact() {
       return;
     }
 
-    await submit({
+    const sent = await submit({
       subject: `[홈페이지 문의] ${form.name}${form.company ? ` / ${form.company}` : ''}`,
       bodyLines: [
         `성함: ${form.name}`,
@@ -79,7 +79,18 @@ export default function Contact() {
         form.message || '-',
       ],
     });
+
+    /* 전송에 성공하면 입력 내용을 비웁니다. */
+    if (sent) {
+      setForm({ name: '', phone: '', company: '', message: '' });
+      setErrors({});
+    }
   }
+
+  /* 필수 항목(성함·연락처)이 채워지고, 선택 항목도 형식이 맞아야 활성화 */
+  const isComplete =
+    ['name', 'phone'].every((k) => form[k].trim() && !validators[k](form[k])) &&
+    ['company', 'message'].every((k) => !validators[k](form[k]));
 
   /** 입력칸 + 오류 메시지 묶음 */
   const field = (k, { label, labelEn, type = 'text', required, autoComplete, hint, hintEn, textarea }) => (
@@ -163,7 +174,17 @@ export default function Contact() {
                 hintEn: 'Optional. Tell us what you need.',
               })}
 
-              <button type="submit" className="btn btn-primary"><Kr>보내기</Kr><En>Send</En></button>
+              <button type="submit" className="btn btn-primary"
+                disabled={!isComplete}
+                aria-disabled={!isComplete}>
+                <Kr>보내기</Kr><En>Send</En>
+              </button>
+              {!isComplete && (
+                <span className="submit-hint">
+                  <Kr>성함과 연락처를 입력하시면 보내기가 활성화됩니다.</Kr>
+                  <En>Enter your name and phone number to enable sending.</En>
+                </span>
+              )}
               <p className={`form-msg ${msg ? 'is-visible' : ''} ${msg?.ok ? 'is-ok' : 'is-error'}`}
                 role="status" aria-live="polite">
                 {msg?.text}

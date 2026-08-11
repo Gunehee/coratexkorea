@@ -71,7 +71,7 @@ export default function Order() {
     }
 
     const qty = Number(form.qty);
-    await submit({
+    const sent = await submit({
       subject: `[홈페이지 발주] ${form.company} / 코라텍스 ${qty}통`,
       bodyLines: [
         `회사명: ${form.company}`,
@@ -82,7 +82,16 @@ export default function Order() {
         '※ 사업자등록증 사본을 첨부해 주시면 처리가 빠릅니다.',
       ],
     });
+
+    /* 전송에 성공하면 입력 내용을 비웁니다. */
+    if (sent) {
+      setForm({ company: '', address: '', phone: '', qty: '' });
+      setErrors({});
+    }
   }
+
+  /* 4개 항목이 모두 채워지고 형식도 맞아야 보내기가 활성화됩니다. */
+  const isComplete = order.every((k) => form[k].trim() && !validators[k](form[k]));
 
   const field = (k, { label, labelEn, type = 'text', autoComplete, hint, hintEn, extra }) => (
     <div className={`form-field ${errors[k] ? 'has-error' : ''}`}>
@@ -157,9 +166,17 @@ export default function Order() {
                 hintEn: 'Numbers only (1–999).',
               })}
 
-              <button type="submit" className="btn btn-primary">
+              <button type="submit" className="btn btn-primary"
+                disabled={!isComplete}
+                aria-disabled={!isComplete}>
                 <Kr>발주 보내기</Kr><En>Send order</En>
               </button>
+              {!isComplete && (
+                <span className="submit-hint">
+                  <Kr>4개 항목을 모두 입력하시면 보내기가 활성화됩니다.</Kr>
+                  <En>Fill in all four fields to enable sending.</En>
+                </span>
+              )}
 
               <p className={`form-msg ${msg ? 'is-visible' : ''} ${msg?.ok ? 'is-ok' : 'is-error'}`}
                 role="status" aria-live="polite">

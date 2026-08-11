@@ -31,6 +31,10 @@ export function useFormSubmit(t) {
         fd.append('access_key', WEB3FORMS_ACCESS_KEY);
         fd.append('subject', subject);
         fd.append('from_name', 'CORATEX 홈페이지');
+        /* 수신처를 명시합니다. 키에 등록된 주소가 기본이지만,
+           명시해 두면 계정 설정과 무관하게 이 주소로 발송됩니다. */
+        fd.append('to', company.email);
+        fd.append('replyto', company.email);
         fd.append('message', bodyText);
 
         const res = await fetch('https://api.web3forms.com/submit', {
@@ -46,7 +50,7 @@ export function useFormSubmit(t) {
               'Sent. We will get back to you shortly.'
             ),
           });
-          return;
+          return true;   /* 성공 — 폼을 비웁니다 */
         }
         throw new Error(data?.message || 'submit failed');
       } catch {

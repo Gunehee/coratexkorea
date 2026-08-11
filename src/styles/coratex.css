@@ -1142,3 +1142,28 @@ body[data-lang="kr"] .form-field label .en { display: none; }
 .form-field.has-error textarea:focus {
   border-color: #D14343;
 }
+
+/* 보내기 버튼 비활성 상태 — 필수 항목이 덜 채워졌을 때 */
+.btn:disabled,
+.btn[aria-disabled="true"] {
+  background: #C9D0DA;
+  border-color: #C9D0DA;
+  color: #6B7480;
+  cursor: not-allowed;
+  transform: none;
+}
+.btn:disabled:hover,
+.btn[aria-disabled="true"]:hover {
+  background: #C9D0DA;
+  border-color: #C9D0DA;
+  transform: none;
+}
+
+/* 버튼 옆 활성화 안내 */
+.submit-hint {
+  display: block;
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+}

@@ -17,7 +17,13 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 const DIST = path.join(ROOT, 'dist');
 const BASE = process.env.BASE_PATH || '/';
-const ORIGIN = process.env.SITE_ORIGIN || 'https://coratexkorea.vercel.app';
+/* 배포 도메인. Vercel 은 VERCEL_PROJECT_PRODUCTION_URL 을 주입합니다.
+   최종 도메인이 확정되면 SITE_ORIGIN 으로 고정하세요. */
+const ORIGIN =
+  process.env.SITE_ORIGIN ||
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : 'https://coratexkorea-react.vercel.app');
 
 const { render, routes } = await import(path.join(ROOT, 'dist-ssr/entry-server.js'));
 
@@ -61,6 +67,7 @@ for (const r of routes) {
   const pageUrl = ORIGIN + BASE + (r.file === 'index.html' ? '' : r.file);
 
   let html = template
+    .replaceAll('__ORIGIN__', ORIGIN + BASE.replace(/\/$/, ''))
     .replace('<!--app-html-->', appHtml)
     .replace('</head>', `${hoisted.join('')}\n</head>`)
     .replace(/<title>.*?<\/title>/, `<title>${r.title}</title>`)
@@ -121,6 +128,15 @@ console.log(`  ✓ sitemap.xml (${sitemapEntries.length} URL)`);
 // GitHub Pages 가 Jekyll 처리를 건너뛰도록
 fs.writeFileSync(path.join(DIST, '.nojekyll'), '');
 
+// robots.txt — sitemap 주소가 실제 배포 도메인을 가리키도록 생성
+fs.writeFileSync(
+  path.join(DIST, 'robots.txt'),
+  `User-agent: *\nAllow: /\n\n` +
+  `# 내부 전용 페이지 — 색인 제외\n` +
+  `Disallow: /edit.html\nDisallow: /edit\n\n` +
+  `Sitemap: ${ORIGIN}${BASE}sitemap.xml\n`
+);
+
 // 템플릿 원본은 배포본에 불필요
 fs.rmSync(path.join(DIST, 'index.source.html'), { force: true });
 
@@ -136,6 +152,7 @@ fs.rmSync(path.join(DIST, 'index.source.html'), { force: true });
       return '';
     });
     return template
+      .replaceAll('__ORIGIN__', ORIGIN + BASE.replace(/\/$/, ''))
       .replace('<!--app-html-->', appHtml)
       .replace('</head>', `${hoisted.join('')}\n</head>`)
       .replace(/<title>.*?<\/title>/, '<title>페이지를 찾을 수 없습니다 (404) | 코라텍스 (CORATEX)</title>')

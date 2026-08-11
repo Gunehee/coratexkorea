@@ -36,7 +36,11 @@ function Header() {
     <header className="site-header">
       <div className="container nav-wrap">
         <Link className="brand" to={href('/')} aria-label="코라텍스 CORATEX 홈으로">
-          <span className="brand-name">코라텍스 CORATEX</span>
+          {/* 워드마크 — 한글은 부제, 영문 CORATEX 가 주가 되도록 분리했습니다. */}
+          <span className="brand-name">
+            <span className="brand-ko">코라텍스</span>
+            <span className="brand-en">CORATEX</span>
+          </span>
           {/* 원본 태그라인 그대로 — 한자(地平商社) 포함 */}
           <span className="brand-tag">
             <Kr>{globalCopy.taglineKo}</Kr>

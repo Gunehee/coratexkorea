@@ -993,18 +993,47 @@ body[data-lang="kr"] .form-field label .en { display: none; }
    로고 이미지는 파비콘·공유 카드에만 쓰고 사이트 안에서는 쓰지 않습니다.
    ========================================================== */
 .brand {
+  align-items: center;   /* 2단 워드마크와 태그라인의 세로 중심을 맞춥니다 */
   flex-wrap: wrap;
-  gap: 2px 12px;
+  gap: 4px 14px;
 }
+/* 워드마크 — 한글(부제) + 영문(주제) 2단 구성.
+   굵기·자간·크기 대비로 로고 이미지 없이도 브랜드감을 냅니다. */
 .brand-name {
-  font-size: 22px;
-  font-weight: 800;
-  color: var(--white);
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  line-height: 1;
   white-space: nowrap;
+  padding-left: 15px;
+  border-left: 3px solid var(--orange);
 }
 
+/* 한글: 작고 넓은 자간의 부제 */
+.brand-ko {
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: .42em;   /* 넓은 자간이 고급스러운 인상을 줍니다 */
+  text-indent: .42em;      /* 자간 때문에 생기는 오른쪽 여백 보정 */
+  color: var(--orange);
+  margin-bottom: 5px;
+}
+
+/* 영문: 크고 굵은 주제 */
+.brand-en {
+  font-size: 29px;
+  font-weight: 800;
+  letter-spacing: .015em;
+  color: var(--white);
+}
+
+@media (max-width: 900px) {
+  .brand-en { font-size: 25px; }
+}
 @media (max-width: 720px) {
-  .brand-name { font-size: 19px; }
+  .brand-name { padding-left: 12px; border-left-width: 3px; }
+  .brand-ko   { font-size: 11px; letter-spacing: .34em; text-indent: .34em; }
+  .brand-en   { font-size: 22px; }
 }
 
 /* 인쇄 시 불필요한 요소 제거 (거래처가 사양서를 뽑는 경우 대비) */

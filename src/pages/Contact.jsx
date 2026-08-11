@@ -4,29 +4,67 @@ import ContactCard, { MailFallbackHint } from '../components/ContactCard';
 import { useLanguage } from '../i18n/LanguageContext';
 import { useFormSubmit } from '../hooks/useFormSubmit';
 import { hasFormEndpoint } from '../data/formEndpoint';
+import {
+  formatPhone,
+  validateName, validateCompany, validatePhone, validateMessage,
+} from '../utils/validation';
 
 /** 문의 페이지 — 백엔드·데이터베이스 없이 전송됩니다.
  *  (자동 전송 연동 시 버튼 한 번, 미연동 시 메일 앱을 통해 전송) */
 export default function Contact() {
   const { lang } = useLanguage();
   const [form, setForm] = useState({ name: '', phone: '', company: '', message: '' });
-  const nameRef = useRef(null);
-  const phoneRef = useRef(null);
+  const [errors, setErrors] = useState({});
 
-  const set = (k) => (e) => setForm({ ...form, [k]: e.target.value });
+  const refs = {
+    name: useRef(null),
+    phone: useRef(null),
+    company: useRef(null),
+    message: useRef(null),
+  };
+
   const t = (ko, en) => (lang === 'en' ? en : ko);
   const { submit, msg, setMsg } = useFormSubmit(t);
+
+  /* 전화번호는 입력하는 동안 자동으로 하이픈을 넣어줍니다. */
+  const set = (k) => (e) => {
+    const raw = e.target.value;
+    const value = k === 'phone' ? formatPhone(raw) : raw;
+    setForm((f) => ({ ...f, [k]: value }));
+    /* 사용자가 고치기 시작하면 해당 칸의 오류 표시를 지웁니다. */
+    if (errors[k]) setErrors((prev) => ({ ...prev, [k]: null }));
+  };
+
+  /* 칸을 벗어날 때 그 칸만 검사해 바로 알려줍니다. */
+  const checkOn = (k, fn) => () => {
+    const err = fn(form[k], t);
+    setErrors((prev) => ({ ...prev, [k]: err }));
+  };
+
+  const validators = {
+    name: (v) => validateName(v, t),
+    phone: (v) => validatePhone(v, t),
+    company: (v) => validateCompany(v, t),
+    message: (v) => validateMessage(v, t),
+  };
 
   async function onSubmit(e) {
     e.preventDefault();
 
-    if (!form.name.trim() || !form.phone.trim()) {
+    const found = {};
+    for (const k of ['name', 'phone', 'company', 'message']) {
+      const err = validators[k](form[k]);
+      if (err) found[k] = err;
+    }
+    setErrors(found);
+
+    const firstBad = ['name', 'phone', 'company', 'message'].find((k) => found[k]);
+    if (firstBad) {
       setMsg({
         ok: false,
-        text: t('성함과 연락처를 입력해 주세요.', 'Please enter your name and phone number.'),
+        text: t('입력하신 내용을 다시 확인해 주세요.', 'Please check the highlighted fields.'),
       });
-      /* 오류 시 첫 번째 빈 칸으로 포커스를 옮깁니다. */
-      (!form.name.trim() ? nameRef : phoneRef).current?.focus();
+      refs[firstBad].current?.focus();
       return;
     }
 
@@ -42,6 +80,35 @@ export default function Contact() {
       ],
     });
   }
+
+  /** 입력칸 + 오류 메시지 묶음 */
+  const field = (k, { label, labelEn, type = 'text', required, autoComplete, hint, hintEn, textarea }) => (
+    <div className={`form-field ${errors[k] ? 'has-error' : ''}`}>
+      <label htmlFor={`f-${k}`}>
+        <Kr>{label}</Kr> <En>{labelEn}</En>
+        {required && <span className="required" aria-hidden="true">*</span>}
+      </label>
+      {hint && (
+        <span className="field-hint" id={`f-${k}-hint`}>
+          <Kr>{hint}</Kr><En>{hintEn}</En>
+        </span>
+      )}
+      {textarea ? (
+        <textarea ref={refs[k]} id={`f-${k}`} value={form[k]}
+          onChange={set(k)} onBlur={checkOn(k, validators[k])}
+          aria-invalid={errors[k] ? 'true' : undefined}
+          aria-describedby={hint ? `f-${k}-hint` : undefined} />
+      ) : (
+        <input ref={refs[k]} type={type} id={`f-${k}`} value={form[k]}
+          onChange={set(k)} onBlur={checkOn(k, validators[k])}
+          autoComplete={autoComplete}
+          inputMode={k === 'phone' ? 'tel' : undefined}
+          aria-invalid={errors[k] ? 'true' : undefined}
+          aria-describedby={hint ? `f-${k}-hint` : undefined} />
+      )}
+      {errors[k] && <span className="field-error" role="alert">{errors[k]}</span>}
+    </div>
+  );
 
   return (
     <section className="section">
@@ -75,30 +142,27 @@ export default function Contact() {
             {!hasFormEndpoint && <MailFallbackHint />}
 
             <form onSubmit={onSubmit} noValidate>
-              <div className="form-field">
-                <label htmlFor="f-name">
-                  <Kr>성함</Kr> <En>Name</En>
-                  <span className="required" aria-hidden="true">*</span>
-                </label>
-                <input ref={nameRef} type="text" id="f-name" value={form.name}
-                  onChange={set('name')} autoComplete="name" required />
-              </div>
-              <div className="form-field">
-                <label htmlFor="f-phone">
-                  <Kr>연락처</Kr> <En>Phone</En>
-                  <span className="required" aria-hidden="true">*</span>
-                </label>
-                <input ref={phoneRef} type="tel" id="f-phone" value={form.phone}
-                  onChange={set('phone')} autoComplete="tel" required />
-              </div>
-              <div className="form-field">
-                <label htmlFor="f-company"><Kr>회사</Kr> <En>Company</En></label>
-                <input type="text" id="f-company" value={form.company} onChange={set('company')} autoComplete="organization" />
-              </div>
-              <div className="form-field">
-                <label htmlFor="f-message"><Kr>문의 내용</Kr> <En>Message</En></label>
-                <textarea id="f-message" value={form.message} onChange={set('message')} />
-              </div>
+              {field('name', {
+                label: '성함', labelEn: 'Name', required: true, autoComplete: 'name',
+                hint: '숫자 없이 이름만 입력해 주세요. (예: 홍길동)',
+                hintEn: 'Letters only (e.g. Hong Gil-dong)',
+              })}
+              {field('phone', {
+                label: '연락처', labelEn: 'Phone', type: 'tel', required: true, autoComplete: 'tel',
+                hint: '숫자만 입력하시면 하이픈(-)이 자동으로 들어갑니다.',
+                hintEn: 'Type digits only — hyphens are added automatically.',
+              })}
+              {field('company', {
+                label: '회사', labelEn: 'Company', autoComplete: 'organization',
+                hint: '선택 항목입니다.',
+                hintEn: 'Optional.',
+              })}
+              {field('message', {
+                label: '문의 내용', labelEn: 'Message', textarea: true,
+                hint: '선택 항목입니다. 궁금하신 점을 자유롭게 적어 주세요.',
+                hintEn: 'Optional. Tell us what you need.',
+              })}
+
               <button type="submit" className="btn btn-primary"><Kr>보내기</Kr><En>Send</En></button>
               <p className={`form-msg ${msg ? 'is-visible' : ''} ${msg?.ok ? 'is-ok' : 'is-error'}`}
                 role="status" aria-live="polite">

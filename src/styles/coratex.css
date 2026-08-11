@@ -1091,3 +1091,54 @@ body[data-lang="kr"] .form-field label .en { display: none; }
   letter-spacing: .03em;
 }
 .click-hint svg { flex-shrink: 0; color: var(--orange); }
+
+/* ==========================================================
+   폼 입력 안내 / 오류 표시
+   ========================================================== */
+
+/* 각 칸 아래 안내 문구 (입력 형식 가이드) */
+.field-hint {
+  display: block;
+  margin: -2px 0 8px;
+  color: var(--muted);
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+}
+
+/* 오류 메시지 */
+.field-error {
+  display: block;
+  margin-top: 7px;
+  padding-left: 22px;
+  position: relative;
+  color: #A62828;
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  line-height: 1.5;
+}
+.field-error::before {
+  content: "!";
+  position: absolute;
+  left: 0;
+  top: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #D14343;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  text-align: center;
+  line-height: 16px;
+}
+
+/* 오류가 있는 칸은 테두리로도 알려줍니다 (색만으로 구분하지 않도록) */
+.form-field.has-error input,
+.form-field.has-error textarea {
+  border-color: #D14343;
+  background: #FEF8F8;
+}
+.form-field.has-error input:focus,
+.form-field.has-error textarea:focus {
+  border-color: #D14343;
+}

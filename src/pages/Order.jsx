@@ -5,14 +5,17 @@ import { useLanguage } from '../i18n/LanguageContext';
 import { useFormSubmit } from '../hooks/useFormSubmit';
 import { company, telHref } from '../data/site';
 import { hasFormEndpoint } from '../data/formEndpoint';
+import {
+  formatPhone, formatQty,
+  validateCompany, validateAddress, validatePhone, validateQty,
+} from '../utils/validation';
 
 /** 발주 페이지 — 백엔드·데이터베이스 없이 전송됩니다.
  *  (자동 전송 연동 시 버튼 한 번, 미연동 시 메일 앱을 통해 전송) */
 export default function Order() {
   const { lang } = useLanguage();
   const [form, setForm] = useState({ company: '', address: '', phone: '', qty: '' });
-  const t = (ko, en) => (lang === 'en' ? en : ko);
-  const { submit, msg, setMsg } = useFormSubmit(t);
+  const [errors, setErrors] = useState({});
 
   const refs = {
     company: useRef(null),
@@ -21,34 +24,53 @@ export default function Order() {
     qty: useRef(null),
   };
 
-  const set = (k) => (e) => setForm({ ...form, [k]: e.target.value });
+  const t = (ko, en) => (lang === 'en' ? en : ko);
+  const { submit, msg, setMsg } = useFormSubmit(t);
+
+  /* 전화·수량은 입력하는 동안 자동으로 정리됩니다. */
+  const set = (k) => (e) => {
+    const raw = e.target.value;
+    const value =
+      k === 'phone' ? formatPhone(raw) :
+      k === 'qty' ? formatQty(raw) : raw;
+    setForm((f) => ({ ...f, [k]: value }));
+    if (errors[k]) setErrors((prev) => ({ ...prev, [k]: null }));
+  };
+
+  const checkOn = (k, fn) => () => {
+    setErrors((prev) => ({ ...prev, [k]: fn(form[k], t) }));
+  };
+
+  const validators = {
+    company: (v) => validateCompany(v, t, { required: true }),
+    address: (v) => validateAddress(v, t),
+    phone: (v) => validatePhone(v, t),
+    qty: (v) => validateQty(v, t),
+  };
+
+  const order = ['company', 'address', 'phone', 'qty'];
 
   async function onSubmit(e) {
     e.preventDefault();
 
-    /* 4개 항목 모두 필수 — 하나라도 비면 첫 번째 빈 칸으로 포커스를 옮깁니다. */
-    const order = ['company', 'address', 'phone', 'qty'];
-    const empty = order.find((k) => !form[k].trim());
-    if (empty) {
+    const found = {};
+    for (const k of order) {
+      const err = validators[k](form[k]);
+      if (err) found[k] = err;
+    }
+    setErrors(found);
+
+    const firstBad = order.find((k) => found[k]);
+    if (firstBad) {
       setMsg({
         ok: false,
-        text: t('모든 항목을 입력해 주세요.', 'Please fill in every field.'),
+        text: t('입력하신 내용을 다시 확인해 주세요.', 'Please check the highlighted fields.'),
       });
-      refs[empty].current?.focus();
+      refs[firstBad].current?.focus();
       return;
     }
 
-    /* 수량은 1 이상의 숫자만 받습니다. */
     const qty = Number(form.qty);
-    if (!Number.isFinite(qty) || qty < 1) {
-      setMsg({
-        ok: false,
-        text: t('수량은 1 이상의 숫자로 입력해 주세요.', 'Quantity must be a number of 1 or more.'),
-      });
-      refs.qty.current?.focus();
-      return;
-    }
-
     await submit({
       subject: `[홈페이지 발주] ${form.company} / 코라텍스 ${qty}통`,
       bodyLines: [
@@ -61,6 +83,28 @@ export default function Order() {
       ],
     });
   }
+
+  const field = (k, { label, labelEn, type = 'text', autoComplete, hint, hintEn, extra }) => (
+    <div className={`form-field ${errors[k] ? 'has-error' : ''}`}>
+      <label htmlFor={`o-${k}`}>
+        <Kr>{label}</Kr> <En>{labelEn}</En>
+        <span className="required" aria-hidden="true">*</span>
+      </label>
+      {hint && (
+        <span className="field-hint" id={`o-${k}-hint`}>
+          <Kr>{hint}</Kr><En>{hintEn}</En>
+        </span>
+      )}
+      <input ref={refs[k]} type={type} id={`o-${k}`} value={form[k]}
+        onChange={set(k)} onBlur={checkOn(k, validators[k])}
+        autoComplete={autoComplete}
+        inputMode={k === 'phone' ? 'tel' : k === 'qty' ? 'numeric' : undefined}
+        aria-invalid={errors[k] ? 'true' : undefined}
+        aria-describedby={hint ? `o-${k}-hint` : undefined}
+        {...extra} />
+      {errors[k] && <span className="field-error" role="alert">{errors[k]}</span>}
+    </div>
+  );
 
   return (
     <section className="section">
@@ -92,41 +136,26 @@ export default function Order() {
             {!hasFormEndpoint && <MailFallbackHint />}
 
             <form onSubmit={onSubmit} noValidate>
-              <div className="form-field">
-                <label htmlFor="o-company">
-                  <Kr>회사명</Kr> <En>Company</En>
-                  <span className="required" aria-hidden="true">*</span>
-                </label>
-                <input ref={refs.company} type="text" id="o-company" value={form.company}
-                  onChange={set('company')} autoComplete="organization" required />
-              </div>
-
-              <div className="form-field">
-                <label htmlFor="o-address">
-                  <Kr>회사(받는) 주소</Kr> <En>Delivery address</En>
-                  <span className="required" aria-hidden="true">*</span>
-                </label>
-                <input ref={refs.address} type="text" id="o-address" value={form.address}
-                  onChange={set('address')} autoComplete="street-address" required />
-              </div>
-
-              <div className="form-field">
-                <label htmlFor="o-phone">
-                  <Kr>연락처</Kr> <En>Phone</En>
-                  <span className="required" aria-hidden="true">*</span>
-                </label>
-                <input ref={refs.phone} type="tel" id="o-phone" value={form.phone}
-                  onChange={set('phone')} autoComplete="tel" required />
-              </div>
-
-              <div className="form-field">
-                <label htmlFor="o-qty">
-                  <Kr>수량(통)</Kr> <En>Quantity (containers)</En>
-                  <span className="required" aria-hidden="true">*</span>
-                </label>
-                <input ref={refs.qty} type="number" id="o-qty" value={form.qty}
-                  onChange={set('qty')} min="1" step="1" inputMode="numeric" required />
-              </div>
+              {field('company', {
+                label: '회사명', labelEn: 'Company', autoComplete: 'organization',
+                hint: '사업자등록증상의 상호를 입력해 주세요.',
+                hintEn: 'As shown on your business registration.',
+              })}
+              {field('address', {
+                label: '회사(받는) 주소', labelEn: 'Delivery address', autoComplete: 'street-address',
+                hint: '건물번호까지 정확히 입력해 주세요. (예: 서울특별시 도봉구 마들로 11가길 12)',
+                hintEn: 'Include the building number.',
+              })}
+              {field('phone', {
+                label: '연락처', labelEn: 'Phone', type: 'tel', autoComplete: 'tel',
+                hint: '숫자만 입력하시면 하이픈(-)이 자동으로 들어갑니다.',
+                hintEn: 'Type digits only — hyphens are added automatically.',
+              })}
+              {field('qty', {
+                label: '수량(통)', labelEn: 'Quantity (containers)',
+                hint: '숫자만 입력해 주세요. (1~999통)',
+                hintEn: 'Numbers only (1–999).',
+              })}
 
               <button type="submit" className="btn btn-primary">
                 <Kr>발주 보내기</Kr><En>Send order</En>

@@ -87,6 +87,18 @@ export default function Contact() {
                 Filling this in opens your email app. Nothing is stored on a server.
               </En>
             </p>
+            <p className="form-hint">
+              <Kr>
+                ※ 메일 앱이 열리지 않으면 <a href={telHref}>{company.mobile}</a> 로
+                전화 주시거나 <a href={`mailto:${company.email}`}>{company.email}</a> 로
+                보내 주십시오.
+              </Kr>
+              <En>
+                ※ If your email app does not open, please call{' '}
+                <a href={telHref}>{company.mobile}</a> or email{' '}
+                <a href={`mailto:${company.email}`}>{company.email}</a>.
+              </En>
+            </p>
 
             <form onSubmit={onSubmit} noValidate>
               <div className="form-field">

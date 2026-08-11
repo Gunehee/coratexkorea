@@ -56,6 +56,10 @@ for (const r of routes) {
     return '';
   });
 
+  /* 페이지별 canonical / og:url — 중복 콘텐츠로 오인되지 않도록
+     각 페이지가 자기 주소를 정확히 가리키게 합니다. */
+  const pageUrl = ORIGIN + BASE + (r.file === 'index.html' ? '' : r.file);
+
   let html = template
     .replace('<!--app-html-->', appHtml)
     .replace('</head>', `${hoisted.join('')}\n</head>`)
@@ -63,6 +67,22 @@ for (const r of routes) {
     .replace(
       /<meta name="description" content=".*?">/,
       `<meta name="description" content="${r.desc}">`
+    )
+    .replace(
+      /<link rel="canonical" href=".*?">/,
+      `<link rel="canonical" href="${pageUrl}">`
+    )
+    .replace(
+      /<meta property="og:url" content=".*?">/,
+      `<meta property="og:url" content="${pageUrl}">`
+    )
+    .replace(
+      /<meta property="og:title" content=".*?">/,
+      `<meta property="og:title" content="${r.title}">`
+    )
+    .replace(
+      /<meta property="og:description" content=".*?">/,
+      `<meta property="og:description" content="${r.desc}">`
     );
 
   // 내부 전용 페이지는 색인 제외

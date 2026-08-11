@@ -1,5 +1,5 @@
 import { NavLink, Link } from 'react-router-dom';
-import { nav, company, telHref, telHrefLine, href, globalCopy } from '../data/site';
+import { nav, company, telHref, telHrefLine, href, globalCopy, withBase } from '../data/site';
 import { LanguageProvider, LanguageSwitch } from '../i18n/LanguageContext';
 
 /** 국문 아래 영문을 병기하는 공통 표기.
@@ -35,9 +35,16 @@ function Header() {
   return (
     <header className="site-header">
       <div className="container nav-wrap">
-        <Link className="brand" to={href('/')}>
-          코라텍스 CORATEX
+        <Link className="brand" to={href('/')} aria-label="코라텍스 CORATEX 홈으로">
+          <img className="brand-logo" src={withBase('logo-light.svg')}
+            alt="코라텍스 CORATEX — 지평상사" width="260" height="64" />
+          {/* 원본 태그라인은 보존하되, 로고와 중복되는 회사명은 로고가 담당합니다. */}
           <span className="brand-tag">
+            <Kr>✮ 정직이 원칙입니다</Kr>
+            <En>✮ Honest is our policy</En>
+          </span>
+          {/* 원문 전체는 스크린리더·검색엔진용으로 유지합니다. */}
+          <span className="sr-only">
             <Kr>{globalCopy.taglineKo}</Kr>
             <En>{globalCopy.taglineEn}</En>
           </span>

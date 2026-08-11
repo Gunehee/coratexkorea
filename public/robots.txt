@@ -3,5 +3,6 @@ Allow: /
 
 # 내부 전용 페이지 — 색인 제외
 Disallow: /edit.html
+Disallow: /edit
 
-Sitemap: https://gunehee.github.io/CORATEX_WebD/sitemap.xml
+Sitemap: https://coratexkorea.vercel.app/sitemap.xml

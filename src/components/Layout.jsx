@@ -67,7 +67,6 @@ function Header() {
         </nav>
         <div className="nav-actions">
           <LanguageSwitch />
-          <a className="nav-call" href={telHref}>전화 {company.mobile}</a>
         </div>
       </div>
     </header>

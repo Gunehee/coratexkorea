@@ -225,18 +225,6 @@ textarea:focus-visible {
   color: var(--white);
 }
 
-.nav-call {
-  display: inline-block;
-  padding: 11px 18px;
-  border-radius: 999px;
-  background: var(--orange);
-  color: var(--white) !important;
-  font-weight: 800;
-  text-decoration: none;
-  white-space: nowrap;
-}
-.nav-call:hover { background: var(--orange-dark); }
-
 /* ============================ 버튼 ============================ */
 
 .btn {
@@ -813,7 +801,6 @@ a.stat-card:hover {
   /* 5개 메뉴가 한 줄에 갇히지 않도록 nowrap 해제 */
   .nav-menu a { font-size: 16px; padding: 10px 12px; white-space: normal; }
   .nav-menu li { flex: 0 1 auto; }
-  .nav-call { width: 100%; text-align: center; }
 
   .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
 

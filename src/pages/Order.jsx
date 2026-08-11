@@ -79,8 +79,6 @@ export default function Order() {
         </div>
 
         <div className="grid grid-2">
-          <ContactCard />
-
           <div className="card buy-card">
             <h3><Kr>발주하기</Kr> <En>Place an order</En></h3>
             <p style={{ marginBottom: 18 }}>
@@ -147,6 +145,8 @@ export default function Order() {
               </En>
             </p>
           </div>
+
+          <ContactCard />
         </div>
       </div>
     </section>

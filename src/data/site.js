@@ -465,8 +465,6 @@ export const globalCopy = {
   taglineEmphasisKo: '✮ 정직이 원칙입니다',
   taglinePrefixEn: 'CORATEX KOREA | JI PYEONG Corp',
   taglineEmphasisEn: '✮ Honest is our policy',
-  soleKo: '✳ 국내 독점 유통',
-  soleEn: '✳ Sole Distributorship in Korea',
   /* 공정 상세 페이지(injection/extrusion/blow_molding)의 원본 표기 */
   companyLineLongKo: '지 평 상 사 | JI PYEONG Corp (독점권자)',
   companyLineLongEn: 'JI PYEONG Corp (Sole Distributor in Korea)',

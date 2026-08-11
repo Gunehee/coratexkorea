@@ -747,16 +747,6 @@ a.stat-card:hover {
   border-radius: var(--radius);
   padding: 24px;
 }
-.footer-sole {
-  display: inline-block;
-  margin-bottom: 16px;
-  padding: 6px 14px;
-  border-radius: 999px;
-  background: var(--orange);
-  color: var(--white);
-  font-size: 15px;
-  font-weight: 800;
-}
 .contact-list { list-style: none; margin: 0; padding: 0; }
 .contact-list li {
   display: grid;
@@ -918,12 +908,7 @@ a.stat-card:hover {
   font-size: var(--fs-sm);
 }
 
-/* 푸터 — 독점권자 / 개인정보처리방침 */
-.footer-sole {
-  display: block;
-  color: rgba(255, 255, 255, .72);
-  font-size: var(--fs-sm);
-}
+/* 푸터 — 개인정보처리방침 */
 .footer-privacy { margin-bottom: 10px; }
 .footer-privacy a { color: #fff; font-weight: 700; }
 .footer-privacy-lead {
@@ -1101,3 +1086,21 @@ body[data-lang="kr"] .form-field label .en { display: none; }
   width: 100%;
   margin: 0 auto;
 }
+
+/* 사용 방법 섹션 — "이미지를 클릭하세요" 조작 힌트 배지.
+   본문 설명과 분리해 절제된 톤으로 표현합니다. */
+.click-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 10px;
+  padding: 7px 16px 7px 12px;
+  border: 1.5px solid var(--orange);
+  border-radius: 999px;
+  color: var(--orange-dark);
+  background: var(--orange-soft);
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  letter-spacing: .03em;
+}
+.click-hint svg { flex-shrink: 0; color: var(--orange); }

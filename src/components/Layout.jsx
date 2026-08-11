@@ -84,10 +84,6 @@ function Footer() {
               <Kr>{globalCopy.companyLineLongKo}</Kr>
               <En>{globalCopy.companyLineLongEn}</En>
             </h2>
-            <span className="footer-sole">
-              <Kr>{globalCopy.soleKo}</Kr>
-              <En>{globalCopy.soleEn}</En>
-            </span>
             <ul className="contact-list">
               <li>
                 <span className="label"><Kr>주소</Kr><En>Address</En></span>

@@ -81,9 +81,20 @@ export default function Home() {
           <div className="section-head">
             <h2><Kr>사용 방법</Kr> <En>How to Use</En></h2>
             <p>
-              <Kr>코라텍스 특성과 간단 사용법&lt;*이미지를 클릭하세요&gt;</Kr>
-              <En>Coratex characteristics &amp; simple usage&lt;*Click an image&gt;</En>
+              <Kr>코라텍스 특성과 간단 사용법</Kr>
+              <En>Coratex characteristics &amp; simple usage</En>
             </p>
+            {/* 원본의 <*이미지를 클릭하세요> 안내를 별도 배지로 분리 —
+                본문 설명과 조작 힌트를 시각적으로 구분해 고급스럽게 표현합니다. */}
+            <span className="click-hint">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M9 3v11.5M9 3 5.5 6.5M9 3l3.5 3.5" stroke="currentColor"
+                  strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                <rect x="3.5" y="14" width="17" height="7" rx="3.5" stroke="currentColor" strokeWidth="1.8" />
+              </svg>
+              <Kr>이미지를 클릭하세요</Kr>
+              <En>Click an image</En>
+            </span>
           </div>
           <div className="grid grid-3">
             {list.map((p) => <ProcessCard key={p.slug} p={p} cta="상세 보기" />)}

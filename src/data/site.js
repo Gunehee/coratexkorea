@@ -28,8 +28,8 @@ export const company = {
   fax: '02-908-7909',
   mobile: '010-8596-5562',
   email: '0822gblessy@naver.com',
-  addressKo: '서울특별시 도봉구 마들로 11가길 12 다모아빌딩 403호',
-  addressEn: '12, Madeul-ro 11ga-gil, Dobong-gu, Seoul (Damoa Building, #403)',
+  addressKo: '서울특별시 도봉구 마들로 11가길 12 다모아빌딩 4층',
+  addressEn: '12, Madeul-ro 11ga-gil, Dobong-gu, Seoul (Damoa Building, 4F)',
   bankKo: '신한은행 110-013-196656 (지평상사 조경배)',
   bankEn: 'Shinhan Bank 110-013-196656 (JI Pyeong Corp. Cho Kyung Bae)',
 };
@@ -391,8 +391,8 @@ export const aboutFeatures = [
 ];
 
 export const aboutEconomy = [
-  { ko: '1,500~2,800원/kg대 도전 가능', en: 'Achievable at KRW 1,500–2,800 per kg' },
-  { ko: '20만원대 투자로 원료 600~1,000kg 절감 도전 가능', en: 'Save 600–1,000 kg of material with an investment of about KRW 200,000' },
+  { ko: '2,500~3,500원/kg대 도전 가능', en: 'Achievable at KRW 2,500–3,500 per kg' },
+  { ko: '30만원대 투자로 원료 600~1,000kg 절감 도전 가능', en: 'Save 600–1,000 kg of material with an investment of about KRW 300,000' },
   { ko: '전기세 40% 절감 도전 가능', en: 'Up to 40% electricity cost savings' },
   { ko: '재활용 도전 가능', en: 'Recycling achievable' },
 ];
@@ -460,10 +460,13 @@ export const stats = [
 export const globalCopy = {
   taglineKo: 'CORATEX KOREA | 지평상사(地平商社) ✮ 정직이 원칙입니다',
   taglineEn: 'CORATEX KOREA | JI PYEONG Corp ✮ Honest is our policy',
+  /* 헤더에서 "✮ 정직이 원칙입니다" 부분만 강조색(흰색)으로 표시하기 위해 분리 */
+  taglinePrefixKo: 'CORATEX KOREA | 지평상사(地平商社)',
+  taglineEmphasisKo: '✮ 정직이 원칙입니다',
+  taglinePrefixEn: 'CORATEX KOREA | JI PYEONG Corp',
+  taglineEmphasisEn: '✮ Honest is our policy',
   soleKo: '✳ 국내 독점 유통',
   soleEn: '✳ Sole Distributorship in Korea',
-  companyLineKo: '지 평 상 사 |',
-  companyLineEn: 'JI PYEONG Corp(Sole distributor)',
   /* 공정 상세 페이지(injection/extrusion/blow_molding)의 원본 표기 */
   companyLineLongKo: '지 평 상 사 | JI PYEONG Corp (독점권자)',
   companyLineLongEn: 'JI PYEONG Corp (Sole Distributor in Korea)',
@@ -561,7 +564,7 @@ export const aboutAssumptions = {
     {
       labelKo: '대표 케이스(예시):',
       labelEn: 'Representative case (example):',
-      ko: '기존 퍼징/분해 청소 대비, 교체 작업(퍼징·대기) 시간과 스크랩(버림 원료) 감소가 관측되는 라인',
+      ko: '기존 퍼징/분해 청소 대비, 교체 작업(퍼징·대기) 시간과 스크랩(재생 원료) 감소가 예측됩니다.',
       en: 'Compared to conventional purging/disassembly cleaning, changeover time and purge scrap decrease on the same line',
     },
     {

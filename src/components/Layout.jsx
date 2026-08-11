@@ -41,10 +41,17 @@ function Header() {
             <span className="brand-ko">코라텍스</span>
             <span className="brand-en">CORATEX</span>
           </span>
-          {/* 원본 태그라인 그대로 — 한자(地平商社) 포함 */}
+          {/* 원본 태그라인 그대로 — 한자(地平商社) 포함.
+              "✮ 정직이 원칙입니다" 부분만 흰색으로 강조합니다. */}
           <span className="brand-tag">
-            <Kr>{globalCopy.taglineKo}</Kr>
-            <En>{globalCopy.taglineEn}</En>
+            <Kr>
+              {globalCopy.taglinePrefixKo}{' '}
+              <span className="brand-tag-emphasis">{globalCopy.taglineEmphasisKo}</span>
+            </Kr>
+            <En>
+              {globalCopy.taglinePrefixEn}{' '}
+              <span className="brand-tag-emphasis">{globalCopy.taglineEmphasisEn}</span>
+            </En>
           </span>
         </Link>
         <nav aria-label="주 메뉴">
@@ -77,10 +84,6 @@ function Footer() {
               <Kr>{globalCopy.companyLineLongKo}</Kr>
               <En>{globalCopy.companyLineLongEn}</En>
             </h2>
-            <span className="footer-distributor">
-              <Kr>{globalCopy.companyLineKo}</Kr>
-              <En>{globalCopy.companyLineEn}</En>
-            </span>
             <span className="footer-sole">
               <Kr>{globalCopy.soleKo}</Kr>
               <En>{globalCopy.soleEn}</En>

@@ -119,7 +119,7 @@ export default function Order() {
 
               <div className="form-field">
                 <label htmlFor="o-qty">
-                  <Kr>수량 (통)</Kr> <En>Quantity (containers)</En>
+                  <Kr>수량(통)</Kr> <En>Quantity (containers)</En>
                   <span className="required" aria-hidden="true">*</span>
                 </label>
                 <input ref={refs.qty} type="number" id="o-qty" value={form.qty}

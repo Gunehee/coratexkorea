@@ -919,7 +919,6 @@ a.stat-card:hover {
 }
 
 /* 푸터 — 독점권자 / 개인정보처리방침 */
-.footer-distributor,
 .footer-sole {
   display: block;
   color: rgba(255, 255, 255, .72);
@@ -1082,3 +1081,23 @@ body[data-lang="kr"] .form-field label .en { display: none; }
   line-height: 1.6;
 }
 .form-note a { font-weight: 700; }
+
+/* 헤더 태그라인 중 "✮ 정직이 원칙입니다" 부분만 흰색 강조 */
+.brand-tag-emphasis {
+  color: var(--white);
+  font-weight: 700;
+}
+
+/* 소개 페이지 — 제품 사진 카드.
+   원본 소스 해상도(2000×1332)의 한계로 큰 폭에서는 다소 부드럽게 보이므로,
+   실제 표시 폭을 줄여 체감 선명도를 높이고 여백으로 카드 안에 안정감 있게 배치합니다. */
+.about-bottles-card {
+  display: flex;
+  justify-content: center;
+  background: linear-gradient(180deg, var(--orange-soft) 0%, var(--surface) 60%);
+}
+.about-bottles-img {
+  max-width: 560px;
+  width: 100%;
+  margin: 0 auto;
+}

@@ -65,8 +65,9 @@ export default function About() {
           </dl>
         </div>
 
-        <div className="card" style={{ marginTop: 34, padding: 20 }}>
-          <img src={withBase("images/coratex-bottles.png")} alt="코라텍스(CORATEX) 및 코라텍스 HT 세정제 용기" width="2000" height="1332" />
+        <div className="card about-bottles-card" style={{ marginTop: 34, padding: 20 }}>
+          <img className="about-bottles-img" src={withBase("images/coratex-bottles.png")}
+            alt="코라텍스(CORATEX) 및 코라텍스 HT 세정제 용기" width="2000" height="1332" />
         </div>
       </div>
     </section>

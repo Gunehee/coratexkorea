@@ -989,20 +989,22 @@ body[data-lang="kr"] .form-field label .en { display: none; }
 }
 
 /* ==========================================================
-   로고 / 브랜드
+   브랜드 (헤더) — 텍스트 스타일.
+   로고 이미지는 파비콘·공유 카드에만 쓰고 사이트 안에서는 쓰지 않습니다.
    ========================================================== */
-.brand-logo {
-  height: 42px;
-  width: auto;
-  display: block;
-}
 .brand {
   flex-wrap: wrap;
-  gap: 4px 12px;
+  gap: 2px 12px;
+}
+.brand-name {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--white);
+  white-space: nowrap;
 }
 
 @media (max-width: 720px) {
-  .brand-logo { height: 34px; }
+  .brand-name { font-size: 19px; }
 }
 
 /* 인쇄 시 불필요한 요소 제거 (거래처가 사양서를 뽑는 경우 대비) */

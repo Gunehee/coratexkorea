@@ -150,36 +150,42 @@ export default function Home() {
             </p>
           </div>
           <div className="grid grid-3">
-            <div className="card buy-card reveal">
-              <h3><Kr>계좌 이체</Kr> <En>Bank Transfer</En></h3>
-              <dl>
-                <dt><Kr>입금 계좌</Kr><En>Account</En></dt>
-                <dd><Kr>{company.bankKo}</Kr><En>Shinhan Bank 110-013-196656 (JI Pyeong Corp., Cho Kyung Bae)</En></dd>
-              </dl>
+            <div className="reveal">
+              <div className="card buy-card">
+                <h3><Kr>계좌 이체</Kr> <En>Bank Transfer</En></h3>
+                <dl>
+                  <dt><Kr>입금 계좌</Kr><En>Account</En></dt>
+                  <dd><Kr>{company.bankKo}</Kr><En>Shinhan Bank 110-013-196656 (JI Pyeong Corp., Cho Kyung Bae)</En></dd>
+                </dl>
+              </div>
             </div>
-            <div className="card buy-card reveal" data-delay="1">
-              <h3><Kr>팩스 주문</Kr> <En>Fax Order</En></h3>
-              <dl>
-                <dt><Kr>주문 방법</Kr><En>How to order</En></dt>
-                <dd>
-                  <Kr>주문서 작성 후 사업자등록증 사본과 함께 팩스 또는 이메일로 보내주세요.</Kr>
-                  <En>Fill out the order form and send it with your business registration certificate via fax or email.</En>
-                  FAX: <strong>{company.fax}</strong><br />
-                  <Kr>이메일:</Kr><En>Email:</En> <a href={`mailto:${company.email}`}>{company.email}</a>
-                </dd>
-              </dl>
+            <div className="reveal" data-delay="1">
+              <div className="card buy-card">
+                <h3><Kr>팩스 주문</Kr> <En>Fax Order</En></h3>
+                <dl>
+                  <dt><Kr>주문 방법</Kr><En>How to order</En></dt>
+                  <dd>
+                    <Kr>주문서 작성 후 사업자등록증 사본과 함께 팩스 또는 이메일로 보내주세요.</Kr>
+                    <En>Fill out the order form and send it with your business registration certificate via fax or email.</En>
+                    FAX: <strong>{company.fax}</strong><br />
+                    <Kr>이메일:</Kr><En>Email:</En> <a href={`mailto:${company.email}`}>{company.email}</a>
+                  </dd>
+                </dl>
+              </div>
             </div>
-            <div className="card buy-card reveal" data-delay="2">
-              <h3><Kr>전화 / 이메일</Kr> <En>Phone / Email</En></h3>
-              <dl>
-                <dt><Kr>전화 주문</Kr><En>Phone order</En></dt>
-                <dd>
-                  <Kr>전화 주문 (사업자등록증 사본 사진 전송)</Kr>
-                  <En>Order by phone (send a photo of your business registration certificate)</En>
-                  <Kr>전화번호:</Kr><En>Phone:</En> <a href={telHref}>{company.mobile}</a><br />
-                  <Kr>이메일:</Kr><En>Email:</En> <a href={`mailto:${company.email}`}>{company.email}</a>
-                </dd>
-              </dl>
+            <div className="reveal" data-delay="2">
+              <div className="card buy-card">
+                <h3><Kr>전화 / 이메일</Kr> <En>Phone / Email</En></h3>
+                <dl>
+                  <dt><Kr>전화 주문</Kr><En>Phone order</En></dt>
+                  <dd>
+                    <Kr>전화 주문 (사업자등록증 사본 사진 전송)</Kr>
+                    <En>Order by phone (send a photo of your business registration certificate)</En>
+                    <Kr>전화번호:</Kr><En>Phone:</En> <a href={telHref}>{company.mobile}</a><br />
+                    <Kr>이메일:</Kr><En>Email:</En> <a href={`mailto:${company.email}`}>{company.email}</a>
+                  </dd>
+                </dl>
+              </div>
             </div>
           </div>
         </div>
@@ -190,16 +196,18 @@ export default function Home() {
           <div className="section-head"><h2><Kr>자매 제품</Kr> <En>Sister Products</En></h2></div>
           <div className="grid grid-3">
             {sisterProducts.map((s, i) => (
-              <div className="card product-card reveal" data-delay={i} key={s.en}>
-                <img src={s.image} alt={s.alt} width="600" height="600" />
-                <h3><Kr>브랜드: {s.ko}</Kr> <En>Brand: {s.en}</En></h3>
-                <span className="origin"><Kr>독일산</Kr> <En>From Germany</En></span>
-                <dl>
-                  <dt><Kr>용도:</Kr> <En>Use:</En></dt>
-                  <dd><Kr>{s.useKo}</Kr><En>{s.useEn}</En></dd>
-                  <dt><Kr>분야:</Kr> <En>Field:</En></dt>
-                  <dd><Kr>{s.fieldKo}</Kr><En>{s.fieldEn}</En></dd>
-                </dl>
+              <div className="reveal" data-delay={i} key={s.en}>
+                <div className="card product-card">
+                  <img src={s.image} alt={s.alt} width="600" height="600" />
+                  <h3><Kr>브랜드: {s.ko}</Kr> <En>Brand: {s.en}</En></h3>
+                  <span className="origin"><Kr>독일산</Kr> <En>From Germany</En></span>
+                  <dl>
+                    <dt><Kr>용도:</Kr> <En>Use:</En></dt>
+                    <dd><Kr>{s.useKo}</Kr><En>{s.useEn}</En></dd>
+                    <dt><Kr>분야:</Kr> <En>Field:</En></dt>
+                    <dd><Kr>{s.fieldKo}</Kr><En>{s.fieldEn}</En></dd>
+                  </dl>
+                </div>
               </div>
             ))}
           </div>

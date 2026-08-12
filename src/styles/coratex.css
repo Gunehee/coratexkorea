@@ -1236,19 +1236,35 @@ body[data-lang="kr"] .form-field label .en { display: none; }
 }
 .process-card:hover,
 .stat-card[href]:hover,
-a.stat-card:hover {
+a.stat-card:hover,
+.buy-card:hover,
+.product-card:hover {
   transform: translateY(-4px);
   box-shadow: var(--shadow-md);
 }
 /* 공정 카드 이미지 — 살짝 확대되며 안쪽으로 당겨지는 느낌 */
-.process-card img {
+.process-card img,
+.product-card img {
   transition: transform var(--dur-slow) var(--ease-out);
   will-change: transform;
 }
 .process-card:hover img { transform: scale(1.045); }
+.product-card:hover img { transform: scale(1.06); }
 /* 화살표가 앞으로 나아감 */
 .card-go { transition: transform var(--dur-base) var(--ease-out); display: inline-block; }
 .process-card:hover .card-go { transform: translateX(5px); }
+
+/* 구매 방법 카드 — hover 시 제목이 진해지며 살짝 이동 */
+.buy-card h3 {
+  transition: color var(--dur-fast) var(--ease-soft), transform var(--dur-base) var(--ease-out);
+}
+.buy-card:hover h3 { color: var(--orange); transform: translateX(2px); }
+
+/* 자매 제품 카드 — hover 시 브랜드명 강조 */
+.product-card h3 {
+  transition: color var(--dur-fast) var(--ease-soft);
+}
+.product-card:hover h3 { color: var(--orange-dark); }
 
 /* ---------- 내비게이션 ---------- */
 .nav-menu a {
@@ -1322,8 +1338,12 @@ tbody tr { transition: background-color var(--dur-fast) var(--ease-soft); }
 tbody tr:hover { background: var(--orange-soft); }
 
 /* ---------- 스크롤 진입 애니메이션 ---------- */
-/* JS 가 .reveal 요소를 관찰하다가 화면에 들어오면 .is-in 을 붙입니다. */
+/* JS 가 .reveal 요소를 관찰하다가 화면에 들어오면 .is-in 을 붙입니다.
+   hover 효과(translateY 등)와 진입 애니메이션이 같은 transform 속성을
+   두고 충돌하지 않도록, .reveal 은 항상 카드를 감싸는 별도 wrapper 로
+   둡니다 (카드 자신에는 .reveal 을 붙이지 않습니다). */
 .reveal {
+  height: 100%;   /* grid 안에서 카드 높이가 그대로 채워지도록 */
   opacity: 0;
   transform: translateY(14px);
   transition:
@@ -1366,7 +1386,8 @@ html:not(.js) .reveal { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1 !important; transform: none !important; }
   .btn:hover, .process-card:hover, .floating-call:hover,
-  a.stat-card:hover { transform: none !important; }
-  .process-card:hover img { transform: none !important; }
+  a.stat-card:hover, .buy-card:hover, .product-card:hover { transform: none !important; }
+  .process-card:hover img, .product-card:hover img { transform: none !important; }
+  .buy-card:hover h3, .product-card:hover h3 { color: inherit !important; transform: none !important; }
   .nav-menu a::after { display: none; }
 }

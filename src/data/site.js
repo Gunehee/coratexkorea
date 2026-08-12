@@ -497,7 +497,7 @@ export const globalCopy = {
   privacyLeadEn: 'You can read our Privacy Policy here.',
   trademarkKo: '※ Coratex HT® 및 productivity with marks purging®는 SAINT-GOBAIN Abrasives의 등록 상표입니다.',
   trademarkEn: '※ Coratex HT® and productivity with marks purging® are registered trade of SAINT-GOBAIN Abrasives.',
-  copyright: '© 2024 All Rights Reserved By JI PYEONG Corp',
+  copyright: '© 2026 All Rights Reserved By JI PYEONG Corp',
 };
 
 /* 개인정보처리방침 본문 — 원본 privacy-policy.html 그대로 */

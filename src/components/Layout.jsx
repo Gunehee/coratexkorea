@@ -148,8 +148,9 @@ function Footer() {
 }
 
 export default function Layout({ children }) {
-  /* 페이지가 바뀔 때마다 새로 나타난 .reveal 요소를 관찰합니다. */
-  useReveal([children]);
+  /* 페이지가 바뀔 때마다 새로 나타난 .reveal 요소를 관찰합니다.
+     (훅 내부에서 라우트 경로를 감지합니다) */
+  useReveal();
 
   return (
     <LanguageProvider>

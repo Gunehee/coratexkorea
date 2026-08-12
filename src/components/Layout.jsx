@@ -1,6 +1,7 @@
 import { NavLink, Link } from 'react-router-dom';
 import { nav, company, telHref, telHrefLine, href, globalCopy } from '../data/site';
 import { LanguageProvider, LanguageSwitch } from '../i18n/LanguageContext';
+import { useReveal } from '../hooks/useReveal';
 
 /** 국문 아래 영문을 병기하는 공통 표기.
  *  body[data-lang="kr"] 이면 숨겨지고, "en" 이면 본문 크기로 표시됩니다. */
@@ -147,6 +148,9 @@ function Footer() {
 }
 
 export default function Layout({ children }) {
+  /* 페이지가 바뀔 때마다 새로 나타난 .reveal 요소를 관찰합니다. */
+  useReveal([children]);
+
   return (
     <LanguageProvider>
       <a className="skip-link" href="#main"><Kr>본문 바로가기</Kr><En>Skip to content</En></a>

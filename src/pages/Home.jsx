@@ -100,7 +100,11 @@ export default function Home() {
             </span>
           </div>
           <div className="grid grid-3">
-            {list.map((p) => <ProcessCard key={p.slug} p={p} cta={t('상세 보기', 'View details')} />)}
+            {list.map((p, i) => (
+              <div className="reveal" data-delay={i} key={p.slug}>
+                <ProcessCard p={p} cta={t('상세 보기', 'View details')} />
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -115,7 +119,7 @@ export default function Home() {
             </p>
           </div>
           <div className="grid grid-4">
-            {stats.map((s) => {
+            {stats.map((s, i) => {
               const inner = (
                 <>
                   <div className="stat-num">{s.num}</div>
@@ -128,9 +132,10 @@ export default function Home() {
                   )}
                 </>
               );
+              const cls = 'stat-card reveal';
               return s.to
-                ? <Link className="stat-card" to={href(s.to)} key={s.num}>{inner}</Link>
-                : <div className="stat-card" key={s.num}>{inner}</div>;
+                ? <Link className={cls} data-delay={i} to={href(s.to)} key={s.num}>{inner}</Link>
+                : <div className={cls} data-delay={i} key={s.num}>{inner}</div>;
             })}
           </div>
         </div>
@@ -145,14 +150,14 @@ export default function Home() {
             </p>
           </div>
           <div className="grid grid-3">
-            <div className="card buy-card">
+            <div className="card buy-card reveal">
               <h3><Kr>계좌 이체</Kr> <En>Bank Transfer</En></h3>
               <dl>
                 <dt><Kr>입금 계좌</Kr><En>Account</En></dt>
                 <dd><Kr>{company.bankKo}</Kr><En>Shinhan Bank 110-013-196656 (JI Pyeong Corp., Cho Kyung Bae)</En></dd>
               </dl>
             </div>
-            <div className="card buy-card">
+            <div className="card buy-card reveal" data-delay="1">
               <h3><Kr>팩스 주문</Kr> <En>Fax Order</En></h3>
               <dl>
                 <dt><Kr>주문 방법</Kr><En>How to order</En></dt>
@@ -164,7 +169,7 @@ export default function Home() {
                 </dd>
               </dl>
             </div>
-            <div className="card buy-card">
+            <div className="card buy-card reveal" data-delay="2">
               <h3><Kr>전화 / 이메일</Kr> <En>Phone / Email</En></h3>
               <dl>
                 <dt><Kr>전화 주문</Kr><En>Phone order</En></dt>
@@ -184,8 +189,8 @@ export default function Home() {
         <div className="container">
           <div className="section-head"><h2><Kr>자매 제품</Kr> <En>Sister Products</En></h2></div>
           <div className="grid grid-3">
-            {sisterProducts.map((s) => (
-              <div className="card product-card" key={s.en}>
+            {sisterProducts.map((s, i) => (
+              <div className="card product-card reveal" data-delay={i} key={s.en}>
                 <img src={s.image} alt={s.alt} width="600" height="600" />
                 <h3><Kr>브랜드: {s.ko}</Kr> <En>Brand: {s.en}</En></h3>
                 <span className="origin"><Kr>독일산</Kr> <En>From Germany</En></span>

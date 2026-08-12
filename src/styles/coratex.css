@@ -1174,3 +1174,199 @@ body[data-lang="kr"] .form-field label .en { display: none; }
   color: var(--muted);
   font-size: var(--fs-sm);
 }
+
+/* ==========================================================
+   모션 시스템
+   50대 이상 B2B 고객이 주 사용자이므로, 화려함보다
+   "반응이 확실하고 묵직한" 감각을 목표로 합니다.
+   · 짧고 절제된 지속시간 (0.2~0.5s)
+   · 감속 곡선 위주 (요소가 부드럽게 멈춤)
+   · 위치 이동은 최소 (2~6px), 과한 튐 없음
+   ========================================================== */
+
+:root {
+  --ease-out: cubic-bezier(.22, .61, .36, 1);
+  --ease-soft: cubic-bezier(.4, 0, .2, 1);
+  --dur-fast: .18s;
+  --dur-base: .28s;
+  --dur-slow: .45s;
+}
+
+/* ---------- 버튼 ---------- */
+.btn {
+  position: relative;
+  overflow: hidden;
+  transition:
+    background-color var(--dur-fast) var(--ease-soft),
+    border-color var(--dur-fast) var(--ease-soft),
+    color var(--dur-fast) var(--ease-soft),
+    transform var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-base) var(--ease-out);
+}
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(14, 42, 84, .18);
+}
+.btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(14, 42, 84, .16);
+  transition-duration: .06s;
+}
+/* 눌림 순간 번지는 광택 — 클릭이 확실히 전달됩니다 */
+.btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at var(--rx, 50%) var(--ry, 50%),
+              rgba(255, 255, 255, .45), transparent 45%);
+  opacity: 0;
+  transition: opacity .5s var(--ease-out);
+  pointer-events: none;
+}
+.btn:active::after { opacity: 1; transition-duration: 0s; }
+.btn:disabled:hover,
+.btn[aria-disabled="true"]:hover { transform: none; box-shadow: none; }
+
+/* ---------- 카드 ---------- */
+.card {
+  transition:
+    transform var(--dur-base) var(--ease-out),
+    box-shadow var(--dur-base) var(--ease-out),
+    border-color var(--dur-base) var(--ease-soft);
+}
+.process-card:hover,
+.stat-card[href]:hover,
+a.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+/* 공정 카드 이미지 — 살짝 확대되며 안쪽으로 당겨지는 느낌 */
+.process-card img {
+  transition: transform var(--dur-slow) var(--ease-out);
+  will-change: transform;
+}
+.process-card:hover img { transform: scale(1.045); }
+/* 화살표가 앞으로 나아감 */
+.card-go { transition: transform var(--dur-base) var(--ease-out); display: inline-block; }
+.process-card:hover .card-go { transform: translateX(5px); }
+
+/* ---------- 내비게이션 ---------- */
+.nav-menu a {
+  position: relative;
+  transition: background-color var(--dur-fast) var(--ease-soft),
+              color var(--dur-fast) var(--ease-soft);
+}
+/* 현재 페이지가 아닌 항목에만 밑줄이 자라납니다 */
+.nav-menu a:not([aria-current="page"])::after {
+  content: "";
+  position: absolute;
+  left: 15px; right: 15px; bottom: 6px;
+  height: 2px;
+  background: var(--orange);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--dur-base) var(--ease-out);
+}
+.nav-menu a:not([aria-current="page"]):hover::after { transform: scaleX(1); }
+
+/* ---------- 링크 ---------- */
+.contact-list a,
+.footer-privacy a {
+  transition: color var(--dur-fast) var(--ease-soft),
+              opacity var(--dur-fast) var(--ease-soft);
+}
+.contact-list a:hover { opacity: .78; }
+
+/* ---------- 언어 전환 ---------- */
+.lang-switch button {
+  transition: background-color var(--dur-base) var(--ease-out),
+              color var(--dur-fast) var(--ease-soft);
+}
+
+/* ---------- 플로팅 전화 버튼 ---------- */
+.floating-call {
+  transition: transform var(--dur-base) var(--ease-out),
+              box-shadow var(--dur-base) var(--ease-out);
+}
+.floating-call:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 12px 28px rgba(200, 90, 24, .38);
+}
+
+/* ---------- 입력 폼 ---------- */
+.form-field input,
+.form-field textarea {
+  transition: border-color var(--dur-fast) var(--ease-soft),
+              box-shadow var(--dur-fast) var(--ease-soft),
+              background-color var(--dur-fast) var(--ease-soft);
+}
+.form-field input:focus,
+.form-field textarea:focus {
+  box-shadow: 0 0 0 4px rgba(232, 114, 42, .14);
+}
+/* 오류 메시지가 아래에서 부드럽게 나타남 */
+.field-error {
+  animation: fieldErrorIn var(--dur-base) var(--ease-out) both;
+}
+@keyframes fieldErrorIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+/* 전송 결과 안내 */
+.form-msg.is-visible {
+  animation: fieldErrorIn var(--dur-slow) var(--ease-out) both;
+}
+
+/* ---------- 표 ---------- */
+tbody tr { transition: background-color var(--dur-fast) var(--ease-soft); }
+tbody tr:hover { background: var(--orange-soft); }
+
+/* ---------- 스크롤 진입 애니메이션 ---------- */
+/* JS 가 .reveal 요소를 관찰하다가 화면에 들어오면 .is-in 을 붙입니다. */
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity var(--dur-slow) var(--ease-out),
+    transform var(--dur-slow) var(--ease-out);
+}
+.reveal.is-in { opacity: 1; transform: none; }
+/* 카드가 연달아 나타나도록 약간의 시차 */
+.reveal[data-delay="1"] { transition-delay: .08s; }
+.reveal[data-delay="2"] { transition-delay: .16s; }
+.reveal[data-delay="3"] { transition-delay: .24s; }
+
+/* JS 가 없거나 실행 전이면 항상 보이도록 (콘텐츠 유실 방지) */
+.no-js .reveal,
+html:not(.js) .reveal { opacity: 1; transform: none; }
+
+/* ---------- 히어로 진입 ---------- */
+.hero-eyebrow, .hero h1, .hero-tag, .hero-lead, .hero .btn-row, .hero-note {
+  animation: heroIn var(--dur-slow) var(--ease-out) both;
+}
+.hero h1        { animation-delay: .05s; }
+.hero-tag       { animation-delay: .10s; }
+.hero-lead      { animation-delay: .15s; }
+.hero .btn-row  { animation-delay: .20s; }
+.hero-note      { animation-delay: .26s; }
+@keyframes heroIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: none; }
+}
+.hero-media img {
+  animation: heroMediaIn .7s var(--ease-out) both;
+  animation-delay: .12s;
+}
+@keyframes heroMediaIn {
+  from { opacity: 0; transform: scale(.97); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ---------- 모션 최소화 선호 시 전부 해제 ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1 !important; transform: none !important; }
+  .btn:hover, .process-card:hover, .floating-call:hover,
+  a.stat-card:hover { transform: none !important; }
+  .process-card:hover img { transform: none !important; }
+  .nav-menu a::after { display: none; }
+}

@@ -32,17 +32,17 @@ export default function About() {
         </div>
 
         <div className="grid grid-2" style={{ marginTop: 34 }}>
-          <div className="card buy-card">
+          <div className="card buy-card reveal">
             <h3><Kr>핵심 특징</Kr> <En>Key Features</En></h3>
             <FeatureList items={aboutFeatures} />
           </div>
-          <div className="card buy-card">
+          <div className="card buy-card reveal" data-delay="1">
             <h3><Kr>경제성 · 효율</Kr> <En>Cost Efficiency</En></h3>
             <FeatureList items={aboutEconomy} />
           </div>
         </div>
 
-        <div className="card assumptions" style={{ marginTop: 34, padding: 20 }}>
+        <div className="card assumptions reveal" style={{ marginTop: 34, padding: 20 }}>
           <h3>
             <Kr>{aboutAssumptions.titleKo}</Kr> <En>{aboutAssumptions.titleEn}</En>
           </h3>
@@ -65,7 +65,7 @@ export default function About() {
           </dl>
         </div>
 
-        <div className="card about-bottles-card" style={{ marginTop: 34, padding: 20 }}>
+        <div className="card about-bottles-card reveal" style={{ marginTop: 34, padding: 20 }}>
           <img className="about-bottles-img" src={withBase("images/coratex-bottles.png")}
             alt="코라텍스(CORATEX) 및 코라텍스 HT 세정제 용기" width="2000" height="1332" />
         </div>

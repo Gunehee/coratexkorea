@@ -21,7 +21,11 @@ export default function Use() {
             <p><Kr>* 아래 공정 카드를 선택하면 상세 사용방법으로 이동합니다.</Kr><En>* Select a process card below to see detailed instructions.</En></p>
           </div>
           <div className="grid grid-3">
-            {list.map((p) => <ProcessCard key={p.slug} p={p} cta={t('사용량·절차 보기', 'View dosage & steps')} />)}
+            {list.map((p, i) => (
+              <div className="reveal" data-delay={i} key={p.slug}>
+                <ProcessCard p={p} cta={t('사용량·절차 보기', 'View dosage & steps')} />
+              </div>
+            ))}
           </div>
         </div>
       </section>

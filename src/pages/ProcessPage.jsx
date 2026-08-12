@@ -5,7 +5,7 @@ import { commonSteps, blackSpotNote, principle, href } from '../data/site';
 
 function Step({ n, ko, en, items }) {
   return (
-    <div className="step">
+    <div className="step reveal">
       <div className="step-title">
         <span className="step-num">{n}</span>
         <Kr>{ko}</Kr><En>{en}</En>
@@ -72,7 +72,7 @@ export default function ProcessPage({ process }) {
           <div className="section-head"><h2><Kr>원리</Kr> <En>Principle</En></h2></div>
           <div className="grid grid-2">
             {principle.map((x, i) => (
-              <div className="card effect-card" key={i}>
+              <div className="card effect-card reveal" data-delay={i % 3} key={i}>
                 <p><Kr>{x.ko}</Kr><En>{x.en}</En></p>
               </div>
             ))}

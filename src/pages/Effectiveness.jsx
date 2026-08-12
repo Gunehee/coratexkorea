@@ -13,7 +13,7 @@ export default function Effectiveness() {
           </div>
           <div className="grid grid-2">
             {effects.map((e) => (
-              <div className="card effect-card" key={e.n}>
+              <div className="card effect-card reveal" data-delay={e.n % 4} key={e.n}>
                 <span className="effect-tag"><Kr>효과 {e.n}</Kr><En>Effect {e.n}</En></span>
                 <p><Kr>{e.ko}</Kr><En>{e.en}</En></p>
               </div>

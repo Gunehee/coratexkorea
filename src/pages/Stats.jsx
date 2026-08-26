@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { En, Kr } from '../components/Layout';
+import { useCountUp } from '../hooks/useCountUp';
 
 /**
  * 방문 현황 — 공개 페이지.
@@ -38,6 +39,12 @@ function useStats() {
 }
 
 const fmt = (n) => (n ?? 0).toLocaleString('ko-KR');
+
+/** 0에서 목표값까지 올라가는 숫자 */
+function CountUp({ value, duration }) {
+  const n = useCountUp(value, duration);
+  return <>{fmt(n)}</>;
+}
 
 const WEEKDAY_KO = ['일', '월', '화', '수', '목', '금', '토'];
 const WEEKDAY_EN = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -113,37 +120,37 @@ export default function Stats() {
         {state === 'ok' && data && (
           <>
             {/* 누적 — 가장 크게 */}
-            <div className="stat-hero reveal">
+            <div className="stat-hero appear">
               <span className="stat-hero-label">
                 <Kr>누적 방문자</Kr><En>Total visitors</En>
               </span>
-              <strong className="stat-hero-num">{fmt(data.total)}</strong>
+              <strong className="stat-hero-num"><CountUp value={data.total} duration={1400} /></strong>
               <span className="stat-hero-unit"><Kr>명</Kr></span>
             </div>
 
             {/* 기간별 */}
             <div className="grid grid-3" style={{ marginTop: 26 }}>
-              <div className="reveal">
+              <div className="appear" style={{ animationDelay: '.05s' }}>
                 <div className="card stat-tile">
                   <span className="stat-tile-label"><Kr>오늘</Kr><En>Today</En></span>
-                  <strong className="stat-tile-num">{fmt(data.today)}</strong>
+                  <strong className="stat-tile-num"><CountUp value={data.today} /></strong>
                   <span className="stat-tile-sub"><Kr>명</Kr><En>visitors</En></span>
                 </div>
               </div>
-              <div className="reveal" data-delay="1">
+              <div className="appear" style={{ animationDelay: '.13s' }}>
                 <div className="card stat-tile">
                   <span className="stat-tile-label"><Kr>최근 7일</Kr><En>Last 7 days</En></span>
-                  <strong className="stat-tile-num">{fmt(data.week)}</strong>
+                  <strong className="stat-tile-num"><CountUp value={data.week} /></strong>
                   <span className="stat-tile-sub">
                     <Kr>명 · 하루 평균 {fmt(Math.round(data.week / 7))}명</Kr>
                     <En>visitors · {fmt(Math.round(data.week / 7))} per day</En>
                   </span>
                 </div>
               </div>
-              <div className="reveal" data-delay="2">
+              <div className="appear" style={{ animationDelay: '.21s' }}>
                 <div className="card stat-tile">
                   <span className="stat-tile-label"><Kr>이번 달</Kr><En>This month</En></span>
-                  <strong className="stat-tile-num">{fmt(data.month)}</strong>
+                  <strong className="stat-tile-num"><CountUp value={data.month} /></strong>
                   <span className="stat-tile-sub">
                     <Kr>명 (1일부터 오늘까지)</Kr><En>visitors (month to date)</En>
                   </span>
@@ -152,7 +159,7 @@ export default function Stats() {
             </div>
 
             {/* 추이 */}
-            <div className="reveal">
+            <div className="appear" style={{ animationDelay: '.29s' }}>
               <div className="card" style={{ marginTop: 26, padding: 24 }}>
                 <h3 style={{ marginBottom: 4 }}>
                   <Kr>최근 7일 추이</Kr> <En>Last 7 days</En>

@@ -1597,3 +1597,50 @@ html:not(.js) .reveal { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) {
   .visit-summary { animation: none; }
 }
+
+/* ==========================================================
+   데이터를 받은 뒤 렌더되는 요소의 등장 효과
+   (.reveal 은 페이지 로드 시점에 관찰하므로 이런 요소에는
+    적용되지 않습니다 — 별도 클래스를 씁니다)
+   ========================================================== */
+.appear {
+  animation: appearIn var(--dur-slow) var(--ease-out) both;
+}
+@keyframes appearIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* 숫자는 고정폭으로 — 카운트업 중 자릿수가 바뀌어도 흔들리지 않습니다 */
+.stat-hero-num,
+.stat-tile-num,
+.visit-summary-num,
+.visit-summary-item strong,
+.trend-value {
+  font-variant-numeric: tabular-nums;
+}
+
+/* 7일 추이 막대 — 아래에서 자라나는 효과 */
+.trend-bar {
+  transform-origin: bottom;
+  animation: barGrow .75s var(--ease-out) both;
+}
+.trend-col:nth-child(1) .trend-bar { animation-delay: .30s; }
+.trend-col:nth-child(2) .trend-bar { animation-delay: .37s; }
+.trend-col:nth-child(3) .trend-bar { animation-delay: .44s; }
+.trend-col:nth-child(4) .trend-bar { animation-delay: .51s; }
+.trend-col:nth-child(5) .trend-bar { animation-delay: .58s; }
+.trend-col:nth-child(6) .trend-bar { animation-delay: .65s; }
+.trend-col:nth-child(7) .trend-bar { animation-delay: .72s; }
+@keyframes barGrow {
+  from { transform: scaleY(0); opacity: .4; }
+  to   { transform: scaleY(1); opacity: 1; }
+}
+
+/* 누적 방문자 — 값이 크게 보이도록 은은한 강조 */
+.stat-hero-num { text-shadow: 0 2px 12px rgba(0, 0, 0, .18); }
+
+@media (prefers-reduced-motion: reduce) {
+  .appear { animation: none; }
+  .trend-bar { animation: none; transform: none; }
+}

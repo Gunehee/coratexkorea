@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { En, Kr } from './Layout';
 import { href } from '../data/site';
+import { useCountUp } from '../hooks/useCountUp';
 
 /**
  * 홈 화면용 방문 현황 요약.
@@ -24,9 +25,14 @@ export default function VisitCounter() {
     return () => { alive = false; };
   }, []);
 
-  if (!data) return null;
-
   const fmt = (n) => (n ?? 0).toLocaleString('ko-KR');
+
+  /* 훅은 조건문보다 먼저 호출되어야 합니다 (React 규칙) */
+  const totalUp = useCountUp(data?.total ?? 0, 1400);
+  const todayUp = useCountUp(data?.today ?? 0, 900);
+  const monthUp = useCountUp(data?.month ?? 0, 1100);
+
+  if (!data) return null;
 
   return (
     <div className="visit-summary">
@@ -34,19 +40,19 @@ export default function VisitCounter() {
         <span className="visit-summary-label">
           <Kr>누적 방문자</Kr><En>Total visitors</En>
         </span>
-        <strong className="visit-summary-num">{fmt(data.total)}</strong>
+        <strong className="visit-summary-num">{fmt(totalUp)}</strong>
         <span className="visit-summary-unit"><Kr>명</Kr></span>
       </div>
 
       <div className="visit-summary-side">
         <span className="visit-summary-item">
           <span className="visit-summary-k"><Kr>오늘</Kr><En>Today</En></span>
-          <strong>{fmt(data.today)}</strong>
+          <strong>{fmt(todayUp)}</strong>
         </span>
         <span className="visit-summary-divider" aria-hidden="true" />
         <span className="visit-summary-item">
           <span className="visit-summary-k"><Kr>이번 달</Kr><En>This month</En></span>
-          <strong>{fmt(data.month)}</strong>
+          <strong>{fmt(monthUp)}</strong>
         </span>
         <Link className="visit-summary-link" to={href('/stats')}>
           <Kr>자세히 보기</Kr><En>Details</En> →

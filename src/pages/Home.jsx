@@ -140,8 +140,6 @@ export default function Home() {
             })}
           </div>
 
-          {/* 방문 현황 — 고객사 수치와 함께 신뢰도를 보여주는 자리 */}
-          <VisitCounter />
         </div>
       </section>
 
@@ -215,6 +213,15 @@ export default function Home() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* 방문 현황 — 제품 정보를 다 본 뒤 마지막에 조용히 전합니다.
+          "4000+ 고객사" 옆에 두면 방문자 수가 적을 때 대비되어
+          오히려 초라해 보이므로 문장형으로 하단에 배치했습니다. */}
+      <section className="section visit-section">
+        <div className="container">
+          <VisitCounter />
         </div>
       </section>
     </>

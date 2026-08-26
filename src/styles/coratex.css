@@ -1498,107 +1498,6 @@ html:not(.js) .reveal { opacity: 1; transform: none; }
 }
 
 /* ==========================================================
-   홈 화면 — 방문 현황 요약
-   (네이비 배경의 .stats 섹션 안에 들어갑니다)
-   ========================================================== */
-.visit-summary {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 18px 28px;
-  flex-wrap: wrap;
-  margin-top: 26px;
-  padding: 20px 26px;
-  border-radius: var(--radius);
-  background: rgba(255, 255, 255, .08);
-  border: 1px solid rgba(255, 255, 255, .16);
-}
-
-/* 누적 방문자 — 왼쪽 강조 */
-.visit-summary-main {
-  display: flex;
-  align-items: baseline;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-.visit-summary-label {
-  color: rgba(255, 255, 255, .78);
-  font-size: var(--fs-sm);
-  font-weight: 700;
-}
-.visit-summary-num {
-  font-size: clamp(28px, 4vw, 38px);
-  font-weight: 800;
-  color: var(--white);
-  letter-spacing: -.01em;
-  line-height: 1;
-}
-.visit-summary-unit {
-  color: rgba(255, 255, 255, .78);
-  font-size: var(--fs-sm);
-  font-weight: 700;
-}
-
-/* 오늘 / 이번 달 — 오른쪽 보조 */
-.visit-summary-side {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-.visit-summary-item {
-  display: flex;
-  align-items: baseline;
-  gap: 7px;
-  color: var(--white);
-}
-.visit-summary-k {
-  color: rgba(255, 255, 255, .72);
-  font-size: var(--fs-sm);
-}
-.visit-summary-item strong {
-  font-size: var(--fs-lg);
-  font-weight: 800;
-}
-.visit-summary-divider {
-  width: 1px;
-  height: 20px;
-  background: rgba(255, 255, 255, .22);
-}
-.visit-summary-link {
-  color: var(--orange);
-  font-weight: 800;
-  font-size: var(--fs-sm);
-  text-decoration: none;
-  white-space: nowrap;
-  transition: color var(--dur-fast) var(--ease-soft),
-              transform var(--dur-base) var(--ease-out);
-  display: inline-block;
-}
-.visit-summary-link:hover {
-  color: var(--white);
-  transform: translateX(3px);
-}
-
-@media (max-width: 720px) {
-  .visit-summary { padding: 18px 20px; }
-  .visit-summary-side { width: 100%; justify-content: flex-start; }
-}
-
-/* 방문 현황은 데이터를 받은 뒤 렌더되므로 스크롤 관찰(.reveal) 대상이
-   되지 못합니다. 나타날 때 자체적으로 부드럽게 등장시킵니다. */
-.visit-summary {
-  animation: visitSummaryIn var(--dur-slow) var(--ease-out) both;
-}
-@keyframes visitSummaryIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: none; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .visit-summary { animation: none; }
-}
-
-/* ==========================================================
    데이터를 받은 뒤 렌더되는 요소의 등장 효과
    (.reveal 은 페이지 로드 시점에 관찰하므로 이런 요소에는
     적용되지 않습니다 — 별도 클래스를 씁니다)
@@ -1614,8 +1513,6 @@ html:not(.js) .reveal { opacity: 1; transform: none; }
 /* 숫자는 고정폭으로 — 카운트업 중 자릿수가 바뀌어도 흔들리지 않습니다 */
 .stat-hero-num,
 .stat-tile-num,
-.visit-summary-num,
-.visit-summary-item strong,
 .trend-value {
   font-variant-numeric: tabular-nums;
 }
@@ -1643,4 +1540,61 @@ html:not(.js) .reveal { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) {
   .appear { animation: none; }
   .trend-bar { animation: none; transform: none; }
+}
+
+/* ==========================================================
+   홈 화면 하단 — 방문 현황 문장형 띠
+   ========================================================== */
+.visit-section {
+  padding-top: 0;
+  padding-bottom: 46px;
+}
+.visit-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 24px;
+  flex-wrap: wrap;
+  padding: 20px 26px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  /* 데이터를 받은 뒤 렌더되므로 자체 등장 효과를 씁니다 */
+  animation: appearIn var(--dur-slow) var(--ease-out) both;
+}
+.visit-strip-text {
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--fs-base);
+  line-height: 1.6;
+}
+.visit-strip-text strong {
+  color: var(--navy-deep);
+  font-size: clamp(24px, 3vw, 30px);
+  font-weight: 800;
+  margin: 0 4px;
+  font-variant-numeric: tabular-nums;
+  vertical-align: -1px;
+}
+.visit-strip-link {
+  color: var(--orange-dark);
+  font-weight: 800;
+  font-size: var(--fs-sm);
+  text-decoration: none;
+  white-space: nowrap;
+  display: inline-block;
+  transition: color var(--dur-fast) var(--ease-soft),
+              transform var(--dur-base) var(--ease-out);
+}
+.visit-strip-link:hover {
+  color: var(--orange);
+  transform: translateX(3px);
+}
+
+@media (max-width: 720px) {
+  .visit-strip { padding: 18px 20px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .visit-strip { animation: none; }
+  .visit-strip-link:hover { transform: none; }
 }

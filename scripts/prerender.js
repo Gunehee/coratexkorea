@@ -41,6 +41,7 @@ const PRIORITY = {
   'blow_molding.html': '0.8',
   'order.html': '0.8',
   'contact.html': '0.7',
+  'stats.html': '0.5',
 };
 
 const today = new Date().toISOString().slice(0, 10);
@@ -134,8 +135,7 @@ fs.writeFileSync(
   path.join(DIST, 'robots.txt'),
   `User-agent: *\nAllow: /\n\n` +
   `# 내부 전용 페이지 — 색인 제외\n` +
-  `Disallow: /edit.html\nDisallow: /edit\n` +
-  `Disallow: /stats.html\nDisallow: /stats\n\n` +
+  `Disallow: /edit.html\nDisallow: /edit\n\n` +
   `Sitemap: ${ORIGIN}${BASE}sitemap.xml\n`
 );
 

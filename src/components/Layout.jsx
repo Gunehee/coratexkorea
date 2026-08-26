@@ -116,7 +116,7 @@ function Footer() {
               <li>
                 <span className="label"><Kr>안내</Kr><En>Info</En></span>
                 <span>
-                  <Link to={href('/about')}><Kr>소개</Kr><En>About</En></Link> · <Link to={href('/effectiveness')}><Kr>제품 효과</Kr><En>Effectiveness</En></Link> · <Link to={href('/order')}><Kr>발주</Kr><En>Order</En></Link> · <Link to={href('/contact')}><Kr>문의</Kr><En>Contact</En></Link>
+                  <Link to={href('/about')}><Kr>소개</Kr><En>About</En></Link> · <Link to={href('/effectiveness')}><Kr>제품 효과</Kr><En>Effectiveness</En></Link> · <Link to={href('/order')}><Kr>발주</Kr><En>Order</En></Link> · <Link to={href('/contact')}><Kr>문의</Kr><En>Contact</En></Link> · <Link to={href('/stats')}><Kr>방문 현황</Kr><En>Visitors</En></Link>
                 </span>
               </li>
             </ul>

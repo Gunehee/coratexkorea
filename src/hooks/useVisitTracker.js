@@ -12,8 +12,7 @@ const SESSION_KEY = 'coratex_visit_sent';
 
 export function useVisitTracker() {
   useEffect(() => {
-    /* 내부 전용 페이지는 집계 제외 */
-    if (window.location.pathname.includes('/stats')) return;
+    /* 내부 관리 페이지만 집계 제외 */
     if (window.location.pathname.includes('/edit')) return;
 
     try {

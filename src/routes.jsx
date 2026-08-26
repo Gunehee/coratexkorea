@@ -61,9 +61,8 @@ const routes = [
     desc: '지평상사(코라텍스) 개인정보처리방침 안내입니다.',
     element: <PrivacyPolicy /> },
 
-  { path: '/stats', file: 'stats.html', title: '방문자 통계 (내부) | 코라텍스 (CORATEX)',
-    desc: '내부 전용 방문자 통계 페이지입니다.',
-    noindex: true,
+  { path: '/stats', file: 'stats.html', title: '방문 현황 | 코라텍스 (CORATEX)',
+    desc: '코라텍스 홈페이지를 찾아주신 방문자 현황입니다.',
     element: <Stats /> },
 
   { path: '/edit', file: 'edit.html', title: '리뷰 관리 (내부) | 코라텍스 (CORATEX)',

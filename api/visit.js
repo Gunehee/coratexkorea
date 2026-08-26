@@ -1,5 +1,7 @@
+import { createClient } from 'redis';
+
 /**
- * 방문자 집계 API — Vercel 서버리스 함수 + Upstash Redis
+ * 방문자 집계 API — Vercel 서버리스 함수 + Redis
  *
  * POST /api/visit  : 방문 1회 기록 (같은 방문자는 하루 1회만 집계)
  * GET  /api/visit  : 누적·오늘·이번주·이번달 수치 조회
@@ -27,24 +29,31 @@ function recentDays(n, now = new Date()) {
 
 /** 이번 달 1일부터 오늘까지의 날짜 목록 */
 function monthDays(now = new Date()) {
-  const today = todayKST(now);
-  const day = Number(today.slice(8, 10));
+  const day = Number(todayKST(now).slice(8, 10));
   return recentDays(day, now);
 }
 
-/** Upstash Redis REST 호출 */
-async function redis(commands) {
-  const url = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
-  const token = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
-  if (!url || !token) throw new Error('REDIS_NOT_CONFIGURED');
+/* 서버리스 인스턴스가 살아있는 동안 연결을 재사용합니다.
+   매 요청마다 새로 연결하면 느리고 연결 수 한도에 걸립니다. */
+let clientPromise = null;
 
-  const res = await fetch(`${url}/pipeline`, {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify(commands),
-  });
-  if (!res.ok) throw new Error(`REDIS_HTTP_${res.status}`);
-  return (await res.json()).map((r) => r.result);
+function getClient() {
+  const url = process.env.REDIS_URL || process.env.KV_URL;
+  if (!url) throw new Error('REDIS_NOT_CONFIGURED');
+
+  if (!clientPromise) {
+    const client = createClient({
+      url,
+      socket: { connectTimeout: 5000, reconnectStrategy: (n) => (n > 2 ? false : 200) },
+    });
+    /* 연결이 끊기면 다음 요청에서 새로 만들도록 초기화 */
+    client.on('error', () => { clientPromise = null; });
+    clientPromise = client.connect().then(() => client).catch((e) => {
+      clientPromise = null;
+      throw e;
+    });
+  }
+  return clientPromise;
 }
 
 /** 방문자 식별용 해시 — 원본 IP 는 저장하지 않습니다. */
@@ -63,20 +72,20 @@ export default async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store');
 
   try {
+    const redis = await getClient();
+
     if (req.method === 'POST') {
       const today = todayKST();
       const hash = await visitorHash(req);
 
       /* 같은 방문자가 오늘 이미 집계됐는지 확인 (24시간 유효) */
-      const [isNew] = await redis([['SET', `seen:${today}:${hash}`, '1', 'NX', 'EX', '86400']]);
+      const isNew = await redis.set(`seen:${today}:${hash}`, '1', { NX: true, EX: 86400 });
 
       if (isNew) {
-        await redis([
-          ['INCR', 'visits:total'],
-          ['INCR', `visits:day:${today}`],
-          /* 일자별 수치는 400일 뒤 자동 정리 */
-          ['EXPIRE', `visits:day:${today}`, '34560000'],
-        ]);
+        await redis.incr('visits:total');
+        await redis.incr(`visits:day:${today}`);
+        /* 일자별 수치는 400일 뒤 자동 정리 */
+        await redis.expire(`visits:day:${today}`, 34560000);
       }
       return res.status(200).json({ ok: true, counted: Boolean(isNew) });
     }
@@ -85,21 +94,19 @@ export default async function handler(req, res) {
     const days7 = recentDays(7);
     const days30 = monthDays();
     const today = todayKST();
-
     const keys = [...new Set([...days7, ...days30])];
-    const results = await redis([
-      ['GET', 'visits:total'],
-      ...keys.map((d) => ['GET', `visits:day:${d}`]),
+
+    const [total, ...dayValues] = await redis.mGet([
+      'visits:total',
+      ...keys.map((d) => `visits:day:${d}`),
     ]);
 
-    const total = Number(results[0] || 0);
     const byDay = {};
-    keys.forEach((d, i) => { byDay[d] = Number(results[i + 1] || 0); });
-
+    keys.forEach((d, i) => { byDay[d] = Number(dayValues[i] || 0); });
     const sum = (list) => list.reduce((acc, d) => acc + (byDay[d] || 0), 0);
 
     return res.status(200).json({
-      total,
+      total: Number(total || 0),
       today: byDay[today] || 0,
       week: sum(days7),
       month: sum(days30),

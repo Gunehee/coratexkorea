@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { En, Kr } from '../components/Layout';
 import { useLanguage } from '../i18n/LanguageContext';
+import VisitCounter from '../components/VisitCounter';
 import {
   processes, stats, sisterProducts, company, telHref, withBase, href,
   statsTotalKo, statsTotalEn,
@@ -138,6 +139,9 @@ export default function Home() {
                 : <div className={cls} data-delay={i} key={s.num}>{inner}</div>;
             })}
           </div>
+
+          {/* 방문 현황 — 고객사 수치와 함께 신뢰도를 보여주는 자리 */}
+          <VisitCounter />
         </div>
       </section>
 

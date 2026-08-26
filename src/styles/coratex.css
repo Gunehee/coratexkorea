@@ -1496,3 +1496,104 @@ html:not(.js) .reveal { opacity: 1; transform: none; }
   .trend-bar-wrap { height: 100px; }
   .trend-date { display: none; }
 }
+
+/* ==========================================================
+   홈 화면 — 방문 현황 요약
+   (네이비 배경의 .stats 섹션 안에 들어갑니다)
+   ========================================================== */
+.visit-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px 28px;
+  flex-wrap: wrap;
+  margin-top: 26px;
+  padding: 20px 26px;
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, .08);
+  border: 1px solid rgba(255, 255, 255, .16);
+}
+
+/* 누적 방문자 — 왼쪽 강조 */
+.visit-summary-main {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.visit-summary-label {
+  color: rgba(255, 255, 255, .78);
+  font-size: var(--fs-sm);
+  font-weight: 700;
+}
+.visit-summary-num {
+  font-size: clamp(28px, 4vw, 38px);
+  font-weight: 800;
+  color: var(--white);
+  letter-spacing: -.01em;
+  line-height: 1;
+}
+.visit-summary-unit {
+  color: rgba(255, 255, 255, .78);
+  font-size: var(--fs-sm);
+  font-weight: 700;
+}
+
+/* 오늘 / 이번 달 — 오른쪽 보조 */
+.visit-summary-side {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.visit-summary-item {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  color: var(--white);
+}
+.visit-summary-k {
+  color: rgba(255, 255, 255, .72);
+  font-size: var(--fs-sm);
+}
+.visit-summary-item strong {
+  font-size: var(--fs-lg);
+  font-weight: 800;
+}
+.visit-summary-divider {
+  width: 1px;
+  height: 20px;
+  background: rgba(255, 255, 255, .22);
+}
+.visit-summary-link {
+  color: var(--orange);
+  font-weight: 800;
+  font-size: var(--fs-sm);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color var(--dur-fast) var(--ease-soft),
+              transform var(--dur-base) var(--ease-out);
+  display: inline-block;
+}
+.visit-summary-link:hover {
+  color: var(--white);
+  transform: translateX(3px);
+}
+
+@media (max-width: 720px) {
+  .visit-summary { padding: 18px 20px; }
+  .visit-summary-side { width: 100%; justify-content: flex-start; }
+}
+
+/* 방문 현황은 데이터를 받은 뒤 렌더되므로 스크롤 관찰(.reveal) 대상이
+   되지 못합니다. 나타날 때 자체적으로 부드럽게 등장시킵니다. */
+.visit-summary {
+  animation: visitSummaryIn var(--dur-slow) var(--ease-out) both;
+}
+@keyframes visitSummaryIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .visit-summary { animation: none; }
+}

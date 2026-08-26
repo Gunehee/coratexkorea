@@ -6,9 +6,9 @@ import { createClient } from 'redis';
  * POST /api/visit  : 방문 1회 기록 (같은 방문자는 하루 1회만 집계)
  * GET  /api/visit  : 누적·오늘·이번주·이번달 수치 조회
  *
- * 개인정보를 저장하지 않습니다.
- *  · IP 는 저장하지 않고, 해시로 바꿔 "오늘 이미 셌는지" 판별에만 씁니다.
- *  · 해시 키는 24시간 뒤 자동 삭제됩니다.
+ * 개인정보를 전혀 다루지 않습니다.
+ *  · IP·브라우저 정보를 읽지도, 저장하지도 않습니다.
+ *  · 단순히 방문 횟수만 1씩 더합니다.
  */
 
 const KST_OFFSET = 9 * 60 * 60 * 1000; // 한국 시간 기준으로 날짜를 끊습니다
@@ -56,18 +56,6 @@ function getClient() {
   return clientPromise;
 }
 
-/** 방문자 식별용 해시 — 원본 IP 는 저장하지 않습니다. */
-async function visitorHash(req) {
-  const ip =
-    (req.headers['x-forwarded-for'] || '').split(',')[0].trim() ||
-    req.headers['x-real-ip'] || 'unknown';
-  const ua = req.headers['user-agent'] || '';
-  const data = new TextEncoder().encode(`${ip}|${ua}|coratex`);
-  const buf = await crypto.subtle.digest('SHA-256', data);
-  return Array.from(new Uint8Array(buf)).slice(0, 12)
-    .map((b) => b.toString(16).padStart(2, '0')).join('');
-}
-
 export default async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store');
 
@@ -76,18 +64,14 @@ export default async function handler(req, res) {
 
     if (req.method === 'POST') {
       const today = todayKST();
-      const hash = await visitorHash(req);
 
-      /* 같은 방문자가 오늘 이미 집계됐는지 확인 (24시간 유효) */
-      const isNew = await redis.set(`seen:${today}:${hash}`, '1', { NX: true, EX: 86400 });
+      /* 방문할 때마다 집계합니다 (같은 사람의 재방문도 포함) */
+      await redis.incr('visits:total');
+      await redis.incr(`visits:day:${today}`);
+      /* 일자별 수치는 400일 뒤 자동 정리 */
+      await redis.expire(`visits:day:${today}`, 34560000);
 
-      if (isNew) {
-        await redis.incr('visits:total');
-        await redis.incr(`visits:day:${today}`);
-        /* 일자별 수치는 400일 뒤 자동 정리 */
-        await redis.expire(`visits:day:${today}`, 34560000);
-      }
-      return res.status(200).json({ ok: true, counted: Boolean(isNew) });
+      return res.status(200).json({ ok: true, counted: true });
     }
 
     /* GET — 조회 */

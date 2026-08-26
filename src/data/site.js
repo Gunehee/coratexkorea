@@ -512,11 +512,11 @@ export const privacyPolicy = {
       en: '1. Data We Collect',
       itemsKo: [
         '문의 시 제공되는 정보(회사명, 담당자명, 연락처, 이메일, 문의 내용 등)',
-        '사이트 운영 과정에서 자동 생성될 수 있는 정보(접속 로그, 방문자 수 집계 등 — 개인을 식별할 수 있는 정보는 저장하지 않습니다)',
+        '사이트 운영 과정에서 자동 생성될 수 있는 정보(접속 로그, 방문 횟수 집계 등 — 개인을 식별할 수 있는 정보는 수집하지 않습니다)',
       ],
       itemsEn: [
         'Information you provide when contacting us (company, name, phone, email, message, etc.)',
-        'Information that may be automatically generated during operation (access logs, visitor counts — no personally identifiable data is stored)',
+        'Information that may be automatically generated during operation (access logs, visit counts — no personally identifiable data is collected)',
       ],
     },
     {

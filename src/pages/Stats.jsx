@@ -167,12 +167,12 @@ export default function Stats() {
 
             <p className="stats-updated">
               <Kr>
-                같은 방문자는 하루에 한 번만 집계됩니다. 개인을 식별할 수 있는
-                정보는 저장하지 않습니다.
+                사이트에 접속할 때마다 집계되며, 개인을 식별할 수 있는 정보는
+                수집하지 않습니다.
               </Kr>
               <En>
-                Each visitor is counted once per day. No personally identifiable
-                information is stored.
+                Counted on each visit. No personally identifiable information
+                is collected.
               </En>
             </p>
           </>

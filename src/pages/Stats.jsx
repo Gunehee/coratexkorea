@@ -25,8 +25,16 @@ function useStats() {
 
   useEffect(() => {
     load();
-    const id = setInterval(load, REFRESH_MS);
-    return () => clearInterval(id);
+    /* 탭이 화면에 보일 때만 갱신합니다.
+       다른 탭에 있거나 창을 내려둔 동안에는 요청을 보내지 않습니다. */
+    const tick = () => { if (!document.hidden) load(); };
+    const id = setInterval(tick, REFRESH_MS);
+    /* 탭으로 돌아오면 즉시 최신 수치를 가져옵니다. */
+    document.addEventListener('visibilitychange', tick);
+    return () => {
+      clearInterval(id);
+      document.removeEventListener('visibilitychange', tick);
+    };
   }, [load]);
 
   return { data, state, reload: load };

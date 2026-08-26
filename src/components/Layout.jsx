@@ -2,6 +2,7 @@ import { NavLink, Link } from 'react-router-dom';
 import { nav, company, telHref, telHrefLine, href, globalCopy } from '../data/site';
 import { LanguageProvider, LanguageSwitch } from '../i18n/LanguageContext';
 import { useReveal } from '../hooks/useReveal';
+import { useVisitTracker } from '../hooks/useVisitTracker';
 
 /** 국문 아래 영문을 병기하는 공통 표기.
  *  body[data-lang="kr"] 이면 숨겨지고, "en" 이면 본문 크기로 표시됩니다. */
@@ -151,6 +152,8 @@ export default function Layout({ children }) {
   /* 페이지가 바뀔 때마다 새로 나타난 .reveal 요소를 관찰합니다.
      (훅 내부에서 라우트 경로를 감지합니다) */
   useReveal();
+  /* 방문 1회 기록 (내부 페이지 제외, 실패해도 사이트에 영향 없음) */
+  useVisitTracker();
 
   return (
     <LanguageProvider>

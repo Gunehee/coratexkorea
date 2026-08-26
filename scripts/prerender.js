@@ -134,7 +134,8 @@ fs.writeFileSync(
   path.join(DIST, 'robots.txt'),
   `User-agent: *\nAllow: /\n\n` +
   `# 내부 전용 페이지 — 색인 제외\n` +
-  `Disallow: /edit.html\nDisallow: /edit\n\n` +
+  `Disallow: /edit.html\nDisallow: /edit\n` +
+  `Disallow: /stats.html\nDisallow: /stats\n\n` +
   `Sitemap: ${ORIGIN}${BASE}sitemap.xml\n`
 );
 

@@ -5,6 +5,7 @@ import Effectiveness from './pages/Effectiveness';
 import Contact from './pages/Contact';
 import Order from './pages/Order';
 import Edit from './pages/Edit';
+import Stats from './pages/Stats';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import ProcessPage from './pages/ProcessPage';
 import CompaniesPage from './pages/CompaniesPage';
@@ -59,6 +60,11 @@ const routes = [
     title: '개인정보처리방침 | 코라텍스 (CORATEX)',
     desc: '지평상사(코라텍스) 개인정보처리방침 안내입니다.',
     element: <PrivacyPolicy /> },
+
+  { path: '/stats', file: 'stats.html', title: '방문자 통계 (내부) | 코라텍스 (CORATEX)',
+    desc: '내부 전용 방문자 통계 페이지입니다.',
+    noindex: true,
+    element: <Stats /> },
 
   { path: '/edit', file: 'edit.html', title: '리뷰 관리 (내부) | 코라텍스 (CORATEX)',
     desc: '내부 전용 리뷰 관리 페이지입니다.',

@@ -70,15 +70,8 @@ export default function VisitDashboard({ data, compact = false }) {
       </div>
 
       {/* 기간별 */}
-      <div className="grid grid-3 visit-board-tiles">
+      <div className="grid grid-2 visit-board-tiles">
         <div className="appear" style={{ animationDelay: '.05s' }}>
-          <div className="card stat-tile">
-            <span className="stat-tile-label"><Kr>오늘</Kr><En>Today</En></span>
-            <strong className="stat-tile-num"><CountUp value={data.today} /></strong>
-            <span className="stat-tile-sub"><Kr>명</Kr><En>visitors</En></span>
-          </div>
-        </div>
-        <div className="appear" style={{ animationDelay: '.13s' }}>
           <div className="card stat-tile">
             <span className="stat-tile-label"><Kr>최근 7일</Kr><En>Last 7 days</En></span>
             <strong className="stat-tile-num"><CountUp value={data.week} /></strong>
@@ -88,7 +81,7 @@ export default function VisitDashboard({ data, compact = false }) {
             </span>
           </div>
         </div>
-        <div className="appear" style={{ animationDelay: '.21s' }}>
+        <div className="appear" style={{ animationDelay: '.13s' }}>
           <div className="card stat-tile">
             <span className="stat-tile-label"><Kr>이번 달</Kr><En>This month</En></span>
             <strong className="stat-tile-num"><CountUp value={data.month} /></strong>
@@ -100,7 +93,7 @@ export default function VisitDashboard({ data, compact = false }) {
       </div>
 
       {/* 추이 */}
-      <div className="appear" style={{ animationDelay: '.29s' }}>
+      <div className="appear" style={{ animationDelay: '.21s' }}>
         <div className="card visit-board-trend">
           <h3>
             <Kr>최근 7일 추이</Kr> <En>Last 7 days</En>

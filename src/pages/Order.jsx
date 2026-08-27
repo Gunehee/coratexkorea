@@ -85,9 +85,7 @@ export default function Order() {
       })
       .filter(Boolean);
 
-    const attachedLine = attachments.length
-      ? `첨부: ${attachments.map((a) => a.filename).join(', ')}`
-      : '※ 사업자등록증 사본을 첨부해 주시면 처리가 빠릅니다.';
+    const attachedLine = `첨부: ${attachments.map((a) => a.filename).join(', ')}`;
 
     const sent = await submit({
       subject: `[홈페이지 발주] ${form.company} / 코라텍스 ${qty}통`,
@@ -110,8 +108,10 @@ export default function Order() {
     }
   }
 
-  /* 4개 항목이 모두 채워지고 형식도 맞아야 보내기가 활성화됩니다. */
-  const isComplete = order.every((k) => form[k].trim() && !validators[k](form[k]));
+  /* 4개 항목이 모두 채워지고 형식도 맞아야, 그리고 사진 2장이 모두
+     첨부되어야 보내기가 활성화됩니다. */
+  const attachComplete = ATTACH_SLOTS.every(({ key }) => attachFiles[key]);
+  const isComplete = order.every((k) => form[k].trim() && !validators[k](form[k])) && attachComplete;
 
   const field = (k, { label, labelEn, type = 'text', autoComplete, hint, hintEn, extra }) => (
     <div className={`form-field ${errors[k] ? 'has-error' : ''}`}>
@@ -195,8 +195,8 @@ export default function Order() {
               </button>
               {!isComplete && (
                 <span className="submit-hint">
-                  <Kr>4개 항목을 모두 입력하시면 보내기가 활성화됩니다.</Kr>
-                  <En>Fill in all four fields to enable sending.</En>
+                  <Kr>4개 항목과 사업자등록증·명함 사진을 모두 입력하시면 보내기가 활성화됩니다.</Kr>
+                  <En>Fill in all four fields and attach both photos to enable sending.</En>
                 </span>
               )}
 
@@ -209,11 +209,9 @@ export default function Order() {
             <p className="form-note">
               <Kr>
                 ※ 가격은 <a href={telHref}>{company.mobile}</a> 로 문의해 주십시오.
-                사업자등록증 사본을 함께 보내주시면 처리가 빠릅니다.
               </Kr>
               <En>
                 ※ For pricing, please call <a href={telHref}>{company.mobile}</a>.
-                Attaching your business registration certificate speeds things up.
               </En>
             </p>
           </div>

@@ -113,11 +113,11 @@ export default function FileAttach({ files, onChange, t }) {
     <div className="attach">
       <span className="attach-title">
         <Kr>사진 첨부</Kr><En>Photo attachments</En>
-        <span className="attach-optional"><Kr>선택</Kr><En>optional</En></span>
+        <span className="required" aria-hidden="true">*</span>
       </span>
       <span className="field-hint">
-        <Kr>사업자등록증 사본과 명함을 첨부하시면 처리가 빨라집니다. 사진은 자동으로 용량을 줄여 보냅니다.</Kr>
-        <En>Attaching your business registration and card speeds things up. Photos are resized automatically.</En>
+        <Kr>사업자등록증 사본과 명함을 첨부해 주셔야 발주가 접수됩니다. 사진은 자동으로 용량을 줄여 보냅니다.</Kr>
+        <En>Please attach both your business registration and business card to submit. Photos are resized automatically.</En>
       </span>
 
       <div className="attach-slots">
@@ -135,7 +135,10 @@ export default function FileAttach({ files, onChange, t }) {
                 className="attach-input"
               />
               <label htmlFor={`o-file-${key}`} className="attach-label">
-                <span className="attach-slot-name"><Kr>{ko}</Kr><En>{en}</En></span>
+                <span className="attach-slot-name">
+                  <Kr>{ko}</Kr><En>{en}</En>
+                  <span className="required" aria-hidden="true">*</span>
+                </span>
 
                 {f ? (
                   <span className="attach-file">

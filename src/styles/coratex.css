@@ -1592,14 +1592,6 @@ html:not(.js) .reveal { opacity: 1; transform: none; }
   font-weight: 800;
   color: var(--navy-deep);
 }
-.attach-optional {
-  padding: 2px 8px;
-  border-radius: 999px;
-  background: var(--bg-soft, #F1F5F9);
-  color: var(--muted);
-  font-size: .78em;
-  font-weight: 700;
-}
 .attach-slots {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

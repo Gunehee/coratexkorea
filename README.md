@@ -77,7 +77,7 @@ vercel deploy --prod   # 실제 사이트에는 이 명령이 있어야 반영�
 
 ## 다국어(KR/EN)
 
-모든 사용자 노출 문구는 `<Kr>` / `<En>` 로 감싸야 합니다.
+모든 사용자 노출 문구는 `<Kr>` / `<En>` 로 구성되어 있습니다.
 
 ```jsx
 <Kr>사용 방법</Kr> <En>How to Use</En>
@@ -197,8 +197,6 @@ export const processes = {
 - `sitemap.xml` 에서 자동 제외 (`routes.jsx` 의 `noindex: true`)
 - 리뷰는 브라우저 LocalStorage 에만 저장되며 서버로 전송되지 않습니다.
 
-이 설정을 제거하지 마십시오.
-
 ---
 
 ## 이미지
@@ -212,9 +210,6 @@ export const processes = {
 | `injection.jpg` / `extrusion.jpg` / `blow-molding.jpg` | 홈, 사용 방법 — 공정 카드 |
 | `purge-order.jpg` | 제품 효과 — 퍼징 순서 |
 | `ambassador-auto.jpg` / `schmidt-zol.jpg` / `trio-tube.jpg` | 홈 — 자매 제품 |
-
-> ⚠️ 공정 카드 3개 이미지는 현재 일반 클립아트입니다. 실제 제품·현장 사진으로
-> 교체하면 완성도가 크게 올라갑니다.
 
 ---
 

@@ -3,6 +3,7 @@ import { En, Kr } from '../components/Layout';
 import ContactCard, { MailFallbackHint } from '../components/ContactCard';
 import { useLanguage } from '../i18n/LanguageContext';
 import { useFormSubmit } from '../hooks/useFormSubmit';
+import FileAttach, { ATTACH_SLOTS } from '../components/FileAttach';
 import { company, telHref } from '../data/site';
 import { hasFormEndpoint } from '../data/formEndpoint';
 import {
@@ -16,6 +17,8 @@ export default function Order() {
   const { lang } = useLanguage();
   const [form, setForm] = useState({ company: '', address: '', phone: '', qty: '' });
   const [errors, setErrors] = useState({});
+  /* 첨부 사진 — { license?: {...}, card?: {...} } */
+  const [attachFiles, setAttachFiles] = useState({});
 
   const refs = {
     company: useRef(null),
@@ -71,6 +74,21 @@ export default function Order() {
     }
 
     const qty = Number(form.qty);
+    /* 첨부는 슬롯 순서(사업자등록증 → 명함)대로 보냅니다. */
+    const attachments = ATTACH_SLOTS
+      .map(({ key, ko }) => {
+        const f = attachFiles[key];
+        if (!f) return null;
+        /* 받는 분이 무엇인지 바로 알 수 있게 파일명을 바꿔 둡니다. */
+        const ext = f.filename.split('.').pop() || 'jpg';
+        return { ...f, filename: `${ko}.${ext}` };
+      })
+      .filter(Boolean);
+
+    const attachedLine = attachments.length
+      ? `첨부: ${attachments.map((a) => a.filename).join(', ')}`
+      : '※ 사업자등록증 사본을 첨부해 주시면 처리가 빠릅니다.';
+
     const sent = await submit({
       subject: `[홈페이지 발주] ${form.company} / 코라텍스 ${qty}통`,
       bodyLines: [
@@ -79,14 +97,16 @@ export default function Order() {
         `연락처: ${form.phone}`,
         `수량: ${qty}통`,
         '',
-        '※ 사업자등록증 사본을 첨부해 주시면 처리가 빠릅니다.',
+        attachedLine,
       ],
+      attachments,
     });
 
     /* 전송에 성공하면 입력 내용을 비웁니다. */
     if (sent) {
       setForm({ company: '', address: '', phone: '', qty: '' });
       setErrors({});
+      setAttachFiles({});
     }
   }
 
@@ -165,6 +185,8 @@ export default function Order() {
                 hint: '숫자만 입력해 주세요. (1~999통)',
                 hintEn: 'Numbers only (1–999).',
               })}
+
+              <FileAttach files={attachFiles} onChange={setAttachFiles} t={t} />
 
               <button type="submit" className="btn btn-primary"
                 disabled={!isComplete}

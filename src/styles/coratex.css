@@ -1579,3 +1579,108 @@ html:not(.js) .reveal { opacity: 1; transform: none; }
 @media (max-width: 720px) {
   .visit-board-trend { padding: 20px 18px; }
 }
+
+/* ── 사진 첨부 (발주) ─────────────────────────────────────────
+   수량 아래에 놓이는 선택 항목입니다. 필수 입력과 구분되도록
+   테두리를 점선으로 두어 "안 채워도 되는 칸"임을 알립니다. */
+.attach { margin: 0 0 20px; }
+.attach-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-weight: 800;
+  color: var(--navy-deep);
+}
+.attach-optional {
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--bg-soft, #F1F5F9);
+  color: var(--muted);
+  font-size: .78em;
+  font-weight: 700;
+}
+.attach-slots {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 10px;
+}
+.attach-slot { position: relative; }
+
+/* 실제 input 은 숨기고 label 전체를 누를 수 있게 합니다.
+   (display:none 이면 키보드 초점이 사라지므로 이 방식을 씁니다) */
+.attach-input {
+  position: absolute;
+  width: 1px; height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+.attach-label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 92px;
+  padding: 14px;
+  border: 2px dashed var(--line);
+  border-radius: 10px;
+  background: var(--white);
+  cursor: pointer;
+  transition: border-color .15s ease, background .15s ease;
+}
+.attach-label:hover { border-color: var(--orange); background: var(--orange-soft); }
+.attach-input:focus-visible + .attach-label { outline: 3px solid var(--orange); outline-offset: 2px; }
+
+.attach-slot-name { font-weight: 700; color: var(--navy-deep); font-size: .95em; }
+.attach-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--navy);
+  font-weight: 700;
+  font-size: .92em;
+}
+
+/* 선택 완료 — 실선 + 초록 체크로 "들어갔다"를 분명히 보여줍니다. */
+.attach-slot.is-filled .attach-label {
+  border-style: solid;
+  border-color: #16A34A;
+  background: #F0FDF4;
+}
+.attach-file {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #15803D;
+  font-weight: 700;
+  font-size: .9em;
+  min-width: 0;
+}
+.attach-file-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.attach-file-size { color: var(--muted); font-weight: 600; flex-shrink: 0; }
+
+.attach-remove {
+  margin-top: 6px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font-family: inherit;
+  font-size: .85em;
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.attach-remove:hover { color: var(--orange-dark); }
+
+@media (max-width: 640px) {
+  .attach-slots { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .attach-label { transition: none; }
+}

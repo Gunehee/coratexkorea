@@ -14,8 +14,11 @@
 |---|---|
 | 프레임워크 | **React 19** + **React Router 7** |
 | 빌드 도구 | **Vite 8** |
-| 배포 | **Vercel** — main 에 push 하면 자동 배포 |
-| 렌더링 | **SSG (정적 생성)** — 14개 페이지를 각각 실제 HTML 파일로 생성 |
+| 배포 | **Vercel** — 현재는 수동 배포(`vercel deploy --prod`). 아래 [자동 배포](#자동-배포-현재-꺼져-있음) 참고 |
+| 렌더링 | **SSG (정적 생성)** — 15개 페이지를 각각 실제 HTML 파일로 생성 |
+| 서버 기능 | **Vercel Serverless Functions** (`api/`) — 방문자 집계, 발주 메일 발송(첨부 포함) |
+| 데이터 저장 | **Redis** (Vercel Marketplace, TCP) — 방문자 수 집계 전용, 개인정보 없음 |
+| 메일 발송 | **Resend** (무료 요금제) — 발주 시 사진 첨부 메일 발송 |
 | 스타일 | 단일 CSS (`src/styles/coratex.css`) — Bootstrap/jQuery 등 미사용 |
 | 브랜드 컬러 | 화이트 / 오렌지 `#E8722A` / 네이비 `#1B4E9B` |
 
@@ -39,25 +42,38 @@ npm run dev     # 개발 서버 → http://localhost:5173/
 ## 빌드 & 배포
 
 ```bash
-npm run build   # dist/ 에 14개 HTML + 자산 생성
+npm run build   # dist/ 에 15개 HTML + 자산 생성
 ```
 
-**자동 배포** — `main` 브랜치에 push 하면 아래가 순서대로 자동 반영됩니다.
+### 자동 배포 (현재 꺼져 있음)
+
+원래 의도된 흐름은 아래와 같습니다.
 
 ```
 git push  →  GitHub(main)  →  Vercel 자동 빌드  →  www.coratex-korea.com
 ```
 
-별도 명령이 필요 없습니다. (`dist/` 는 커밋하지 않고 CI 에서 빌드합니다)
+하지만 GitHub 저장소에 Vercel 웹훅/GitHub App이 설치되어 있지 않아
+**push 만으로는 배포되지 않습니다.** (Vercel 프로젝트 설정상 "연결됨"으로는
+보이지만 실제 웹훅이 없는 상태 — `vercel git connect` 로도 해결되지 않았습니다)
+
+**그래서 지금은 매번 아래 명령으로 수동 배포합니다.**
+
+```bash
+git push origin main   # GitHub 에는 반영됨 (기록용)
+vercel deploy --prod   # 실제 사이트에는 이 명령이 있어야 반영됨
+```
+
+`git push` 만 하고 이 명령을 잊으면 **GitHub 에는 최신 코드가 있지만
+실제 사이트(www.coratex-korea.com)는 이전 버전 그대로**인 상태가 됩니다.
+
+자동 배포를 다시 살리려면: https://github.com/apps/vercel 에서
+**Configure** → 이 저장소(`Gunehee/coratexkorea`)에 권한 추가.
+설치 후 `gh api repos/Gunehee/coratexkorea/hooks` 로 웹훅이 생겼는지 확인하세요
+(빈 배열 `[]` 이면 아직 설치가 안 된 것입니다).
 
 배포 상태: https://vercel.com/gunehees-projects/coratexkorea-react
 빌드가 실패하면 이전 배포가 그대로 유지되므로 사이트가 깨지지 않습니다.
-
-수동 배포가 필요하면:
-
-```bash
-vercel deploy --prod
-```
 
 ## 다국어(KR/EN)
 
@@ -85,17 +101,30 @@ src/
 ├── main.jsx                브라우저 진입점 (hydration)
 ├── entry-server.jsx        SSG 렌더 진입점
 ├── App.jsx                 라우팅
-├── routes.jsx              14개 라우트 + 페이지별 title/description
+├── routes.jsx              15개 라우트 + 페이지별 title/description
 ├── data/site.js            ⭐ 사이트 전체 데이터 (단일 출처)
 ├── components/
 │   ├── Layout.jsx          헤더 · 푸터 · 공통 표기 (En/Kr)
 │   ├── ContactCard.jsx     바로 연락하기 (문의·발주 공용)
-│   └── DosageTable.jsx     사용량 표 (데이터로부터 자동 생성)
+│   ├── DosageTable.jsx     사용량 표 (데이터로부터 자동 생성)
+│   ├── FileAttach.jsx      발주 페이지 — 사진 첨부(브라우저에서 자동 축소)
+│   ├── VisitCounter.jsx    홈 화면용 방문자 요약 (VisitDashboard 를 compact 모드로 감쌈)
+│   └── VisitDashboard.jsx  방문자 통계 UI 본체 — 홈과 /stats 가 공유
+├── hooks/
+│   ├── useFormSubmit.js    문의·발주 전송 공통 로직 (Web3Forms → mailto 폴백)
+│   ├── useVisitTracker.js  페이지 방문 시 1회 집계 전송
+│   ├── useVisitStats.js    방문 통계 조회 + 60초 자동 갱신
+│   ├── useCountUp.js       숫자 카운트업 애니메이션
+│   └── useReveal.js        스크롤 진입 애니메이션(IntersectionObserver)
 ├── i18n/LanguageContext.jsx  KR/EN 전환 (localStorage)
 ├── pages/                  Home, About, Use, Effectiveness, ProcessPage,
 │                           CompaniesPage, Order, Contact, PrivacyPolicy,
-│                           NotFound, Edit
+│                           Stats, NotFound, Edit
 └── styles/coratex.css
+
+api/                         Vercel Serverless Functions (Node.js)
+├── visit.js                방문자 집계 · 조회 — Redis (누적/오늘/7일/이번달/추이)
+└── order.js                발주 메일 발송 — Resend, 첨부 파일 포함 (무료 요금제)
 
 public/
 ├── images/                 제품 · 공정 사진
@@ -132,6 +161,32 @@ export const processes = {
 수정 후 `npm run build` 하면 끝입니다.
 
 ---
+
+## 방문자 통계 (/stats, 홈 화면)
+
+`api/visit.js` 가 Redis(Vercel Marketplace, TCP `redis://` 연결)에 방문마다
+카운트를 올립니다. IP·User-Agent 등 개인정보는 전혀 읽지 않으며, 같은 사람이
+다시 방문해도 매번 새로 집계됩니다(재방문 포함 방문자 수).
+
+- 누적 / 오늘 / 최근 7일 / 이번 달 / 최근 7일 추이(막대그래프)
+- 홈 화면 하단(`VisitCounter`)과 `/stats` 전용 페이지가 **같은 컴포넌트**
+  (`VisitDashboard`)를 공유합니다 — 한쪽만 고치는 사고를 방지하기 위함입니다.
+- 환경변수 `REDIS_URL` 이 없으면 `api/visit.js` 가 조용히 실패하고,
+  화면에서는 방문자 섹션 전체가 노출되지 않습니다(오류 문구 없음).
+
+## 발주 사진 첨부 (사업자등록증 · 명함)
+
+`/order` 페이지에서 **사업자등록증과 명함 사진 첨부가 필수**입니다. `api/order.js`
+가 Resend(무료 요금제, 도메인 `coratex-korea.com` 인증 완료)로 사진을 포함한
+메일을 바로 발송합니다.
+
+- 휴대폰 사진(3~8MB)은 브라우저에서 보내기 전에 긴 변 1600px 로 자동 축소됩니다.
+- 기존 문의 폼(Web3Forms)은 첨부 기능이 유료(PRO)라 사용하지 않고,
+  첨부가 있는 발주만 `api/order.js` 로 보냅니다. 첨부 없는 다른 폼은
+  기존 Web3Forms 경로 그대로입니다.
+- 필요한 환경변수: `RESEND_API_KEY`, `ORDER_FROM_EMAIL`, `ORDER_TO_EMAIL`
+  (Vercel 프로젝트 설정에 등록되어 있습니다). 없으면 501 을 반환하고,
+  화면은 "발주는 접수하되 사진은 못 보냈다"고 정직하게 안내합니다.
 
 ## edit.html — 내부 전용
 
@@ -175,4 +230,4 @@ export const processes = {
 ---
 
 Coratex HT® and productivity with marks purging® are registered trademarks of SAINT-GOBAIN Abrasives.
-© 2024 All Rights Reserved by JI PYEONG Corp
+© 2026 All Rights Reserved by JI PYEONG Corp

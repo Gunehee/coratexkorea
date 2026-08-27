@@ -276,16 +276,22 @@ textarea:focus-visible {
 .hero .en { color: rgba(255, 255, 255, .82); }
 
 .hero-eyebrow {
-  display: inline-block;
-  margin-bottom: 14px;
-  padding: 7px 16px;
-  border-radius: 999px;
-  background: var(--orange);
-  color: var(--white);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  color: var(--orange);
   font-size: 15px;
   font-weight: 800;
-  letter-spacing: .12em;
+  letter-spacing: .14em;
   text-transform: uppercase;
+}
+.hero-eyebrow::before {
+  content: '';
+  width: 28px;
+  height: 2px;
+  background: var(--orange);
+  border-radius: 1px;
 }
 .hero-tag {
   font-size: clamp(20px, 2.4vw, 25px);

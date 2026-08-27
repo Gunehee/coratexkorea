@@ -1542,59 +1542,40 @@ html:not(.js) .reveal { opacity: 1; transform: none; }
   .trend-bar { animation: none; transform: none; }
 }
 
+
 /* ==========================================================
-   홈 화면 하단 — 방문 현황 문장형 띠
+   방문 현황 대시보드 (홈 · /stats 공용)
    ========================================================== */
+
+/* 홈에서는 제품 섹션과 구분되도록 옅은 배경을 깔아줍니다 */
 .visit-section {
-  padding-top: 0;
-  padding-bottom: 46px;
-}
-.visit-strip {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px 24px;
-  flex-wrap: wrap;
-  padding: 20px 26px;
-  border-radius: var(--radius);
-  background: var(--surface);
-  border: 1px solid var(--line);
-  /* 데이터를 받은 뒤 렌더되므로 자체 등장 효과를 씁니다 */
-  animation: appearIn var(--dur-slow) var(--ease-out) both;
-}
-.visit-strip-text {
-  margin: 0;
-  color: var(--muted);
-  font-size: var(--fs-base);
-  line-height: 1.6;
-}
-.visit-strip-text strong {
-  color: var(--navy-deep);
-  font-size: clamp(24px, 3vw, 30px);
-  font-weight: 800;
-  margin: 0 4px;
-  font-variant-numeric: tabular-nums;
-  vertical-align: -1px;
-}
-.visit-strip-link {
-  color: var(--orange-dark);
-  font-weight: 800;
-  font-size: var(--fs-sm);
-  text-decoration: none;
-  white-space: nowrap;
-  display: inline-block;
-  transition: color var(--dur-fast) var(--ease-soft),
-              transform var(--dur-base) var(--ease-out);
-}
-.visit-strip-link:hover {
-  color: var(--orange);
-  transform: translateX(3px);
+  background: var(--bg);
+  border-top: 1px solid var(--line);
 }
 
-@media (max-width: 720px) {
-  .visit-strip { padding: 18px 20px; }
+.visit-board-tiles { margin-top: 22px; }
+
+.visit-board-trend {
+  margin-top: 22px;
+  padding: 24px;
 }
-@media (prefers-reduced-motion: reduce) {
-  .visit-strip { animation: none; }
-  .visit-strip-link:hover { transform: none; }
+.visit-board-trend h3 { margin-bottom: 4px; }
+.visit-board-trend .field-hint { margin-bottom: 18px; }
+
+.visit-board-note {
+  margin-top: 18px;
+  color: var(--muted);
+  font-size: var(--fs-sm);
+  line-height: 1.6;
+}
+
+/* 홈에서는 조금 더 낮은 밀도로 — 제품 소개가 주인공이므로 */
+.visit-board.is-compact .stat-hero { padding: 24px 28px; }
+.visit-board.is-compact .stat-hero-num { font-size: clamp(38px, 6vw, 56px); }
+.visit-board.is-compact .stat-tile { padding: 20px 22px; }
+.visit-board.is-compact .stat-tile-num { font-size: clamp(26px, 3.4vw, 34px); }
+.visit-board.is-compact .trend-bar-wrap { height: 108px; }
+
+@media (max-width: 720px) {
+  .visit-board-trend { padding: 20px 18px; }
 }

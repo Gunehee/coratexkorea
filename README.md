@@ -45,36 +45,6 @@ npm run dev     # 개발 서버 → http://localhost:5173/
 npm run build   # dist/ 에 15개 HTML + 자산 생성
 ```
 
-### 자동 배포 (현재 꺼져 있음)
-
-원래 의도된 흐름은 아래와 같습니다.
-
-```
-git push  →  GitHub(main)  →  Vercel 자동 빌드  →  www.coratex-korea.com
-```
-
-하지만 GitHub 저장소에 Vercel 웹훅/GitHub App이 설치되어 있지 않아
-**push 만으로는 배포되지 않습니다.** (Vercel 프로젝트 설정상 "연결됨"으로는
-보이지만 실제 웹훅이 없는 상태 — `vercel git connect` 로도 해결되지 않았습니다)
-
-**그래서 지금은 매번 아래 명령으로 수동 배포합니다.**
-
-```bash
-git push origin main   # GitHub 에는 반영됨 (기록용)
-vercel deploy --prod   # 실제 사이트에는 이 명령이 있어야 반영됨
-```
-
-`git push` 만 하고 이 명령을 잊으면 **GitHub 에는 최신 코드가 있지만
-실제 사이트(www.coratex-korea.com)는 이전 버전 그대로**인 상태가 됩니다.
-
-자동 배포를 다시 살리려면: https://github.com/apps/vercel 에서
-**Configure** → 이 저장소(`Gunehee/coratexkorea`)에 권한 추가.
-설치 후 `gh api repos/Gunehee/coratexkorea/hooks` 로 웹훅이 생겼는지 확인하세요
-(빈 배열 `[]` 이면 아직 설치가 안 된 것입니다).
-
-배포 상태: https://vercel.com/gunehees-projects/coratexkorea-react
-빌드가 실패하면 이전 배포가 그대로 유지되므로 사이트가 깨지지 않습니다.
-
 ## 다국어(KR/EN)
 
 모든 사용자 노출 문구는 `<Kr>` / `<En>` 로 구성되어 있습니다.

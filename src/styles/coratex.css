@@ -445,6 +445,22 @@ textarea:focus-visible {
   margin-bottom: 0;
   line-height: 1.6;
 }
+/* 섹션 설명 아래 덧붙는 보조 안내 — 본문보다 작고 절제된 톤 */
+.section-head .section-note {
+  display: block;
+  margin-top: 8px;
+  font-size: var(--fs-sm);
+  color: var(--muted);
+  font-weight: 500;
+}
+.section-head .section-note a {
+  color: var(--navy);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--line);
+}
+.section-head .section-note a:hover { text-decoration-color: var(--navy); }
 /* 오렌지 밑줄 막대 → 제목 왼쪽의 짧은 수직 액센트로 교체.
    막대가 제목 아래를 가로지르지 않아 훨씬 절제된 인상이 됩니다. */
 .section-head h2::after { content: none; }

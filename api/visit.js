@@ -5,7 +5,7 @@ import { createClient } from 'redis';
  *
  * POST /api/visit               : 방문 1회 기록 (같은 방문자는 하루 1회만 집계)
  * GET  /api/visit                : 누적·오늘·이번주·이번달 수치 조회
- * GET  /api/visit?history=1      : 최근 24개월 월별 합계 (전체 기록 보기용)
+ * GET  /api/visit?history=1      : 방문이 있었던 달만 월별 합계로 반환 (최대 24개월, 전체 기록 보기용)
  * GET  /api/visit?month=YYYY-MM  : 해당 월의 일별 추이
  *
  * 개인정보를 전혀 다루지 않습니다.
@@ -154,10 +154,22 @@ export default async function handler(req, res) {
         }
       }));
 
+      /* 실제로 방문이 있었던 가장 오래된 달까지만 보여줍니다.
+         24개월을 늘 다 채워서 보여주면 서비스 초기엔 빈 막대가
+         대부분이라 어색합니다 — 데이터가 쌓이는 만큼만 늘어나야
+         자연스럽습니다. 이번 달은 방문이 0이어도 항상 포함합니다
+         (오늘 막 시작했을 수도 있으므로). */
+      let lastIdx = 0;
+      for (let i = months.length - 1; i >= 0; i -= 1) {
+        if (counts[i] > 0) { lastIdx = i; break; }
+      }
+      const visibleMonths = months.slice(0, lastIdx + 1);
+      const visibleCounts = counts.slice(0, lastIdx + 1);
+
       /* recentMonths() 는 이미 최신순(이번 달이 먼저)이므로 그대로 반환합니다.
          화면에서 이번 달이 맨 왼쪽에 오도록 하기 위함입니다. */
       return res.status(200).json({
-        months: months.map((m, i) => ({ month: m, count: counts[i] || 0 })),
+        months: visibleMonths.map((m, i) => ({ month: m, count: visibleCounts[i] || 0 })),
         updatedAt: new Date().toISOString(),
       });
     }

@@ -6,11 +6,14 @@ import { useVisitHistory, useMonthDetail } from '../hooks/useVisitHistory';
 /**
  * 전체 기록(월별) — /stats 페이지 전용.
  *
- * 처음에는 접혀 있다가, "전체 기록 보기"를 누르면 최근 24개월을
- * 막대그래프로 보여줍니다. 막대를 누르면 그 달의 일별 추이가
- * 아래에 펼쳐집니다(다시 누르면 접힘).
+ * 처음에는 접혀 있다가, "전체 기록 보기"를 누르면 실제 데이터가 있는
+ * 달만(최대 24개월) 막대그래프로 보여줍니다. 서비스를 막 시작했다면
+ * 이번 달 막대 하나만 보이고, 다음 달부터 자연스럽게 늘어납니다
+ * — 24개월을 미리 다 채워서 빈 막대를 보여주지 않습니다.
  *
- * 방문 데이터가 없던 달(서비스 시작 전)은 0으로 그대로 표시합니다 —
+ * 막대를 누르면 그 달의 일별 추이가 아래에 펼쳐집니다(다시 누르면 접힘).
+ *
+ * 데이터 범위 안에서 방문이 0이었던 달은 0으로 그대로 표시합니다 —
  * 값을 숨기면 "그 달엔 없었나?"와 "아직 기록 전인가?"를 구분할 수 없기
  * 때문입니다.
  */
@@ -93,8 +96,17 @@ export default function VisitHistory() {
           {state === 'ok' && months && (
             <>
               <p className="field-hint">
-                <Kr>최근 24개월 방문자 수입니다. 막대를 누르면 일별 추이를 볼 수 있습니다.</Kr>
-                <En>Visitors over the last 24 months. Click a bar to see daily detail.</En>
+                {months.length <= 1 ? (
+                  <>
+                    <Kr>이번 달 방문자 수입니다. 다음 달부터는 월별로 쌓여 보입니다.</Kr>
+                    <En>This month's visitors. Future months will appear here as they add up.</En>
+                  </>
+                ) : (
+                  <>
+                    <Kr>최근 {months.length}개월 방문자 수입니다. 막대를 누르면 일별 추이를 볼 수 있습니다.</Kr>
+                    <En>Visitors over the last {months.length} months. Click a bar to see daily detail.</En>
+                  </>
+                )}
               </p>
               <div className="history-months">
                 {months.map((m) => {

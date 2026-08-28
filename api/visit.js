@@ -154,8 +154,10 @@ export default async function handler(req, res) {
         }
       }));
 
+      /* recentMonths() 는 이미 최신순(이번 달이 먼저)이므로 그대로 반환합니다.
+         화면에서 이번 달이 맨 왼쪽에 오도록 하기 위함입니다. */
       return res.status(200).json({
-        months: months.map((m, i) => ({ month: m, count: counts[i] || 0 })).reverse(),
+        months: months.map((m, i) => ({ month: m, count: counts[i] || 0 })),
         updatedAt: new Date().toISOString(),
       });
     }

@@ -173,6 +173,7 @@ export default function Home() {
                   <dd>
                     <Kr>주문서 작성 후 사업자등록증 사본과 함께 팩스 또는 이메일로 보내주세요.</Kr>
                     <En>Fill out the order form and send it with your business registration certificate via fax or email.</En>
+                    <br />
                     FAX: <strong>{company.fax}</strong><br />
                     <Kr>이메일:</Kr><En>Email:</En> <a href={`mailto:${company.email}`}>{company.email}</a>
                   </dd>

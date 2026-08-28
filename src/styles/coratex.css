@@ -2038,6 +2038,9 @@ html:not(.js) .reveal { opacity: 1; transform: none; }
 .attach-input:focus-visible + .attach-label { outline: 3px solid var(--orange); outline-offset: 2px; }
 
 .attach-slot-name { font-weight: 700; color: var(--navy-deep); font-size: .95em; }
+/* 전역 .required 규칙이 margin-left:0 으로 덮어써서 별표가 글자에
+   바로 붙어 보이므로, 여기서만 간격을 다시 줍니다. */
+.attach-slot-name .required { margin-left: 4px; }
 .attach-cta {
   display: inline-flex;
   align-items: center;

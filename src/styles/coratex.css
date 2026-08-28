@@ -1796,6 +1796,121 @@ html:not(.js) .reveal { opacity: 1; transform: none; }
   .trend-date { display: none; }
 }
 
+/* ---------- 전체 기록 (월별 · 연도별) ---------- */
+
+.history { margin-top: 22px; }
+.history-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 18px;
+  border: 2px solid var(--line);
+  border-radius: 999px;
+  background: var(--white);
+  color: var(--navy-deep);
+  font-family: inherit;
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  cursor: pointer;
+  transition: border-color var(--dur-fast) var(--ease-soft), background var(--dur-fast) var(--ease-soft);
+}
+.history-toggle:hover { border-color: var(--navy); background: var(--bg); }
+.history-chevron { transition: transform var(--dur-base) var(--ease-out); }
+.history-chevron.is-open { transform: rotate(180deg); }
+
+.history-panel { margin-top: 18px; padding: 24px; }
+
+/* 월별 막대그래프 — 최근 24개월, 가로 스크롤 가능 */
+.history-months {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  margin-top: 18px;
+  padding-bottom: 4px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.history-month { flex: 0 0 auto; width: 44px; }
+.history-bar-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+.history-bar-value {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--navy-deep);
+  white-space: nowrap;
+}
+.history-bar-wrap {
+  width: 100%;
+  height: 120px;
+  display: flex;
+  align-items: flex-end;
+}
+.history-bar {
+  width: 100%;
+  border-radius: 5px 5px 0 0;
+  background: var(--line);
+  transition: height var(--dur-slow) var(--ease-out), background var(--dur-fast) var(--ease-soft);
+}
+.history-bar-btn:hover .history-bar,
+.history-bar-btn.is-selected .history-bar { background: var(--orange); }
+.history-bar-btn.is-selected .history-bar-value { color: var(--orange-dark); }
+.history-bar-label {
+  font-size: 11px;
+  color: var(--muted);
+  white-space: nowrap;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+
+/* 선택한 월의 일별 상세 */
+.history-detail {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+.history-detail h4 {
+  font-size: var(--fs-base);
+  font-weight: 800;
+  color: var(--navy-deep);
+  margin: 0 0 12px;
+}
+.history-daytrend-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 90px;
+}
+.history-daybar {
+  flex: 1;
+  min-width: 4px;
+  border-radius: 2px 2px 0 0;
+  background: var(--navy);
+  transition: height var(--dur-slow) var(--ease-out);
+}
+.history-daytrend-foot {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+@media (max-width: 720px) {
+  .history-bar-label { font-size: 10px; }
+  .history-month { width: 36px; }
+  .history-bar-wrap { height: 90px; }
+}
+
 /* ==========================================================
    데이터를 받은 뒤 렌더되는 요소의 등장 효과
    (.reveal 은 페이지 로드 시점에 관찰하므로 이런 요소에는

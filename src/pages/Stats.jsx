@@ -1,6 +1,7 @@
 import { En, Kr } from '../components/Layout';
 import { useVisitStats } from '../hooks/useVisitStats';
 import VisitDashboard from '../components/VisitDashboard';
+import VisitHistory from '../components/VisitHistory';
 
 /**
  * 방문 현황 — 공개 페이지.
@@ -56,6 +57,7 @@ export default function Stats() {
                 Counted on each visit. No personally identifiable information is collected.
               </En>
             </p>
+            <VisitHistory />
           </>
         )}
       </div>

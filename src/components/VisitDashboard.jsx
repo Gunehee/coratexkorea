@@ -8,10 +8,10 @@ import { useCountUp } from '../hooks/useCountUp';
  * 홈에서는 제품 소개가 주인공이므로 조금 더 낮은 밀도로 보여줍니다.
  */
 
-const fmt = (n) => (n ?? 0).toLocaleString('ko-KR');
+export const fmt = (n) => (n ?? 0).toLocaleString('ko-KR');
 
 /** 0에서 목표값까지 올라가는 숫자 */
-function CountUp({ value, duration }) {
+export function CountUp({ value, duration }) {
   const n = useCountUp(value, duration);
   return <>{fmt(n)}</>;
 }

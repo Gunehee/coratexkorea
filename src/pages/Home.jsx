@@ -150,6 +150,10 @@ export default function Home() {
             <p>
               <Kr>※ 가격은 문의 요청 드립니다</Kr><En>※ For pricing, please contact us</En> ( <a href={telHref}><strong>{company.mobile}</strong></a> )
             </p>
+            <p>
+              <Kr>웹사이트 내 <Link to={href('/order')}>발주 창</Link>에서 구매 가능합니다 (할인 적용 가능)</Kr>
+              <En>You can also order directly through our <Link to={href('/order')}>order page</Link> (discounts may apply)</En>
+            </p>
           </div>
           <div className="grid grid-3">
             <div className="reveal">

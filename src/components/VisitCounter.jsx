@@ -1,6 +1,7 @@
 import { En, Kr } from './Layout';
 import { useVisitStats } from '../hooks/useVisitStats';
 import VisitDashboard from './VisitDashboard';
+import VisitHistory from './VisitHistory';
 
 /**
  * 홈 화면 방문 현황 섹션.
@@ -37,6 +38,8 @@ export default function VisitCounter() {
           Counted on each visit. No personally identifiable information is collected.
         </En>
       </p>
+
+      <VisitHistory />
     </>
   );
 }

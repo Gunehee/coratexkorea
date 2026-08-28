@@ -454,15 +454,16 @@ textarea:focus-visible {
   font-weight: 500;
 }
 .section-head .section-note a {
-  /* 톤 다운된 벽돌빛 레드 — 순수 빨강 대신 차분하게, 할인·구매 유도임을
-     은근히 알리되 경고처럼 보이지 않도록 */
-  color: #B23A2E;
+  /* 브랜드 오렌지 계열 — 기본 --orange-dark(#C85A18)는 흰 배경에서
+     명암비가 4.26로 살짝 부족해, 같은 색상을 유지하며 한 단계
+     진하게 조정했습니다(5.04:1, WCAG AA 통과). */
+  color: #B84F14;
   font-weight: 700;
   text-decoration: underline;
   text-underline-offset: 3px;
-  text-decoration-color: rgba(178, 58, 46, .35);
+  text-decoration-color: rgba(184, 79, 20, .35);
 }
-.section-head .section-note a:hover { text-decoration-color: #B23A2E; }
+.section-head .section-note a:hover { text-decoration-color: #B84F14; }
 /* 오렌지 밑줄 막대 → 제목 왼쪽의 짧은 수직 액센트로 교체.
    막대가 제목 아래를 가로지르지 않아 훨씬 절제된 인상이 됩니다. */
 .section-head h2::after { content: none; }
